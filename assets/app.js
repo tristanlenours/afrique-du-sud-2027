@@ -156,7 +156,7 @@ function rendreAccueil() {
       <div class="voile"><div class="dedans">
         <p class="sur">Été 2027 · 15 jours · 13 nuits sur place</p>
         <h1>Du canyon à l'océan Indien</h1>
-        <p class="acc">Un carnet pour rêver à deux : les lions du Kruger, les zèbres d'Eswatini, les baleines de Cape Vidal. Et un budget qu'on garde sous ${euros(OBJECTIF)}, avec des logements qu'on peut réserver aujourd'hui et annuler plus tard.</p>
+        <p class="acc">Un carnet pour rêver à deux : les lions du Kruger, les zèbres d'Eswatini, les baleines de Cape Vidal. Et un budget maîtrisé autour de ${euros(OBJECTIF)}, avec des logements qu'on peut réserver aujourd'hui et annuler plus tard.</p>
         <a class="cta" href="${ETAPES[0].fichier}">Commencer le voyage</a>
       </div></div>
     </header>
@@ -195,7 +195,7 @@ function rendreAccueil() {
           ${FIXES.map(p => `<div class="poste"><span>${p.poste}<small>${p.detail}</small></span><b>${euros(p.prix)}</b></div>`).join("")}
           <div class="poste total"><span>Total pour deux</span><b>${euros(total)}</b></div>
         </div>
-        <p class="intro">${reste >= 0 ? `Il reste ${euros(reste)} sous notre objectif.` : `On dépasse notre objectif de ${euros(-reste)}.`} Si on atteint le haut de la fourchette des imprévus, il faut ajouter 300 € au total. Les Rocheuses en 2025 nous avaient coûté 7 349 € : on reste en dessous avec un safari en plus.</p>
+        <p class="intro">${reste >= 0 ? `Il reste ${euros(reste)} sous notre objectif.` : `On dépasse notre objectif de ${euros(-reste)}.`} Si on atteint le haut de la fourchette des imprévus, il faut ajouter 300 € au total. Pour comparer, les Rocheuses nous avaient coûté 7 349 € en 2025.</p>
       </section>
       <section id="reserver">
         <h2>Réserver sans risque</h2>

@@ -13,7 +13,7 @@ const FENETRES = {
 const FIXES = [
   { poste: "Vols Paris → Johannesburg + Durban → Paris", detail: "RwandAir 525 € + Ethiopian 547 € par personne, zéro vol intérieur", prix: 2144 },
   { poste: "Trajet jusqu'à Paris CDG", detail: "Train ou voiture, pour deux", prix: 200 },
-  { poste: "SUV automatique, essence, péages", detail: "13 jours, aller simple Johannesburg → Durban, lettre frontière Eswatini incluse", prix: 620 },
+  { poste: "SUV automatique, essence, péages", detail: "First Car Rental, Suzuki Fronx, 13 jours : 563 € + 70 € de frais Eswatini + ~215 € d'essence et de péages, franchise non rachetée", prix: 848 },
   { poste: "Droits d'entrée du Kruger", detail: "4 jours à 692 ZAR par adulte", prix: 300 },
   { poste: "Activités et visites", detail: "Soweto, Panorama Route, marche et sortie du soir au Kruger, Mlilwane, Cape Vidal, croisière hippos", prix: 390 },
   { poste: "Repas hors réserve privée", detail: "Environ 50 € par jour à deux, braai au bungalow et bons restaurants", prix: 550 },
