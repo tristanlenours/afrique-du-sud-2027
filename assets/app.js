@@ -1,6 +1,6 @@
 // Carnet de voyage : rendu des pages, choix des logements et budget en direct.
-const CLE = "safari-2027";
-const etat = { fenetre: "f1", choix: {} };
+const CLE = "safari-2027-25-juillet";
+const etat = { fenetre: "f2", choix: {} };
 const page = document.body.dataset.etape;
 
 function lire() {

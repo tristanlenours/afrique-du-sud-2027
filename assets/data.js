@@ -5,8 +5,8 @@ const RELEVE = "31 octobre 2026";
 const OBJECTIF = 7000;
 
 const FENETRES = {
-  f1: { label: "18 juil. → 2 août", depart: "2027-07-18", court: "Mi-juillet", atout: "On arrive pile à la rentrée scolaire sud-africaine, une semaine entière avant le pont du 9 août." },
   f2: { label: "25 juil. → 9 août", depart: "2027-07-25", court: "Fin juillet", atout: "Les safaris sont terminés avant le pont férié du 6 au 9 août, qu'on passe au bord de l'océan." },
+  f1: { label: "18 juil. → 2 août", depart: "2027-07-18", court: "Mi-juillet", atout: "On arrive pile à la rentrée scolaire sud-africaine, une semaine entière avant le pont du 9 août." },
 };
 
 // Postes hors logement, repris du budget consolidé de la fiche.
