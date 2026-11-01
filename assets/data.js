@@ -13,7 +13,7 @@ const FENETRES = {
 const FIXES = [
   { poste: "Vols Paris → Johannesburg + Durban → Paris", detail: "RwandAir 525 € + Ethiopian 547 € par personne, zéro vol intérieur", prix: 2144 },
   { poste: "Trajet jusqu'à Paris CDG", detail: "Train ou voiture, pour deux", prix: 200 },
-  { poste: "SUV automatique, essence, péages", detail: "First Car Rental, Suzuki Fronx, 13 jours : 563 € + 70 € de frais Eswatini + ~215 € d'essence et de péages, franchise non rachetée", prix: 848 },
+  { poste: "SUV automatique, essence, péages", voiture: true },
   { poste: "Droits d'entrée du Kruger", detail: "4 jours à 692 ZAR par adulte", prix: 300 },
   { poste: "Activités et visites", detail: "Soweto, Panorama Route, marche et sortie du soir au Kruger, Mlilwane, Cape Vidal, croisière hippos", prix: 390 },
   { poste: "Repas hors réserve privée", detail: "Environ 50 € par jour à deux, braai au bungalow et bons restaurants", prix: 550 },
@@ -73,10 +73,10 @@ const ETAPES = [
     fichier: "etape-2-blyde-river-canyon.html", nom: "Blyde River Canyon", court: "Canyon", lieu: "Mpumalanga", couleur: "#6f7d3a",
     titre: "Le toit du Mpumalanga", accroche: "Des falaises rouges, des cascades et un des plus grands canyons du monde pour nous deux.",
     recit: "La route monte par les hauts plateaux, avec une pause truite et pancakes à Dullstroom et le vieux village de chercheurs d'or de Pilgrim's Rest. Le lendemain, on suit la Panorama Route quand la brume s'est levée : les Three Rondavels, les marmites de Bourke's Luck, God's Window et les chutes de Lisbon Falls. Une journée de grands paysages avant de plonger dans la brousse.",
-    nuits: 2, debut: 3, photos: ["bly1", "bly3", "bly5", "bly2", "bly4"], carte: [31.13, -25.05],
+    nuits: 2, debut: 3, photos: ["bly1", "bly3", "bly5", "bly2", "bly4"], carte: [30.77, -24.58],
     jours: [
-      { j: 3, t: "La route des hauts plateaux", k: "340 km · 3h45", d: "Autoroute N4, pause à Dullstroom, Pilgrim's Rest, installation pour 2 nuits." },
-      { j: 4, t: "La Panorama Route", k: "80 km · 1h45 de conduite", d: "Entre 10h et 16h pour éviter le brouillard : Three Rondavels, Bourke's Luck Potholes, God's Window, cascades et crêpes chez Harrie's." },
+      { j: 3, t: "La route des hauts plateaux", k: "~410 km · 5h30 hors pauses", d: "Autoroute N4, pause à Dullstroom, Pilgrim's Rest, installation pour 2 nuits." },
+      { j: 4, t: "La Panorama Route", k: "~100 km · 1h40 de conduite", d: "Entre 10h et 16h pour éviter le brouillard : Three Rondavels, Bourke's Luck Potholes, God's Window, cascades et crêpes chez Harrie's." },
     ],
     savoir: ["Hazyview, en bas, est plus chaude (24–26 °C). Graskop, en haut, est au pied des belvédères (18–20 °C).", "Autour de Hazyview, on évite les portes Numbi et Phabeni et on ne roule pas à la tombée de la nuit.", "Une amende ne se paie jamais en liquide au bord de la route : on demande un PV officiel."],
     options: [
@@ -95,7 +95,7 @@ const ETAPES = [
     recit: "Ici, on ne conduit plus. Deux sorties par jour avec ranger et pisteur, à l'aube dans le froid piquant puis au coucher du soleil, avec un verre dans la brousse et le retour au projecteur. On apprend à lire une empreinte fraîche ou l'alarme d'un babouin. C'est notre école de la brousse : quand on prendra le volant dans le Kruger, on saura enfin où regarder.",
     nuits: 2, debut: 5, photos: ["pri3", "pri2", "pri1"], carte: [31.5, -24.6],
     jours: [
-      { j: 5, t: "Descente vers la brousse", k: "100 km · 1h45", d: "On descend l'escarpement, arrivée vers 13h, déjeuner, puis premier safari à 15h30 et retour de nuit au projecteur." },
+      { j: 5, t: "Descente vers la brousse", k: "~150 km · 2h45 jusqu'à Orpen, plus la piste", d: "On descend l'escarpement, départ tôt le matin pour arriver vers 13h, déjeuner, puis premier safari à 15h30 et retour de nuit au projecteur." },
       { j: 6, t: "La vraie journée safari", k: "0 km au volant", d: "06h–09h30 : sortie à l'aube. Brunch et repos en journée. 15h30 : safari du soir, apéritif en brousse, dîner autour du feu." },
     ],
     savoir: ["À l'aube, il fait 8 à 10 °C en 4x4 ouvert : bonnet, polaire et coupe-vent. L'après-midi monte à 24–26 °C.", "Prévoir les pourboires du ranger et du pisteur, environ 80 € dans le budget.", "Paludisme : zone à risque, faible en hiver austral mais pas nul. À voir avec un médecin des voyages."],
@@ -174,4 +174,31 @@ const ETAPES = [
       { id: "dreamz", nom: "African-Dreamz Guest House", zone: "St Lucia", note: 9.0, avis: 291, prix: { f1: 142, f2: 142 }, slug: "za/african-dreamz-guest-house", annul: { type: "free", f1: "2027-07-23", f2: "2027-07-30" }, pitch: "Le moins cher de la sélection, annulable le plus tard." },
     ],
   },
+];
+
+// Liaisons entre étapes. Tronçons du canyon : calcul OSRM du 1er novembre 2026.
+// Le reste reprend le programme. dx, dy : position de l'étiquette sur la carte.
+const ROUTE = [
+  { de: "Aéroport", a: "Rosebank", km: 45, txt: "45 km · 35 min" },
+  { de: "Rosebank", a: "Canyon", km: 410, txt: "~410 km · 5h30", dx: -62, dy: 44 },
+  { de: "Canyon", a: "Réserve privée", km: 150, txt: "~150 km · 2h45", dx: -6, dy: 38 },
+  { de: "Réserve privée", a: "Satara", km: 95, txt: "75–110 km · 2h30–3h30", dx: 86, dy: -38 },
+  { de: "Satara", a: "Lower Sabie", km: 95, txt: "95 km · 3h30–4h", dx: 86, dy: 6 },
+  { de: "Lower Sabie", a: "Eswatini", km: 210, txt: "210 km · 3h30", dx: 74, dy: 0 },
+  { de: "Eswatini", a: "St Lucia", km: 330, txt: "330 km · 4h15", dx: 84, dy: 0 },
+  { de: "St Lucia", a: "Durban", km: 215, txt: "215 km · 2h15", dx: -84, dy: 0 },
+];
+
+// Relevé Rentalcars du 31 octobre 2026, SUV automatique, annulation gratuite, 13 jours, Johannesburg → Durban.
+const CARBURANT = 215;
+const VOITURES = [
+  { id: "first-fronx", loueur: "First Car Rental", modele: "Suzuki Fronx", note: 8.5, avis: "1 000+", prix: 563, eswatini: 70, depot: 162, franchise: 973, pitch: "Notre hypothèse : meilleure note, petit dépôt, petite franchise. Le meilleur équilibre." },
+  { id: "hertz", loueur: "Hertz", modele: "Toyota Starlet Cross", note: 8.3, avis: "400+", prix: 395, eswatini: 108, depot: 1027, franchise: 919, pitch: "Le moins cher, mais 2 bagages en soute et plus de 1 000 € bloqués sur la carte." },
+  { id: "europcar", loueur: "Europcar", modele: "Toyota Urban Cruiser", note: 8.3, avis: "1 000+", prix: 496, eswatini: 118, depot: 2303, franchise: 2303, pitch: "Prix correct, mais dépôt et franchise très élevés. Montants lus sur le Corolla Cross, frais Eswatini comptés par frontière." },
+  { id: "alamo", loueur: "Alamo", modele: "Toyota Urban Cruiser", note: 8.1, avis: "500+", prix: 592, eswatini: 135, depot: 270, franchise: 1622, pitch: "Dépôt raisonnable, mais plus cher et moins bien noté que First Car Rental." },
+  { id: "first-jolion", loueur: "First Car Rental", modele: "Haval Jolion", note: 8.5, avis: "1 000+", prix: 671, eswatini: 70, depot: null, franchise: null, pitch: "Le même loueur avec un vrai gabarit de SUV, pour 108 € de plus." },
+];
+const VOITURES_EXCLUES = [
+  { loueur: "Woodford", modele: "Toyota Urban Cruiser", raison: "L'entrée en Eswatini est interdite, alors que notre route y passe. Note 8,5, mais exclu." },
+  { loueur: "Avis", modele: "Volkswagen T-Cross", raison: "647 € sans les frais Eswatini, non relevés. Note 8,1, dépôt 949 €, franchise 1 946 €." },
 ];
