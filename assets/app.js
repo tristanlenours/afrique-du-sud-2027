@@ -153,13 +153,13 @@ function carteRoute() {
     const x = (arrets[n][0] + arrets[n + 1][0]) / 2 + r.dx, y = (arrets[n][1] + arrets[n + 1][1]) / 2 + r.dy, l = r.txt.length * 7 + 14;
     return `<g class="liaison"><rect x="${(x - l / 2).toFixed(0)}" y="${(y - 12).toFixed(0)}" width="${l}" height="23" rx="11"/><text x="${x.toFixed(0)}" y="${(y + 4).toFixed(0)}">${r.txt}</text></g>`;
   }).join("");
-  const places = { 1: [-21, 5, "end"], 2: [0, -24, "middle"], 3: [22, 5, "start"], 4: [22, 5, "start"], 5: [-21, 5, "end"], 6: [22, 5, "start"] };
+  const places = { 1: [-21, 5, "end"], 2: [-8, -20, "end"], 3: [22, 5, "start"], 4: [22, 5, "start"], 5: [-21, 5, "end"], 6: [22, 5, "start"] };
   return `<svg viewBox="0 0 600 650" role="img" aria-label="Itinéraire de Johannesburg à Durban, avec distances et temps de route">
     <path d="M${pts.map(p => p.map(n => n.toFixed(0)).join(" ")).join(" L")} L${d[0].map(n => n.toFixed(0)).join(" ")}" class="trace"/>
     <text x="${d[0][0] + 14}" y="${d[0][1] + 5}" class="ville">Durban, vol retour</text><circle cx="${d[0][0]}" cy="${d[0][1]}" r="6" class="fin"/>
     ${liaisons}
     ${ETAPES.map((e, i) => { const [x, y] = pts[i], q = places[i]; return `<a href="${e.fichier}"><circle cx="${x}" cy="${y}" r="15" style="fill:${e.couleur}"/><text x="${x}" y="${y + 5}" class="num">${i + 1}</text>${q ? `<text x="${x + q[0]}" y="${y + q[1]}" class="ville" text-anchor="${q[2]}">${i === 3 ? "Satara" : e.court}</text>` : ""}</a>`; }).join("")}
-    <text x="${pts[0][0]}" y="${pts[0][1] + 36}" class="ville" text-anchor="middle">Johannesburg</text>
+    <text x="${pts[0][0] - 30}" y="${pts[0][1] + 36}" class="ville">Johannesburg</text>
   </svg>`;
 }
 
