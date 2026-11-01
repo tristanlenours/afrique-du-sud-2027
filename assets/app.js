@@ -225,6 +225,25 @@ function rendreAccueil() {
         <p class="intro">Heures approximatives, calculées pour chaque étape. C'est l'hiver austral : les journées durent environ 11 heures, et on arrive avant la nuit.</p>
         <div class="trajets">${ETAPES.map(e => { const h = soleil(e, e.debut); return `<div><span>${e.nom}</span><b>${h.lever} → ${h.coucher}</b></div>`; }).join("")}</div>
       </section>
+      <section id="securite">
+        <h2>Côté sécurité, on est prêts</h2>
+        <p class="intro">Le pays demande de la vigilance, surtout dans les grandes villes et sur la route la nuit. Tout notre itinéraire est pensé pour ça : on sait où sont les risques, et on les contourne.</p>
+        <div class="rassure">
+          <div><h3>Dans les parcs</h3><p>Le Kruger, c'est le cœur du voyage : accès contrôlés aux portes, camps clôturés et gardés la nuit. Ici, la prudence concerne surtout les animaux.</p></div>
+          <div><h3>En ville</h3><p>À Johannesburg, on arrive de jour et on dort à Rosebank. Le soir, on dîne sur place ou on commande un taxi. Soweto, ce sera avec un guide. Et on ne passe pas par le centre de Durban.</p></div>
+          <div><h3>Sur la route</h3><p>Jamais de route de nuit : on arrive à chaque étape avant 17h30. On reste sur les grands axes, bagages cachés et réservoir au moins à moitié plein.</p></div>
+          <div><h3>En Eswatini</h3><p>L'ambiance y est nettement plus paisible et détendue que dans les grandes villes sud-africaines. La vraie attention, là-bas, c'est la route et les animaux sur la chaussée.</p></div>
+        </div>
+        <h3 class="sous">Si on a un souci</h3>
+        <p class="intro">On garde ces numéros dans nos deux téléphones. Pour tout le reste (hôpital, rapatriement, papiers, avocat), on appelle l'assistance dont le numéro est au dos de notre carte bancaire. Et s'il arrivait qu'on nous demande la voiture ou un sac, on donne tout de suite : rien de tout ça ne vaut le risque.</p>
+        <div class="trajets">
+          <div><span>Urgences depuis un mobile</span><b><a href="tel:112">112</a></b></div>
+          <div><span>Police</span><b><a href="tel:10111">10111</a></b></div>
+          <div><span>Ambulance et pompiers</span><b><a href="tel:10177">10177</a></b></div>
+          <div><span>Consulat de France à Johannesburg</span><b><a href="tel:+27112090178">+27 11 209 0178</a></b></div>
+          <div><span>Ambassade de France à Pretoria</span><b><a href="tel:+27124251600">+27 12 425 1600</a></b></div>
+        </div>
+      </section>
       <section>
         <h2>Les 7 étapes</h2>
         <div class="etapes">${ETAPES.map((e, i) => `<a class="vignette" href="${e.fichier}">
