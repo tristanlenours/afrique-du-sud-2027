@@ -40,6 +40,22 @@ const fixes = () => FIXES.map(f => {
 const totalFixes = () => fixes().reduce((s, f) => s + f.prix, 0);
 const totalLogements = () => ETAPES.reduce((s, e, i) => s + cout(choisi(i)), 0);
 
+// Lever et coucher du soleil calculés (équation du lever de soleil), arrondis à 5 minutes, heure d'Afrique du Sud (UTC+2).
+function soleil(e, jour) {
+  const rad = Math.PI / 180, [lon, lat] = e.carte, d = dateJour(jour);
+  const n = Math.round(d / 86400000 + 2440587.5 - 2451545), js = n - lon / 360;
+  const m = (357.5291 + 0.98560028 * js) % 360 * rad;
+  const l = ((m / rad + 1.9148 * Math.sin(m) + 0.02 * Math.sin(2 * m) + 0.0003 * Math.sin(3 * m) + 282.9372) % 360) * rad;
+  const midi = js + 0.0053 * Math.sin(m) - 0.0069 * Math.sin(2 * l);
+  const decl = Math.asin(Math.sin(l) * Math.sin(23.4397 * rad)), phi = lat * rad;
+  const w = Math.acos((Math.sin(-0.833 * rad) - Math.sin(phi) * Math.sin(decl)) / (Math.cos(phi) * Math.cos(decl))) / rad / 360;
+  const heure = j => {
+    const t = Math.round((((j + 0.5) % 1 + 1) % 1 * 1440 + 120) / 5) * 5;
+    return `${Math.floor(t / 60)}h${String(t % 60).padStart(2, "0")}`;
+  };
+  return { lever: heure(midi - w), coucher: heure(midi + w) };
+}
+
 function lienResa(e, o) {
   if (o.direct) return o.direct;
   const a = iso(dateJour(e.debut)), b = iso(dateJour(e.debut + e.nuits));
@@ -128,6 +144,7 @@ function rendreEtape() {
       <section class="galerie">${e.photos.slice(0).map((k, n) => photo(k, n === 0 ? "large" : "")).join("")}</section>
       <section>
         <h2>Au programme</h2>
+        <p class="soleil">Lever du soleil vers ${soleil(e, e.debut).lever} · coucher vers ${soleil(e, e.debut).coucher}</p>
         <ol class="jours">${e.jours.map(j => `<li><span class="jour">J${j.j}<small>${dateJour(j.j).toLocaleDateString("fr-FR", { weekday: "short", day: "numeric", month: "short" })}</small></span><div><h3>${j.t}</h3>${j.k ? `<p class="km">${j.k}</p>` : ""}<p>${j.d}</p></div></li>`).join("")}</ol>
       </section>
       <section id="logements">
@@ -202,6 +219,11 @@ function rendreAccueil() {
         <h3 class="sous">Les temps de route</h3>
         <p class="intro">Environ ${euros(ROUTE.reduce((s, r) => s + r.km, 0)).replace("€", "km")} de liaisons, hors pistes de safari et excursions. Dans le Kruger, on roule au rythme des animaux : les temps comptent les arrêts.</p>
         ${trajets()}
+      </section>
+      <section>
+        <h3 class="sous">Le soleil</h3>
+        <p class="intro">Heures approximatives, calculées pour chaque étape. C'est l'hiver austral : les journées durent environ 11 heures, et on arrive avant la nuit.</p>
+        <div class="trajets">${ETAPES.map(e => { const h = soleil(e, e.debut); return `<div><span>${e.nom}</span><b>${h.lever} → ${h.coucher}</b></div>`; }).join("")}</div>
       </section>
       <section>
         <h2>Les 7 étapes</h2>
