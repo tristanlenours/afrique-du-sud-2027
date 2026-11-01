@@ -93,6 +93,7 @@ function carteLogement(e, i, o) {
     <div class="ligne"><h3>${o.nom}</h3>${o.note ? `<span class="note">${o.note.toLocaleString("fr-FR", { minimumFractionDigits: 1 })}</span>` : ""}</div>
     <p class="zone">${o.zone}${o.avis ? ` · ${o.avis.toLocaleString("fr-FR")} avis` : ""}</p>
     <p>${o.pitch}</p>
+    ${o.retours ? `<p class="retours">${o.retours}</p>` : ""}
     ${o.repas ? `<p class="repas">${o.repas}</p>` : ""}
     ${ok ? badge(o) : `<span class="pastille attention">Pas de tarif annulable sur cette fenêtre</span>`}
     ${o.annul.txt ? `<p class="petit">${o.annul.txt}</p>` : ""}
@@ -246,6 +247,12 @@ function rendreAccueil() {
   };
 }
 
+function lienVoiture() {
+  const a = dateJour(2), b = dateJour(15);
+  const q = new URLSearchParams({ coordinates: "-26.1326,28.2324", dropCoordinates: "-29.6144,31.1164", doDay: b.getUTCDate(), doMonth: b.getUTCMonth() + 1, doYear: b.getUTCFullYear(), doHour: 11, doMinute: 0, puDay: a.getUTCDate(), puMonth: a.getUTCMonth() + 1, puYear: a.getUTCFullYear(), puHour: 15, puMinute: 0, driversAge: 35, ftsType: "A", dropFtsType: "A", location: "", dropLocation: "", locationName: "Aéroport OR Tambo de Johannesbourg", locationIata: "JNB", dropLocationName: "Aéroport international King Shaka", dropLocationIata: "DUR", prefcurrency: "EUR", preflang: "fr", filterCriteria_carCategory: "suvs", filterCriteria_transmission: "AUTOMATIC", filterCriteria_sortBy: "PRICE", filterCriteria_sortAscending: "true" });
+  return `https://www.rentalcars.com/search-results?${q}`;
+}
+
 function rendreVoiture() {
   const v = voiture();
   document.title = "Location de voiture · Afrique du Sud 2027";
@@ -257,6 +264,7 @@ function rendreVoiture() {
       <div class="ligne"><h3>${o.modele}</h3><span class="note">${o.note.toLocaleString("fr-FR", { minimumFractionDigits: 1 })}</span></div>
       <p class="zone">${o.loueur} · ${o.avis} avis Rentalcars</p>
       <p>${o.pitch}</p>
+      <p class="retours ${o.vigilance ? "vigilance" : ""}">${o.retours}</p>
       <div class="chiffres">
         <span>Location 13 jours<b>${euros(o.prix)}</b></span>
         <span>Frais Eswatini<b>${euros(o.eswatini)}</b></span>
@@ -265,7 +273,7 @@ function rendreVoiture() {
       </div>
       <div class="action">
         <div class="prix"><strong>${euros(coutVoiture(o))}</strong><small>essence et péages compris</small>${!pris && diff ? `<small class="delta">${diff > 0 ? "+" : "−"}${euros(Math.abs(diff))} sur le total</small>` : ""}</div>
-        <div class="boutons"><button class="choisir" data-v="${o.id}" aria-pressed="${pris}">${pris ? "✓ Notre choix" : "Choisir"}</button></div>
+        <div class="boutons"><a class="lien" href="${lienVoiture()}" target="_blank" rel="noopener">Voir sur Rentalcars</a><button class="choisir" data-v="${o.id}" aria-pressed="${pris}">${pris ? "✓ Notre choix" : "Choisir"}</button></div>
       </div>
     </article>`;
   };
@@ -282,7 +290,8 @@ function rendreVoiture() {
     <div class="page">
       <section>
         <h2>Les options comparées</h2>
-        <p class="intro">Relevé Rentalcars du 31 octobre 2026, avec annulation gratuite, pour un retrait à Johannesburg et un retour à Durban. Notre choix met à jour le budget. Conversion à 18,5 ZAR pour 1 €.</p>
+        <p class="intro">Relevé Rentalcars du 31 octobre 2026, avec annulation gratuite, pour un retrait à Johannesburg et un retour à Durban. Le lien ouvre la recherche à nos dates, où l'on retrouve le loueur voulu. Notre choix met à jour le budget. Conversion à 18,5 ZAR pour 1 €.</p>
+        <p><a class="cta" href="${lienVoiture()}" target="_blank" rel="noopener">Réserver sur Rentalcars</a></p>
         <div class="grille">${VOITURES.map(fiche).join("")}</div>
       </section>
       <section>
@@ -294,8 +303,13 @@ function rendreVoiture() {
         <p class="intro">Auto Europe couvre bien l'Afrique du Sud, avec Hertz, Budget, Avis et First Car Hire parmi ses partenaires. Son prix n'a pas pu être relevé : à comparer nous-mêmes sur <a href="https://www.autoeurope.fr/" target="_blank" rel="noopener">autoeurope.fr</a> aux mêmes dates, en vérifiant que l'Eswatini et l'aller simple sont bien inclus.</p>
       </section>
       <section class="savoir">
-        <h2>Les avis</h2>
-        <p class="intro">Les notes viennent de Rentalcars. Elles ne disent pas tout de l'agence de Johannesburg ni de celle de Durban : avant de réserver, on lit les avis récents de ces deux agences.</p>
+        <h2>Ce que disent les avis récents</h2>
+        <ul>
+          <li>Sur <a href="https://www.discovercars.com/partners/firstcarrental-1968" target="_blank" rel="noopener">DiscoverCars</a>, on lit les avis de clients ayant loué à l'agence de Johannesburg, datés au jour près. Lecture faite le 1er novembre 2026.</li>
+          <li>First Car Rental, Hertz et Europcar affichent tous 1,7/5 sur <a href="https://www.trustpilot.com/review/firstcarrental.co.za" target="_blank" rel="noopener">Trustpilot</a>, où écrivent surtout les mécontents. Les plaintes de l'été 2026 portent sur le carburant, le dépôt, les frais au comptoir et les changements de véhicule.</li>
+          <li>Alamo ressort le mieux, mais sur très peu d'avis. On relit ses avis de <a href="https://www.discovercars.com/partners/alamo-1968" target="_blank" rel="noopener">Johannesburg</a> et de <a href="https://www.discovercars.com/partners/alamo-1970" target="_blank" rel="noopener">Durban</a> juste avant de réserver.</li>
+          <li>Quel que soit le loueur : on filme la voiture et la jauge au retrait, on fait le plein tout près de l'aéroport et on garde le ticket.</li>
+        </ul>
       </section>
       <section class="savoir">
         <h2>À vérifier avant de payer</h2>

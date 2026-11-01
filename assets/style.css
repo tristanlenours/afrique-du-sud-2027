@@ -69,6 +69,8 @@ figcaption a { display: block; color: #e8ddcc; font-size: 11px; text-decoration:
 .note { background: var(--acacia); color: #fff; border-radius: 7px 7px 7px 0; padding: 2px 8px; font-weight: 600; font-size: 14px; height: fit-content; }
 .logement .zone { color: var(--doux); font-size: 14px; margin-top: 3px; }
 .logement .repas { color: var(--acacia); font-weight: 600; font-size: 14px; }
+.logement .retours { background: #f4efe2; border-left: 3px solid var(--acacia); padding: 7px 10px; font-size: 13.5px; width: 100%; }
+.logement .retours.vigilance { background: #fbeee8; border-left-color: var(--terre); }
 .logement .petit { font-size: 13px; color: var(--doux); }
 .pastille { display: inline-block; border-radius: 6px; padding: 3px 9px; font-size: 13px; font-weight: 600; margin-top: 4px; }
 .pastille.ok { background: #e1eedf; color: #2c5a39; }
