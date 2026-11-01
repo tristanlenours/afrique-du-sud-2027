@@ -15,6 +15,7 @@ function lire() {
     });
     sauver();
   }
+  if (!FENETRES[etat.fenetre]) etat.fenetre = Object.keys(FENETRES)[0];
 }
 function sauver() { try { localStorage.setItem(CLE, JSON.stringify(etat)); } catch (e) {} }
 
@@ -69,9 +70,9 @@ function entete() {
   document.getElementById("entete").innerHTML = `
     <div class="barre">
       <a class="marque" href="index.html">Afrique du Sud <em>2027</em></a>
-      <div class="bascule" role="group" aria-label="Fenêtre de dates">
+      ${Object.keys(FENETRES).length > 1 ? `<div class="bascule" role="group" aria-label="Fenêtre de dates">
         ${Object.entries(FENETRES).map(([k, f]) => `<button data-f="${k}" aria-pressed="${etat.fenetre === k}">${f.label}</button>`).join("")}
-      </div>
+      </div>` : `<span class="dates">${FENETRES[etat.fenetre].label}</span>`}
     </div>${fil()}`;
   document.querySelectorAll("[data-f]").forEach(b => b.onclick = () => { etat.fenetre = b.dataset.f; sauver(); rendre(); });
 }
@@ -131,8 +132,8 @@ function rendreEtape() {
       </section>
       <section id="logements">
         <h2>Où dormir</h2>
-        <p class="intro">Notre sélection à la date choisie, pour deux. Prix relevés le ${RELEVE}, ils peuvent bouger.</p>
-        <div class="grille">${e.options.map(o => carteLogement(e, i, o)).join("")}</div>
+        <p class="intro">Notre sélection à nos dates, pour deux. Prix relevés le ${RELEVE}, ils peuvent bouger.</p>
+        <div class="grille">${e.options.filter(dispo).map(o => carteLogement(e, i, o)).join("")}</div>
       </section>
       <section class="savoir"><h2>Bon à savoir</h2><ul>${e.savoir.map(s => `<li>${s}</li>`).join("")}</ul></section>
       <nav class="suite">

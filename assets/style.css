@@ -19,6 +19,7 @@ button { font: inherit; cursor: pointer; }
 .bascule { display: flex; background: rgba(255, 255, 255, .12); border-radius: 99px; padding: 3px; }
 .bascule button { border: 0; background: none; color: #efe6d8; border-radius: 99px; padding: 4px 11px; font-size: 13px; white-space: nowrap; }
 .bascule button[aria-pressed="true"] { background: #e8b866; color: #2a2118; font-weight: 600; }
+.dates { color: #e8b866; font-size: 14px; font-weight: 600; white-space: nowrap; }
 .fil { max-width: 1120px; margin: auto; display: flex; gap: 4px; padding: 0 12px 8px; overflow-x: auto; scrollbar-width: none; }
 .fil::-webkit-scrollbar { display: none; }
 .fil a { display: flex; align-items: center; gap: 6px; color: #e4d9c6; text-decoration: none; padding: 4px 11px 4px 5px; border-radius: 99px; font-size: 14px; white-space: nowrap; }

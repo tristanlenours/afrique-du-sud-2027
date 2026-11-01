@@ -6,7 +6,8 @@ const OBJECTIF = 7000;
 
 const FENETRES = {
   f2: { label: "25 juil. → 9 août", depart: "2027-07-25", court: "Fin juillet", atout: "Les safaris sont terminés avant le pont férié du 6 au 9 août, qu'on passe au bord de l'océan." },
-  f1: { label: "18 juil. → 2 août", depart: "2027-07-18", court: "Mi-juillet", atout: "On arrive pile à la rentrée scolaire sud-africaine, une semaine entière avant le pont du 9 août." },
+  // Fenêtre du 18 juillet retirée le 1er novembre 2026. Pour la réactiver, remettre cette ligne : les prix f1 sont conservés.
+  // f1: { label: "18 juil. → 2 août", depart: "2027-07-18", court: "Mi-juillet", atout: "On arrive pile à la rentrée scolaire sud-africaine, une semaine entière avant le pont du 9 août." },
 };
 
 // Postes hors logement, repris du budget consolidé de la fiche.
@@ -103,7 +104,7 @@ const ETAPES = [
     options: [
       { id: "buffelshoek", nom: "Buffelshoek Tented Camp", zone: "Manyeleti", note: 8.9, prix: { f1: 1219, f2: 1219 }, taxe: 28, repas: "Pension complète + 2 safaris par jour, boissons en plus", slug: "za/buffelshoek-tented-camp", retours: "Juillet 2026 : 9,4/10 sur 9 avis, guides et safaris très salués. Tentes vieillissantes ; un avis d'octobre signale l'absence de prise et de verrou.", annul: { type: "free", f1: "2027-07-19", f2: "2027-07-26" }, pitch: "La grande surprise : le moins cher des safaris tout compris annulables, en réserve ouverte sur le Kruger." },
       { id: "motswari", nom: "Motswari African Retreat", zone: "Timbavati", note: 9.7, prix: { f1: 1919, f2: 1919 }, taxe: 124, repas: "Pension complète + 2 safaris par jour", slug: "za/african-retreat-motswari-by-newmark", annul: { type: "free", f1: "2027-07-01", f2: "2027-07-08" }, pitch: "Lodge de luxe dans la réserve des lions blancs. Le rêve, si on accepte de dépasser." },
-      { id: "mohlabetsi", nom: "Mohlabetsi Safari Lodge", zone: "Balule", note: 9.7, prix: { f1: 1675, f2: 2397 }, taxe: 35, repas: "Formule à vérifier au moment de réserver", slug: "za/mohlabetsi-safari-lodge", annul: { type: "free", f1: "2027-06-22", f2: "2027-06-29" }, pitch: "Rondavels au toit de chaume, piscine et point d'eau éclairé. Bien plus cher en fin juillet." },
+      { id: "mohlabetsi", nom: "Mohlabetsi Safari Lodge", zone: "Balule", note: 9.7, prix: { f1: 1675, f2: 2397 }, taxe: 35, repas: "Formule à vérifier au moment de réserver", slug: "za/mohlabetsi-safari-lodge", annul: { type: "free", f1: "2027-06-22", f2: "2027-06-29" }, pitch: "Rondavels au toit de chaume, piscine et point d'eau éclairé." },
       { id: "pondoro", nom: "Pondoro Game Lodge", zone: "Balule", note: 9.8, prix: { f1: 2242, f2: 2242 }, taxe: 54, repas: "Pension complète, safaris et marches inclus", slug: "za/pondoro-game-lodge", annul: { type: "free", f1: "2027-06-22", f2: "2027-06-29" }, pitch: "Coup de cœur du Routard : chalets sur la rivière Olifants, jacuzzi privé, table réputée." },
       { id: "shindzela", nom: "Shindzela Tented Camp", zone: "Timbavati", prix: { f1: 1390, f2: 1390 }, repas: "Pension complète + 4 safaris, taxes incluses", direct: "https://www.shindzela.co.za/", annul: { type: "cond", txt: "Pas de tarif sur Booking à ces dates. Selon un site tiers, acompte remboursé à plus d'un mois : à confirmer par écrit." }, pitch: "Tentes sur pilotis, ambiance brousse authentique, réputé pour ses guides." },
       { id: "pungwe", nom: "Pungwe Bush Camp", zone: "Manyeleti", prix: { f1: 1420, f2: 1420 }, repas: "Pension complète + 4 safaris, taxes incluses", direct: "https://www.pungwe.co.za/", annul: { type: "cond", txt: "Pas de tarif sur Booking à ces dates. Sources contradictoires (60 ou 30 jours) : à demander par écrit." }, pitch: "4 tentes seulement, cité par le Routard, grand accent sur le pistage." },
