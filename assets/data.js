@@ -80,12 +80,13 @@ const ETAPES = [
     ],
     savoir: ["Hazyview, en bas, est plus chaude (24–26 °C). Graskop, en haut, est au pied des belvédères (18–20 °C).", "Autour de Hazyview, on évite les portes Numbi et Phabeni et on ne roule pas à la tombée de la nuit.", "Une amende ne se paie jamais en liquide au bord de la route : on demande un PV officiel."],
     options: [
-      { id: "bergdale", nom: "Bergdale Cottages", zone: "Hazyview", note: 9.6, avis: 426, prix: { f1: 150, f2: 150 }, slug: "za/bergdale-cottages", annul: { type: "free", f1: "2027-06-20", f2: "2027-06-27" }, pitch: "Cottages spacieux dans un domaine vallonné et très calme, piscine et vue sur les montagnes." },
+      { id: "forever", nom: "Blyde Canyon, A Forever Resort", zone: "Canyon, près des Three Rondavels", note: 7.9, avis: 2021, prix: { f1: null, f2: 125 }, slug: "za/blyde-canyon-a-forever-resort", annul: { type: "cond", txt: "Annulation gratuite proposée aux dates du voyage : date limite à lire sur Booking avant de réserver." }, pitch: "Le mieux placé de tous : au bord du canyon, tout près des Three Rondavels. Une adresse simple, moins bien notée, choisie pour son emplacement." },
       { id: "laguna", nom: "Laguna Lodge", zone: "Graskop", note: 9.4, avis: 377, prix: { f1: 148, f2: 148 }, slug: "za/laguna-lodge", annul: { type: "free", f1: "2027-06-29", f2: "2027-07-06" }, pitch: "Adresse soignée au départ immédiat de la Panorama Route." },
       { id: "pilgrims", nom: "A Pilgrims Rest Guest House", zone: "Graskop", note: 9.4, avis: 499, prix: { f1: 129, f2: 129 }, slug: "za/a-pilgrims-rest", annul: { type: "free", f1: "2027-07-06", f2: "2027-07-13" }, pitch: "Maison d'hôtes de Graskop très bien notée, à prix doux." },
       { id: "cozy", nom: "Cozy Guest", zone: "Graskop", note: 9.5, avis: 165, prix: { f1: 150, f2: 150 }, repas: "Petit-déjeuner inclus", slug: "za/cosy-guest", annul: { type: "free", f1: "2027-07-13", f2: "2027-07-20" }, pitch: "Note exceptionnelle et petit-déjeuner compris." },
       { id: "elements", nom: "The Elements", zone: "Graskop", note: 9.0, avis: 565, prix: { f1: 118, f2: null }, slug: "za/the-elements-graskop", annul: { type: "free", f1: "2027-07-06", f2: null }, pitch: "Chambres de charme dans un jardin arboré, le meilleur prix de l'étape." },
       { id: "angels", nom: "Angels View Hotel", zone: "Graskop", note: 8.9, avis: 1216, prix: { f1: 297, f2: 297 }, repas: "Petit-déjeuner inclus", slug: "za/hoyohoyo-eagles-view-eco-estate", annul: { type: "free", f1: "2027-07-13", f2: "2027-07-20" }, pitch: "Le grand spectacle : hôtel au bord de la falaise, piscine à débordement sur l'escarpement." },
+      { id: "bergdale", nom: "Bergdale Cottages", zone: "Hazyview", note: 9.6, avis: 426, prix: { f1: 150, f2: 150 }, slug: "za/bergdale-cottages", annul: { type: "free", f1: "2027-06-20", f2: "2027-06-27" }, pitch: "Cottages spacieux dans un domaine vallonné et très calme, piscine et vue sur les montagnes." },
     ],
   },
   {
@@ -118,8 +119,8 @@ const ETAPES = [
     ],
     savoir: ["Les portes des camps ferment à 17h30 en juillet, 18h en août. On prévoit large.", "Option à regarder : une nuit à Olifants, le camp perché que le Routard préfère, à 1h45 au nord de Satara.", "Disponibilités à vérifier directement sur SANParks, qui ne passe pas par Booking."],
     options: [
-      { id: "bd2", nom: "Bungalow BD2 ou BD3B", zone: "Satara", prix: { f1: 235, f2: 235 }, repas: "Kitchenette, sans repas", direct: SP, annul: { type: "sanparks" }, pitch: "Bungalow climatisé autour des pelouses, kitchenette et barbecue." },
       { id: "bd2v", nom: "Bungalow BD2V", zone: "Satara, face à la brousse", prix: { f1: 254, f2: 254 }, repas: "Kitchenette, sans repas", direct: SP, annul: { type: "sanparks" }, pitch: "En bordure de clôture, face à la brousse et au point d'eau éclairé la nuit. 19 € de plus seulement." },
+      { id: "bd2", nom: "Bungalow BD2 ou BD3B", zone: "Satara", prix: { f1: 235, f2: 235 }, repas: "Kitchenette, sans repas", direct: SP, annul: { type: "sanparks" }, pitch: "Bungalow climatisé autour des pelouses, kitchenette et barbecue." },
     ],
   },
   {
@@ -133,8 +134,8 @@ const ETAPES = [
     ],
     savoir: ["Le restaurant est moyen selon le Routard : on préfère la cuisinette et le braai du bungalow.", "Les ~15 unités face à la rivière partent très vite : on vérifie dès aujourd'hui.", "Plans B avec piscine si c'est complet : Skukuza ou Berg-en-Dal."],
     options: [
-      { id: "bd3", nom: "Bungalow BD3 ou BD2Z", zone: "Lower Sabie", prix: { f1: 226, f2: 226 }, repas: "Kitchenette, sans repas", direct: SP, annul: { type: "sanparks" }, pitch: "Climatisé, kitchenette sur la véranda, salle de bain privée." },
       { id: "bd2u", nom: "Bungalow BD2U ou BD3U", zone: "Lower Sabie, vue rivière", prix: { f1: 266, f2: 266 }, repas: "Kitchenette, sans repas", direct: SP, annul: { type: "sanparks" }, pitch: "Le premier rang sur la rivière, les plus demandés du camp. Le petit luxe qui vaut 40 €." },
+      { id: "bd3", nom: "Bungalow BD3 ou BD2Z", zone: "Lower Sabie", prix: { f1: 226, f2: 226 }, repas: "Kitchenette, sans repas", direct: SP, annul: { type: "sanparks" }, pitch: "Climatisé, kitchenette sur la véranda, salle de bain privée." },
       { id: "bd2r", nom: "Bungalow BD2 rénové", zone: "Lower Sabie", prix: { f1: 267, f2: 267 }, repas: "Kitchenette, sans repas", direct: SP, annul: { type: "sanparks" }, pitch: "Bungalow rénové, 2 lits, kitchenette." },
     ],
   },
@@ -166,8 +167,8 @@ const ETAPES = [
     ],
     savoir: ["La nuit, on ne marche jamais dans St Lucia : hippopotames dans les rues.", "On décide de la sortie baleines sur place, selon la houle. Rien à réserver avant.", "Sur le parking, 5 à 10 ZAR pour les gardiens officiels en gilet."],
     options: [
-      { id: "ambience", nom: "African Ambience Guest House", zone: "St Lucia", note: 9.6, avis: 352, prix: { f1: 168, f2: 168 }, repas: "Petit-déjeuner inclus", slug: "za/africanambience-guesthouse", annul: { type: "free", f1: "2027-06-30", f2: "2027-07-07" }, pitch: "Note exceptionnelle et petit-déjeuner compris, pour un prix très doux." },
       { id: "leopardtree", nom: "Leopard Tree Lodge", zone: "St Lucia", note: 9.7, avis: 737, prix: { f1: 184, f2: 175 }, slug: "za/lalapanzi-guest-house-st-lucia", annul: { type: "free", f1: "2027-07-09", f2: "2027-07-16" }, pitch: "À 750 m de la plage, piscine dans un jardin où passent phacochères et petites antilopes." },
+      { id: "ambience", nom: "African Ambience Guest House", zone: "St Lucia", note: 9.6, avis: 352, prix: { f1: 168, f2: 168 }, repas: "Petit-déjeuner inclus", slug: "za/africanambience-guesthouse", annul: { type: "free", f1: "2027-06-30", f2: "2027-07-07" }, pitch: "Note exceptionnelle et petit-déjeuner compris, pour un prix très doux." },
       { id: "ndiza", nom: "Ndiza Lodge and Cabanas", zone: "St Lucia", note: 9.3, avis: 537, prix: { f1: 185, f2: 195 }, slug: "za/ndiza-lodge-and-cabanas", annul: { type: "free", f1: "2027-07-09", f2: "2027-07-16" }, pitch: "2 piscines et terrasse panoramique sur l'océan et l'embouchure de l'estuaire." },
       { id: "corner", nom: "Leopard Corner Lodge", zone: "St Lucia", note: 9.6, avis: 1051, prix: { f1: 246, f2: 221 }, repas: "Petit-déjeuner inclus", slug: "za/leopard-corner", annul: { type: "free", f1: "2027-07-09", f2: "2027-07-16" }, pitch: "Guesthouse très soignée avec piscine, à 800 m de la plage." },
       { id: "dreamz", nom: "African-Dreamz Guest House", zone: "St Lucia", note: 9.0, avis: 291, prix: { f1: 142, f2: 142 }, slug: "za/african-dreamz-guest-house", annul: { type: "free", f1: "2027-07-23", f2: "2027-07-30" }, pitch: "Le moins cher de la sélection, annulable le plus tard." },
