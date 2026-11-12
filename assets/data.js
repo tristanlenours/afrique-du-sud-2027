@@ -16,7 +16,7 @@ const FIXES = [
   { poste: "Trajet jusqu'à Paris CDG", detail: "Train ou voiture, pour deux", prix: 200 },
   { poste: "SUV automatique, essence, péages", voiture: true },
   { poste: "Droits d'entrée du Kruger", detail: "4 jours à 692 ZAR par adulte", prix: 300 },
-  { poste: "Activités et visites", detail: "Soweto, Panorama Route, marche et sortie du soir au Kruger, Mlilwane, Cape Vidal, croisière hippos", prix: 390 },
+  { poste: "Activités et visites", detail: "Soweto, Panorama Route, marche et sortie du soir au Kruger, Mlilwane, Hluhluwe-iMfolozi, Cape Vidal, croisière hippos", prix: 422 },
   { poste: "Repas hors réserve privée", detail: "Environ 50 € par jour à deux, braai au bungalow et bons restaurants", prix: 550 },
   { poste: "Pourboires, pharmacie, assurance", detail: "Bas de fourchette : 250 €, jusqu'à 550 € selon les imprévus et souvenirs", prix: 250 },
 ];
@@ -169,14 +169,14 @@ const ETAPES = [
   {
     fichier: "etape-7-st-lucia.html", nom: "St Lucia", court: "St Lucia", lieu: "KwaZulu-Natal", couleur: "#2f7a8a",
     titre: "Le final sur l'océan Indien", accroche: "Du sable chaud, des hippos sur l'estuaire et des baleines depuis les dunes pour finir en beauté.",
-    recit: "La route descend vers la chaleur du KwaZulu-Natal. À Cape Vidal, une longue plage sauvage, une eau à 21–22 °C, et en pleine saison de migration, les baleines à bosse se voient depuis les dunes aux jumelles. L'après-midi, deux heures de croisière sur une eau de miroir, entre 800 hippopotames et 1 000 crocodiles. Le soir, poisson grillé. Il faudra prendre la voiture même pour 300 mètres : la nuit, les rues appartiennent aux hippos.",
+    recit: "La route descend vers la chaleur du KwaZulu-Natal. À Cape Vidal, une longue plage sauvage, une eau à 21–22 °C, et en pleine saison de migration, les baleines à bosse se voient depuis les dunes aux jumelles. L'après-midi, deux heures de croisière sur une eau de miroir, entre 800 hippopotames et 1 000 crocodiles. Entre les deux, une matinée chez les rhinocéros de Hluhluwe-iMfolozi, à une heure de route. Le soir, poisson grillé. Il faudra prendre la voiture même pour 300 mètres : la nuit, les rues appartiennent aux hippos.",
     nuits: 2, debut: 13, photos: ["luc1", "luc2", "luc3", "luc4"], carte: [32.41, -28.37],
     jours: [
       { j: 13, t: "Vers l'océan", k: "330 km · 4h15", d: "Sortie d'Eswatini à Lavumisa, autoroute N2 dans le KwaZulu-Natal, arrivée vers 15h30." },
-      { j: 14, t: "Cape Vidal et les hippos", k: "60 km aller-retour", d: "Plage et baleines depuis les dunes le matin, croisière de 2h sur l'estuaire à 15h. Sortie en mer en option si l'océan est calme (+185 € à deux)." },
-      { j: 15, t: "Retour depuis Durban", k: "215 km · 2h15", d: "Autoroute N2 jusqu'à l'aéroport King Shaka, sans traverser Durban. Vol Ethiopian à 14h15, Paris le lendemain matin." },
+      { j: 14, t: "Les rhinocéros, puis les hippos", k: "~100 km aller-retour + pistes", d: "Départ vers 5h45 pour Hluhluwe-iMfolozi par Nyalazi Gate (49 km, 1h) : safari en voiture jusqu'à midi dans la grande réserve à rhinocéros. Retour à St Lucia pour la croisière de 2h sur l'estuaire à 15h." },
+      { j: 15, t: "Cape Vidal, puis Durban", k: "~207 km · 2h35", d: "Avec le retour Emirates de 18h40 : plage et baleines depuis les dunes de Cape Vidal le matin, départ de St Lucia vers midi. Avec Ethiopian à 14h15 : départ vers 8h30, sans Cape Vidal. Autoroute N2 jusqu'à l'aéroport King Shaka, sans traverser Durban." },
     ],
-    savoir: ["La nuit, on ne marche jamais dans St Lucia : hippopotames dans les rues.", "On décide de la sortie baleines sur place, selon la houle. Rien à réserver avant.", "Sur le parking, 5 à 10 ZAR pour les gardiens officiels en gilet."],
+    savoir: ["La nuit, on ne marche jamais dans St Lucia : hippopotames dans les rues.", "On décide de la sortie baleines sur place, selon la houle. Rien à réserver avant.", "Hluhluwe-iMfolozi, ajouté le 12 novembre 2026 : 300 ZAR par adulte selon le dernier barème publié (environ 32 € à deux, à reconfirmer pour 2027). Portes ouvertes de 6h à 18h en hiver selon Ezemvelo ; des opérateurs annoncent 17h, on sort avant.", "Cape Vidal ne tient plus que le matin du départ, donc avec le retour Emirates de 18h40. Avec Ethiopian à 14h15, il faudra choisir entre Cape Vidal et Hluhluwe-iMfolozi.", "Sur le parking, 5 à 10 ZAR pour les gardiens officiels en gilet."],
     options: [
       { id: "leopardtree", nom: "Leopard Tree Lodge", zone: "St Lucia", note: 9.7, avis: 737, prix: { f1: 184, f2: 175 }, slug: "za/lalapanzi-guest-house-st-lucia", retours: "Juillet 2026 : 9,7/10 sur 31 avis, très constant. Accueil de Thea, propreté et jardin reviennent souvent.", annul: { type: "free", f1: "2027-07-09", f2: "2027-07-16" }, pitch: "À 750 m de la plage, piscine dans un jardin où passent phacochères et petites antilopes." },
       { id: "ambience", nom: "African Ambience Guest House", zone: "St Lucia", note: 9.6, avis: 352, prix: { f1: 168, f2: 168 }, repas: "Petit-déjeuner inclus", slug: "za/africanambience-guesthouse", annul: { type: "free", f1: "2027-06-30", f2: "2027-07-07" }, pitch: "Note exceptionnelle et petit-déjeuner compris, pour un prix très doux." },
@@ -197,7 +197,7 @@ const ROUTE = [
   { de: "Satara", a: "Lower Sabie", km: 95, txt: "95 km · 3h30–4h", dx: 86, dy: 6 },
   { de: "Skukuza", a: "Eswatini", km: 236, txt: "~236 km · 4h30", dx: 74, dy: 0 },
   { de: "Eswatini", a: "St Lucia", km: 330, txt: "330 km · 4h15", dx: 84, dy: 0 },
-  { de: "St Lucia", a: "Durban", km: 215, txt: "215 km · 2h15", dx: -84, dy: 0 },
+  { de: "St Lucia", a: "Durban", km: 207, txt: "~207 km · 2h35", dx: -84, dy: 0 },
 ];
 
 // Relevé Rentalcars du 31 octobre 2026, SUV automatique, annulation gratuite, 13 jours, Johannesburg → Durban.
