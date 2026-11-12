@@ -65,7 +65,7 @@ function lienResa(e, o) {
 function badge(o) {
   const a = o.annul;
   if (a.type === "free") return `<span class="pastille ok">Annulation gratuite jusqu'au ${dateFr(a[etat.fenetre])}</span>`;
-  if (a.type === "sanparks") return `<span class="pastille moyen">Sans frais à 31 jours ou plus, à reconfirmer</span>`;
+  if (a.type === "sanparks") return `<span class="pastille moyen">Paiement intégral à la réservation, sans frais d'annulation à plus de 30 jours</span>`;
   return `<span class="pastille attention">Annulation à confirmer</span>`;
 }
 

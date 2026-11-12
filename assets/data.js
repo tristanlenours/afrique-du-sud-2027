@@ -130,7 +130,7 @@ const ETAPES = [
     ],
     savoir: ["Les portes des camps ferment à 17h30 en juillet, 18h en août. On prévoit large.", "Option à regarder : une nuit à Olifants, le camp perché que le Routard préfère, à 1h45 au nord de Satara.", "Disponibilités relevées sur SANParks le 12 novembre 2026 : des bungalows sont libres nos deux nuits, sauf le BD2V face à la brousse, complet le 1er août."],
     options: [
-      { id: "bd2", nom: "Bungalow BD2, BD2N ou BD2EC", zone: "Satara", prix: { f1: 235, f2: 235 }, repas: "Kitchenette, sans repas", direct: SP, retours: "Relevé SANParks du 12/11/2026 : libre les deux nuits (BD2 : 12 unités le 31 juillet, 2 le 1er août ; BD2N : 2 puis 5 ; BD2EC : 3 puis 4). Prix du 31 octobre.", annul: { type: "sanparks" }, pitch: "Notre choix : bungalow climatisé autour des pelouses, kitchenette et barbecue, libre nos deux nuits. À réserver vite." },
+      { id: "bd2", nom: "Bungalow BD2, BD2N ou BD2EC", zone: "Satara", prix: { f1: 235, f2: 240 }, repas: "Plaque de cuisson et frigo, sans repas", direct: SP, retours: "Relevé SANParks du 12/11/2026 : libre les deux nuits (BD2 : 12 unités le 31 juillet, 2 le 1er août ; BD2N : 2 puis 5 ; BD2EC : 3 puis 4). Prix affiché pour un BD2 du 31 juillet au 2 août : 4 437 ZAR, remise web et taxe communautaire comprises.", annul: { type: "sanparks" }, pitch: "Notre choix : bungalow climatisé autour des pelouses, kitchenette et barbecue, libre nos deux nuits. À réserver vite." },
       { id: "bd2v", nom: "Bungalow BD2V", zone: "Satara, face à la brousse", prix: { f1: 254, f2: 254 }, repas: "Kitchenette, sans repas", direct: SP, retours: "Relevé SANParks du 12/11/2026 : libre le 31 juillet seulement (2 unités), plus rien le 1er août. À surveiller en cas d'annulation.", annul: { type: "sanparks" }, pitch: "En bordure de clôture, face à la brousse et au point d'eau éclairé la nuit. Complet pour notre 2ᵉ nuit à ce jour." },
     ],
   },
@@ -143,9 +143,9 @@ const ETAPES = [
       { j: 9, t: "La grande descente", k: "95 km · 3h30–4h de safari", d: "Pause pique-nique à Tshokwane, plaines à herbivores, installation face à la rivière." },
       { j: 10, t: "À pied dans la brousse, puis Skukuza", k: "~45 km le long de la rivière", d: "05h30 : Guided Morning Walk à Lower Sabie (~33 € par personne). Puis route H4-1 le long de la rivière Sabie jusqu'à Skukuza, installation et dernier safari au coucher du soleil." },
     ],
-    savoir: ["Le restaurant est moyen selon le Routard : on préfère la cuisinette et le braai du bungalow.", "Relevé SANParks du 12 novembre 2026 : à Lower Sabie, des bungalows sont libres le 2 août (dont 4 BD2U vue rivière), mais le 3 août il ne reste que des huttes à sanitaires communs.", "Décision du 12 novembre 2026 : 1 nuit à Lower Sabie le 2 août, puis 1 nuit à Skukuza le 3 août, où des bungalows BE2 sont libres. Le départ vers l'Eswatini se fait donc de Skukuza : route à recalculer.", "Le prix du bungalow de Skukuza n'est pas encore relevé : le montant affiché reste l'estimation de 2 nuits à Lower Sabie."],
+    savoir: ["Le restaurant est moyen selon le Routard : on préfère la cuisinette et le braai du bungalow.", "Relevé SANParks du 12 novembre 2026 : à Lower Sabie, des bungalows sont libres le 2 août (dont 4 BD2U vue rivière), mais le 3 août il ne reste que des huttes à sanitaires communs.", "Décision du 12 novembre 2026 : 1 nuit à Lower Sabie le 2 août, puis 1 nuit à Skukuza le 3 août, où des bungalows BE2 sont libres. Le départ vers l'Eswatini se fait donc de Skukuza, par Malelane Gate.", "SANParks demande le paiement intégral par carte à la réservation. Ses conditions annoncent 25 % de frais d'annulation entre 15 et 30 jours avant l'arrivée, 50 % entre 7 et 14 jours, 100 % à 6 jours ou moins."],
     options: [
-      { id: "bd2u", nom: "BD2U à Lower Sabie, puis BE2 à Skukuza", zone: "Lower Sabie vue rivière (2 août) · Skukuza (3 août)", prix: { f1: 266, f2: 266 }, repas: "Kitchenette à Lower Sabie, sans repas", direct: SP, retours: "Relevé SANParks du 12/11/2026 : 4 BD2U libres le 2 août à Lower Sabie, 9 BE2 libres le 3 août à Skukuza. Montant estimé, prix de Skukuza à relever.", annul: { type: "sanparks" }, pitch: "Notre choix : le premier rang sur la rivière pour une nuit, puis un bungalow à Skukuza, faute de bungalow libre à Lower Sabie le 3 août." },
+      { id: "bd2u", nom: "BD2U à Lower Sabie, puis BE2 à Skukuza", zone: "Lower Sabie vue rivière (2 août) · Skukuza (3 août)", prix: { f1: 266, f2: 242 }, repas: "Kitchenette à Lower Sabie, cuisine commune à Skukuza, sans repas", direct: SP, retours: "Relevé SANParks du 12/11/2026 : 4 BD2U libres le 2 août à Lower Sabie (2 523 ZAR la nuit), 9 BE2 libres le 3 août à Skukuza (1 949 ZAR la nuit, 2 lits simples, climatisé, salle d'eau privée). Remise web et taxe communautaire comprises.", annul: { type: "sanparks" }, pitch: "Notre choix : le premier rang sur la rivière pour une nuit, puis un bungalow à Skukuza, faute de bungalow libre à Lower Sabie le 3 août." },
       { id: "bd3", nom: "Bungalow BD3 ou BD2Z (2 nuits)", zone: "Lower Sabie", prix: { f1: 226, f2: 226 }, repas: "Kitchenette, sans repas", direct: SP, retours: "Relevé SANParks du 12/11/2026 : aucun bungalow libre à Lower Sabie le 3 août. Possible seulement en cas d'annulation.", annul: { type: "sanparks" }, pitch: "Climatisé, kitchenette sur la véranda, salle de bain privée." },
       { id: "bd2r", nom: "Bungalow BD2 rénové (2 nuits)", zone: "Lower Sabie", prix: { f1: 267, f2: 267 }, repas: "Kitchenette, sans repas", direct: SP, retours: "Relevé SANParks du 12/11/2026 : 3 BD2 libres le 2 août, aucun le 3 août. Possible seulement en cas d'annulation.", annul: { type: "sanparks" }, pitch: "Bungalow rénové, 2 lits, kitchenette." },
     ],
@@ -156,7 +156,7 @@ const ETAPES = [
     recit: "On passe une frontière pour changer de monde. Dans le sanctuaire de Mlilwane, ni lions ni éléphants : on peut enfin descendre de voiture et marcher en liberté au milieu des zèbres, des nyalas et des phacochères. Une journée sans réveil ni volant, une randonnée jusqu'à Execution Rock ou une balade à VTT, puis la piscine. Le repos dont on aura besoin après six jours de safari.",
     nuits: 2, debut: 11, photos: ["esw1", "esw2", "esw3", "esw4"], carte: [31.2, -26.47],
     jours: [
-      { j: 11, t: "Passage de frontière", k: "210 km · 3h30", d: "Safari matinal vers Crocodile Bridge et ses rhinocéros, passage à Jeppes Reef et route de montagne via Piggs Peak." },
+      { j: 11, t: "Passage de frontière", k: "~236 km · 4h30 hors frontière", d: "Départ tôt de Skukuza, dernier safari jusqu'à Malelane Gate (63 km dans le parc), passage à Jeppes Reef et route de montagne via Piggs Peak. Calcul OSRM du 12 novembre 2026, attente à la frontière en plus." },
       { j: 12, t: "Zéro voiture", k: "0 km", d: "Grasse matinée, marche vers Execution Rock ou VTT au milieu des antilopes, après-midi piscine et artisanat swazi." },
     ],
     savoir: ["Demander au loueur la lettre d'autorisation de sortie du véhicule (incluse dans le budget).", "Ralentisseurs non peints, piétons et bétail : pas de conduite après 17h30.", "Taxe routière d'environ 100 ZAR à l'entrée."],
@@ -187,7 +187,7 @@ const ETAPES = [
   },
 ];
 
-// Liaisons entre étapes. Tronçons du canyon : calcul OSRM du 1er novembre 2026.
+// Liaisons entre étapes. Tronçons du canyon : calcul OSRM du 1er novembre 2026. Skukuza → Eswatini : calcul OSRM du 12 novembre 2026.
 // Le reste reprend le programme. dx, dy : position de l'étiquette sur la carte.
 const ROUTE = [
   { de: "Aéroport", a: "Rosebank", km: 45, txt: "45 km · 35 min" },
@@ -195,7 +195,7 @@ const ROUTE = [
   { de: "Canyon", a: "Réserve privée", km: 150, txt: "~150 km · 2h45", dx: -6, dy: 38 },
   { de: "Réserve privée", a: "Satara", km: 95, txt: "75–110 km · 2h30–3h30", dx: 86, dy: -38 },
   { de: "Satara", a: "Lower Sabie", km: 95, txt: "95 km · 3h30–4h", dx: 86, dy: 6 },
-  { de: "Skukuza", a: "Eswatini", km: 210, txt: "~210 km · à recalculer", dx: 74, dy: 0 },
+  { de: "Skukuza", a: "Eswatini", km: 236, txt: "~236 km · 4h30", dx: 74, dy: 0 },
   { de: "Eswatini", a: "St Lucia", km: 330, txt: "330 km · 4h15", dx: 84, dy: 0 },
   { de: "St Lucia", a: "Durban", km: 215, txt: "215 km · 2h15", dx: -84, dy: 0 },
 ];
