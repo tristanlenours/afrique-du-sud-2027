@@ -332,7 +332,7 @@ function rendreVoiture() {
     <div class="page">
       <section>
         <h2>Les options comparées</h2>
-        <p class="intro">Relevé Rentalcars du 31 octobre 2026, avec annulation gratuite, pour un retrait à Johannesburg et un retour à Durban. Le lien ouvre la recherche à nos dates, où l'on retrouve le loueur voulu. Notre choix met à jour le budget. Conversion à 18,5 ZAR pour 1 €.</p>
+        <p class="intro">Relevé Rentalcars du 12 novembre 2026 pour les prix, du 31 octobre pour une partie des dépôts et franchises, avec annulation gratuite, pour un retrait à Johannesburg et un retour à Durban. Le lien ouvre la recherche à nos dates, où l'on retrouve le loueur voulu. Notre choix met à jour le budget. Conversion à 18,5 ZAR pour 1 €.</p>
         <p><a class="cta" href="${lienVoiture()}" target="_blank" rel="noopener">Réserver sur Rentalcars</a></p>
         <div class="grille">${VOITURES.map(fiche).join("")}</div>
       </section>
