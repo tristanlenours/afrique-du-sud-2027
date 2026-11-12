@@ -185,3 +185,4 @@ figcaption a { display: block; color: #e8ddcc; font-size: 11px; text-decoration:
   .reste { font-size: 13px; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+.enroute h3 { font-size: 17px; margin: 18px 0 8px; }

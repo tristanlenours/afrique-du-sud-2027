@@ -83,6 +83,9 @@ const ETAPES = [
     titre: "Le toit du Mpumalanga", accroche: "Des falaises rouges, des cascades et un des plus grands canyons du monde pour nous deux.",
     recit: "La route monte par les hauts plateaux, avec une pause truite et pancakes à Dullstroom et le vieux village de chercheurs d'or de Pilgrim's Rest. Le lendemain, on suit la Panorama Route quand la brume s'est levée : les Three Rondavels, les marmites de Bourke's Luck, God's Window et les chutes de Lisbon Falls. Une journée de grands paysages avant de plonger dans la brousse.",
     nuits: 2, debut: 3, photos: ["bly1", "bly3", "bly5", "bly2", "bly4", "bly6"], carte: [30.77, -24.58],
+    enroute: [
+      { trajet: "De Johannesburg au canyon, le 27 juillet (environ 410 km)", arrets: [["Dullstroom", "village d'altitude sur la route, connu pour ses truites et ses pancakes : la pause déjeuner naturelle à mi-chemin."], ["Pilgrim's Rest", "ancien village de chercheurs d'or resté dans son jus, si l'on passe par Graskop."], ["Les belvédères de la R532", "entre Graskop et notre logement, la route longe God's Window, les cascades de Lisbon et de Berlin puis Bourke's Luck Potholes. Selon l'heure, on en voit un ou deux dès l'arrivée et on garde le reste pour le lendemain."]] },
+    ],
     jours: [
       { j: 3, t: "La route des hauts plateaux", k: "~410 km · 5h30 hors pauses", d: "Autoroute N4, pause à Dullstroom, Pilgrim's Rest, installation pour 2 nuits." },
       { j: 4, t: "La Panorama Route", k: "~100 km · 1h40 de conduite", d: "Entre 10h et 16h pour éviter le brouillard : Three Rondavels, Bourke's Luck Potholes, God's Window, cascades et crêpes chez Harrie's." },
@@ -104,6 +107,9 @@ const ETAPES = [
     titre: "48 heures avec un pisteur", accroche: "Un 4x4 ouvert, un ranger, un pisteur, et la brousse sans clôture pour le premier grand frisson.",
     recit: "Ici, on ne conduit plus. Deux sorties par jour avec ranger et pisteur, à l'aube dans le froid piquant puis au coucher du soleil, avec un verre dans la brousse et le retour au projecteur. On apprend à lire une empreinte fraîche ou l'alarme d'un babouin. C'est notre école de la brousse : quand on prendra le volant dans le Kruger, on saura enfin où regarder.",
     nuits: 2, debut: 5, photos: ["pri3", "pri5", "pri4", "pri2", "pri1"], carte: [31.5, -24.6],
+    enroute: [
+      { trajet: "Du canyon au lodge, le 29 juillet (environ 150 km, arrivée attendue à 13h)", arrets: [["Le col d'Abel Erasmus et le tunnel J.G. Strijdom", "la descente de l'escarpement vers la plaine du Lowveld, avec des points de vue au bord de la route."], ["Hoedspruit", "dernière petite ville avant la brousse : plein d'essence, distributeur et dernières courses."], ["Peu de temps pour flâner", "il faut être au lodge pour le déjeuner et le premier safari de 15h30. Le centre de soins de la faune de Moholoholo, près de Hoedspruit, serait pour une autre fois."]] },
+    ],
     jours: [
       { j: 5, t: "Descente vers la brousse", k: "~150 km · 2h45 jusqu'à Orpen, plus ~45 min de piste", d: "Départ de Forever Resort avant 09h pour arriver au camp vers 12h30, déjeuner, installation, puis premier safari à 15h30 et retour de nuit au projecteur." },
       { j: 6, t: "La vraie journée safari", k: "0 km au volant", d: "06h–09h30 : sortie à l'aube. Brunch et piscine ou repos de 11h à 15h. 15h30 : safari du soir, apéritif en brousse, dîner autour du feu." },
@@ -132,6 +138,9 @@ const ETAPES = [
     titre: "Au volant, chez les lions", accroche: "Notre voiture, des pistes infinies et les plaines où rôdent les grands félins.",
     recit: "On entre par Orpen Gate et le parc devient notre terrain de jeu, à 25 km/h, vitres ouvertes. Satara est entouré des pâturages qui attirent les fauves : à l'aube, la mythique piste S100 et le belvédère de N'Wamanzi. Aux heures chaudes, piscine et sieste pendant que les animaux dorment à l'ombre. Le soir, sortie guidée au coucher du soleil puis retour de nuit, quand plus aucune voiture n'a le droit de circuler.",
     nuits: 2, debut: 7, photos: ["cen3", "cen1", "cen4", "cen2", "cen5"], carte: [31.78, -24.4],
+    enroute: [
+      { trajet: "Du lodge à Satara, le 31 juillet (75 à 110 km, par Orpen Gate)", arrets: [["Orpen Gate", "entrée dans le parc public : on y règle les droits d'entrée, prévoir un peu d'attente."], ["Le point de vue de Bobbejaankrans", "sur la route H7, un belvédère au-dessus de la rivière Timbavati."], ["Le barrage de Nsemani", "quelques kilomètres avant Satara, un point d'eau où hippopotames, éléphants et parfois lions se laissent voir depuis la voiture."]] },
+    ],
     jours: [
       { j: 7, t: "Entrée par Orpen Gate", k: "75 à 110 km · 2h30–3h30", d: "Dernier safari matinal et brunch au lodge, puis entrée dans le parc et route lente jusqu'à Satara." },
       { j: 8, t: "Le pays des fauves", k: "~85 km sur les pistes", d: "Aube sur la S100, belvédère de N'Wamanzi, piscine de 11h à 15h, Sunset Drive SANParks (~28 € par personne)." },
@@ -147,6 +156,10 @@ const ETAPES = [
     titre: "Au fil de la rivière Sabie", accroche: "Un deck sur l'eau, les hippos à portée de vue et, à l'aube, la brousse à pied.",
     recit: "On descend par Tshokwane, un des secteurs les plus généreux en lions selon le Routard, jusqu'à la rivière Sabie. Lower Sabie est l'un des plus beaux camps du parc : vastes pelouses, grands arbres et piscine. À l'aube, une marche de trois heures avec deux rangers armés. Le soir, notre propre braai sur la terrasse, de la bonne viande achetée à la boutique et les bruits de la nuit africaine. La seconde nuit, on remonte la rivière jusqu'à Skukuza, le camp historique du parc.",
     nuits: 2, debut: 9, photos: ["sud2", "sud1", "sud6", "sud3", "sud4"], carte: [31.92, -25.12],
+    enroute: [
+      { trajet: "De Satara à Lower Sabie, le 2 août (95 km de safari)", arrets: [["L'aire de pique-nique de Tshokwane", "la halte à mi-parcours, dans un secteur que le Routard dit très généreux en lions."], ["Le belvédère de Nkumbe", "sur la route H10, une vue dégagée sur les plaines, un des rares endroits où l'on peut descendre de voiture."], ["Sunset Dam", "à la porte de Lower Sabie, un plan d'eau à hippopotames et crocodiles, parfait en fin d'après-midi."]] },
+      { trajet: "De Lower Sabie à Skukuza, le 3 août (46 km le long de la Sabie)", arrets: [["L'aire de pique-nique de Nkuhlu", "à une vingtaine de kilomètres, au bord de la rivière : la pause après la marche de l'aube."], ["L'affût de Lake Panic", "près de Skukuza, un abri d'observation au bord d'un petit lac, réputé pour les oiseaux et les hippopotames."]] },
+    ],
     jours: [
       { j: 9, t: "La grande descente", k: "95 km · 3h30–4h de safari", d: "Pause pique-nique à Tshokwane, plaines à herbivores, installation face à la rivière." },
       { j: 10, t: "À pied dans la brousse, puis Skukuza", k: "~45 km le long de la rivière", d: "05h30 : Guided Morning Walk à Lower Sabie (~33 € par personne). Puis route H4-1 le long de la rivière Sabie jusqu'à Skukuza, installation et dernier safari au coucher du soleil." },
@@ -163,6 +176,9 @@ const ETAPES = [
     titre: "Le royaume où l'on marche", accroche: "Après les fauves, la grasse matinée et une journée entière à pied ou à VTT parmi les zèbres.",
     recit: "On passe une frontière pour changer de monde. Dans le sanctuaire de Mlilwane, ni lions ni éléphants : on peut enfin descendre de voiture et marcher en liberté au milieu des zèbres, des nyalas et des phacochères. Une journée sans réveil ni volant, une randonnée jusqu'à Execution Rock ou une balade à VTT, puis la piscine. Le repos dont on aura besoin après six jours de safari.",
     nuits: 2, debut: 11, photos: ["esw1", "esw2", "esw3", "esw4"], carte: [31.2, -26.47],
+    enroute: [
+      { trajet: "De Skukuza à Mlilwane, le 4 août (environ 236 km, frontière à Jeppes Reef)", arrets: [["L'aire de pique-nique d'Afsaal", "sur la route de Malelane Gate, la halte café du dernier safari."], ["Le barrage de Maguga", "en Eswatini, un grand lac de montagne avec un point de vue, à l'écart de la route de Piggs Peak."], ["Ngwenya Glass", "une verrerie artisanale où l'on voit les souffleurs au travail, près de la jonction avec la route de Mbabane. C'est un petit détour, à garder seulement si l'on est en avance."], ["Swazi Candles, à Malkerns", "un marché d'artisanat tout près de Mlilwane, facile à caser le jour de l'arrivée ou le lendemain."]] },
+    ],
     jours: [
       { j: 11, t: "Passage de frontière", k: "~236 km · 4h30 hors frontière", d: "Départ tôt de Skukuza, dernier safari jusqu'à Malelane Gate (63 km dans le parc), passage à Jeppes Reef et route de montagne via Piggs Peak. Calcul OSRM du 12 novembre 2026, attente à la frontière en plus." },
       { j: 12, t: "Zéro voiture", k: "0 km", d: "Grasse matinée, marche vers Execution Rock ou VTT au milieu des antilopes, après-midi piscine et artisanat swazi." },
@@ -179,6 +195,10 @@ const ETAPES = [
     titre: "Le final sur l'océan Indien", accroche: "Du sable chaud, des hippos sur l'estuaire et des baleines depuis les dunes pour finir en beauté.",
     recit: "La route descend vers la chaleur du KwaZulu-Natal. À Cape Vidal, une longue plage sauvage, une eau à 21–22 °C, et en pleine saison de migration, les baleines à bosse se voient depuis les dunes aux jumelles. L'après-midi, deux heures de croisière sur une eau de miroir, entre 800 hippopotames et 1 000 crocodiles. Entre les deux, une matinée chez les rhinocéros de Hluhluwe-iMfolozi, à une heure de route. Le soir, poisson grillé. Il faudra prendre la voiture même pour 300 mètres : la nuit, les rues appartiennent aux hippos.",
     nuits: 2, debut: 13, photos: ["luc1", "luc5", "luc2", "luc6", "luc3", "luc4"], carte: [32.41, -28.37],
+    enroute: [
+      { trajet: "De Mlilwane à St Lucia, le 6 août (environ 335 km, frontière à Lavumisa)", arrets: [["Le lac Jozini", "côté sud-africain, la N2 longe ce grand lac de barrage au pied des monts Lebombo."], ["Hluhluwe", "petite ville des ananas, avec la boutique de vannerie zouloue Ilala Weavers. C'est aussi la sortie vers le parc où l'on revient le lendemain matin."]] },
+      { trajet: "De St Lucia à l'aéroport de Durban, le 8 août (environ 207 km)", arrets: [["Pas d'arrêt prévu", "on part vers midi après Cape Vidal, pour rendre la voiture avant 15h. L'aéroport King Shaka est au nord de Durban : on ne traverse pas la ville."]] },
+    ],
     jours: [
       { j: 13, t: "Vers l'océan", k: "330 km · 4h15", d: "Sortie d'Eswatini à Lavumisa, autoroute N2 dans le KwaZulu-Natal, arrivée vers 15h30." },
       { j: 14, t: "Les rhinocéros, puis les hippos", k: "~100 km aller-retour + pistes", d: "Départ vers 5h45 pour Hluhluwe-iMfolozi par Nyalazi Gate (49 km, 1h) : safari en voiture jusqu'à midi dans la grande réserve à rhinocéros. Retour à St Lucia pour la croisière de 2h sur l'estuaire à 15h." },

@@ -147,6 +147,7 @@ function rendreEtape() {
         <p class="soleil">Lever du soleil vers ${soleil(e, e.debut).lever} · coucher vers ${soleil(e, e.debut).coucher}</p>
         <ol class="jours">${e.jours.map(j => `<li><span class="jour">J${j.j}<small>${dateJour(j.j).toLocaleDateString("fr-FR", { weekday: "short", day: "numeric", month: "short" })}</small></span><div><h3>${j.t}</h3>${j.k ? `<p class="km">${j.k}</p>` : ""}<p>${j.d}</p></div></li>`).join("")}</ol>
       </section>
+      ${e.enroute ? `<section class="savoir enroute"><h2>À voir en route</h2><p class="intro">Des idées d'arrêts, à choisir selon l'heure et l'envie. Horaires et tarifs à vérifier avant le départ.</p>${e.enroute.map(b => `<h3>${b.trajet}</h3><ul>${b.arrets.map(([n, d]) => `<li><strong>${n}</strong> : ${d}</li>`).join("")}</ul>`).join("")}</section>` : ""}
       <section id="logements">
         <h2>Où dormir</h2>
         <p class="intro">Notre sélection à nos dates, pour deux. Prix relevés le ${RELEVE}, ils peuvent bouger.</p>
