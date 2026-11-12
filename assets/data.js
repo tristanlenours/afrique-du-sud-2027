@@ -12,7 +12,7 @@ const FENETRES = {
 
 // Postes hors logement, repris du budget consolidé de la fiche.
 const FIXES = [
-  { poste: "Vols Paris → Johannesburg + Durban → Paris", detail: "RwandAir 525 € + Ethiopian 547 € par personne, zéro vol intérieur", prix: 2144 },
+  { poste: "Vols Paris → Johannesburg + Durban → Paris", detail: "RwandAir 525 € + Emirates 582 € par personne (relevé du 31 octobre 2026), zéro vol intérieur", prix: 2214 },
   { poste: "Trajet jusqu'à Paris CDG", detail: "Train ou voiture, pour deux", prix: 200 },
   { poste: "SUV automatique, essence, péages", voiture: true },
   { poste: "Droits d'entrée du Kruger", detail: "4 jours à 692 ZAR par adulte", prix: 300 },
@@ -174,9 +174,9 @@ const ETAPES = [
     jours: [
       { j: 13, t: "Vers l'océan", k: "330 km · 4h15", d: "Sortie d'Eswatini à Lavumisa, autoroute N2 dans le KwaZulu-Natal, arrivée vers 15h30." },
       { j: 14, t: "Les rhinocéros, puis les hippos", k: "~100 km aller-retour + pistes", d: "Départ vers 5h45 pour Hluhluwe-iMfolozi par Nyalazi Gate (49 km, 1h) : safari en voiture jusqu'à midi dans la grande réserve à rhinocéros. Retour à St Lucia pour la croisière de 2h sur l'estuaire à 15h." },
-      { j: 15, t: "Cape Vidal, puis Durban", k: "~207 km · 2h35", d: "Avec le retour Emirates de 18h40 : plage et baleines depuis les dunes de Cape Vidal le matin, départ de St Lucia vers midi. Avec Ethiopian à 14h15 : départ vers 8h30, sans Cape Vidal. Autoroute N2 jusqu'à l'aéroport King Shaka, sans traverser Durban." },
+      { j: 15, t: "Cape Vidal, puis Durban", k: "~207 km · 2h35", d: "Plage et baleines depuis les dunes de Cape Vidal le matin, départ de St Lucia vers midi. Vol Emirates à 18h40, Paris le lendemain en début d'après-midi. Autoroute N2 jusqu'à l'aéroport King Shaka, sans traverser Durban." },
     ],
-    savoir: ["La nuit, on ne marche jamais dans St Lucia : hippopotames dans les rues.", "On décide de la sortie baleines sur place, selon la houle. Rien à réserver avant.", "Hluhluwe-iMfolozi, ajouté le 12 novembre 2026 : 300 ZAR par adulte selon le dernier barème publié (environ 32 € à deux, à reconfirmer pour 2027). Portes ouvertes de 6h à 18h en hiver selon Ezemvelo ; des opérateurs annoncent 17h, on sort avant.", "Cape Vidal ne tient plus que le matin du départ, donc avec le retour Emirates de 18h40. Avec Ethiopian à 14h15, il faudra choisir entre Cape Vidal et Hluhluwe-iMfolozi.", "Sur le parking, 5 à 10 ZAR pour les gardiens officiels en gilet."],
+    savoir: ["La nuit, on ne marche jamais dans St Lucia : hippopotames dans les rues.", "On décide de la sortie baleines sur place, selon la houle. Rien à réserver avant.", "Hluhluwe-iMfolozi, ajouté le 12 novembre 2026 : 300 ZAR par adulte selon le dernier barème publié (environ 32 € à deux, à reconfirmer pour 2027). Portes ouvertes de 6h à 18h en hiver selon Ezemvelo ; des opérateurs annoncent 17h, on sort avant.", "Retour retenu le 12 novembre 2026 : Emirates à 18h40 depuis Durban, pour garder Cape Vidal le matin du départ. Billet pas encore acheté.", "Sur le parking, 5 à 10 ZAR pour les gardiens officiels en gilet."],
     options: [
       { id: "leopardtree", nom: "Leopard Tree Lodge", zone: "St Lucia", note: 9.7, avis: 737, prix: { f1: 184, f2: 175 }, slug: "za/lalapanzi-guest-house-st-lucia", retours: "Juillet 2026 : 9,7/10 sur 31 avis, très constant. Accueil de Thea, propreté et jardin reviennent souvent.", annul: { type: "free", f1: "2027-07-09", f2: "2027-07-16" }, pitch: "À 750 m de la plage, piscine dans un jardin où passent phacochères et petites antilopes." },
       { id: "ambience", nom: "African Ambience Guest House", zone: "St Lucia", note: 9.6, avis: 352, prix: { f1: 168, f2: 168 }, repas: "Petit-déjeuner inclus", slug: "za/africanambience-guesthouse", annul: { type: "free", f1: "2027-06-30", f2: "2027-07-07" }, pitch: "Note exceptionnelle et petit-déjeuner compris, pour un prix très doux." },
