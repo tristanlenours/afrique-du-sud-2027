@@ -277,7 +277,7 @@ function rendreAccueil() {
         ${aConfirmer.length ? `<p class="alerte">À confirmer avant de payer : ${aConfirmer.map(l => l.o.nom).join(", ")}.</p>` : ""}
       </section>
       <footer class="credits"><h2>Sources et photos</h2>
-        <p>Prix et dates d'annulation relevés sur Booking le ${RELEVE}, pour 2 adultes, avec des remises Genius possibles. Tarifs SANParks 2026/2027. Les prix des lodges en réserve privée peuvent varier avec les taxes de conservation, estimées ici. Les photos montrent les lieux, pas les logements : le bouton de chaque fiche ouvre leurs vraies photos.</p>
+        <p>Prix et dates d'annulation relevés sur Booking le 31 octobre 2026, pour 2 adultes, avec des remises Genius possibles. Lodges en réserve privée et Eswatini relevés en direct le ${RELEVE}. Tarifs SANParks 2026/2027. Les prix des lodges en réserve privée peuvent varier avec les taxes de conservation, estimées ici. Les photos montrent les lieux, pas les logements : le bouton de chaque fiche ouvre leurs vraies photos.</p>
         <p>Photos libres via Wikimedia Commons : ${Object.values(PHOTOS).map(p => `<a href="${p.u}" target="_blank" rel="noopener">${p.cap}</a> (${p.a}, ${p.l})`).join(" · ")}.</p>
       </footer>
     </div>`;
