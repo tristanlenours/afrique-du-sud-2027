@@ -1,22 +1,40 @@
 // Carnet de voyage : rendu des pages, choix des logements et budget en direct.
-const CLE = "safari-2027-25-juillet-v2";
-const etat = { fenetre: "f2", choix: {}, voiture: VOITURES[0].id, vol: VOLS[0].id };
-const page = document.body.dataset.etape;
+const CLE = "safari-2027-25-juillet-v3";
+const etat = { fenetre: "f2", choix: {}, voiture: {}, vol: {} };
+const pageBrute = document.body.dataset.etape;
+// Deux versions du voyage (« bases ») : ce qui suit est recalculé à chaque changement de version.
+let ETAPES, VOLS, VOITURES, ROUTE, F, page;
+const B = () => etat.fenetre;
+const pk = o => B() in o ? o[B()] : o[F.comme];
+const val = x => x && typeof x === "object" && !Array.isArray(x) ? pk(x) : x;
+function activer() {
+  if (!FENETRES[etat.fenetre]) etat.fenetre = Object.keys(FENETRES)[0];
+  F = FENETRES[etat.fenetre];
+  const ici = x => !x.seulement || x.seulement === B();
+  ETAPES = ETAPES_TOUTES.filter(ici).map(e => ({ ...e, ...(e.variante?.[B()] || {}), jours: e.jours.filter(ici) }));
+  VOLS = VOLS_TOUS.filter(v => (v.base || "f2") === B());
+  VOITURES = VOITURES_TOUTES.filter(v => (v.base || "f2") === B());
+  ROUTE = ROUTES[B()];
+  page = pageBrute === undefined ? undefined : ETAPES.findIndex(e => e.fichier === ETAPES_TOUTES[+pageBrute].fichier);
+}
 const vue = document.body.dataset.vue;
 
 function lire() {
   try { Object.assign(etat, JSON.parse(localStorage.getItem(CLE)) || {}); } catch (e) {}
-  const m = location.hash.match(/^#nos-choix-(f[12])-(.+)$/);
-  if (m) {
+  for (const k of ["voiture", "vol", "choix"]) if (!etat[k] || typeof etat[k] !== "object") etat[k] = {};
+  activer();
+  const m = location.hash.match(/^#nos-choix-([a-z0-9]+)-(.+)$/);
+  if (m && FENETRES[m[1]]) {
     etat.fenetre = m[1];
+    activer();
     m[2].split("-").forEach((v, i) => {
-      if (ETAPES[i]?.options[+v]) etat.choix[i] = ETAPES[i].options[+v].id;
-      if (i === ETAPES.length && VOITURES[+v]) etat.voiture = VOITURES[+v].id;
-      if (i === ETAPES.length + 1 && VOLS[+v]) etat.vol = VOLS[+v].id;
+      if (ETAPES[i]?.options[+v]) etat.choix[ETAPES[i].fichier] = ETAPES[i].options[+v].id;
+      if (i === ETAPES.length && VOITURES[+v]) etat.voiture[B()] = VOITURES[+v].id;
+      if (i === ETAPES.length + 1 && VOLS[+v]) etat.vol[B()] = VOLS[+v].id;
     });
     sauver();
   }
-  if (!FENETRES[etat.fenetre]) etat.fenetre = Object.keys(FENETRES)[0];
+  activer();
 }
 function sauver() { try { localStorage.setItem(CLE, JSON.stringify(etat)); } catch (e) {} }
 
@@ -25,21 +43,21 @@ const dateFr = (iso, o = { day: "numeric", month: "long" }) => new Date(iso + "T
 const dateJour = j => { const d = new Date(FENETRES[etat.fenetre].depart + "T12:00:00Z"); d.setUTCDate(d.getUTCDate() + j - 1); return d; };
 const iso = d => d.toISOString().slice(0, 10);
 
-const dispo = (o) => o.prix[etat.fenetre] != null;
+const dispo = (o) => val(o.prix) != null;
 function choisi(i) {
   const e = ETAPES[i];
-  return e.options.find(o => o.id === etat.choix[i] && dispo(o)) || e.options.find(dispo);
+  return e.options.find(o => o.id === etat.choix[e.fichier] && dispo(o)) || e.options.find(dispo);
 }
-const cout = (o) => o.prix[etat.fenetre] + (o.taxe || 0);
-const voiture = () => VOITURES.find(v => v.id === etat.voiture) || VOITURES[0];
+const cout = (o) => val(o.prix) + (o.taxe || 0);
+const voiture = () => VOITURES.find(v => v.id === etat.voiture[B()]) || VOITURES[0];
 const coutVoiture = v => v.prix + v.eswatini + CARBURANT;
-const vol = () => VOLS.find(v => v.id === etat.vol) || VOLS[0];
+const vol = () => VOLS.find(v => v.id === etat.vol[B()]) || VOLS[0];
 const coutVol = v => 2 * v.lignes.reduce((s, l) => s + l[2], 0) + (v.extras || []).reduce((s, x) => s + x[2], 0);
 const fixes = () => FIXES.map(f => {
   if (f.vols) { const a = vol(); return { ...f, lien: "vols.html", prix: coutVol(a), detail: `${a.nom} : ${a.lignes.map(l => `${l[0].toLowerCase()} ${l[2]} €`).join(" + ")} par personne (relevé du ${VOLS_RELEVE})` }; }
-  if (!f.voiture) return f;
+  if (!f.voiture) return { ...f, prix: val(f.prix), detail: val(f.detail) };
   const v = voiture();
-  return { ...f, lien: "location-voiture.html", prix: coutVoiture(v), detail: `${v.loueur}, ${v.modele}, 14 jours : ${v.prix} € + ${v.eswatini} € de frais Eswatini + ~${CARBURANT} € d'essence et de péages, franchise non rachetée` };
+  return { ...f, lien: "location-voiture.html", prix: coutVoiture(v), detail: `${v.loueur}, ${v.modele}, ${F.voiture.jours} jours : ${v.prix} € + ${v.eswatini} € de frais Eswatini + ~${CARBURANT} € d'essence et de péages, franchise non rachetée` };
 });
 const totalFixes = () => fixes().reduce((s, f) => s + f.prix, 0);
 const totalLogements = () => ETAPES.reduce((s, e, i) => s + cout(choisi(i)), 0);
@@ -68,7 +86,7 @@ function lienResa(e, o) {
 
 function badge(o) {
   const a = o.annul;
-  if (a.type === "free") return `<span class="pastille ok">Annulation gratuite jusqu'au ${dateFr(a[etat.fenetre])}</span>`;
+  if (a.type === "free") return `<span class="pastille ok">Annulation gratuite jusqu'au ${dateFr(pk(a))}</span>`;
   if (a.type === "sanparks") return `<span class="pastille moyen">Paiement intégral à la réservation, sans frais d'annulation à plus de 30 jours</span>`;
   return `<span class="pastille attention">Annulation à confirmer</span>`;
 }
@@ -91,7 +109,7 @@ function entete() {
   document.getElementById("entete").innerHTML = `
     <div class="barre">
       <a class="marque" href="index.html">Afrique du Sud <em>2027</em></a>
-      ${Object.keys(FENETRES).length > 1 ? `<div class="bascule" role="group" aria-label="Fenêtre de dates">
+      ${Object.keys(FENETRES).length > 1 ? `<div class="bascule" role="group" aria-label="Version du voyage">
         ${Object.entries(FENETRES).map(([k, f]) => `<button data-f="${k}" aria-pressed="${etat.fenetre === k}">${f.label}</button>`).join("")}
       </div>` : `<span class="dates">${FENETRES[etat.fenetre].label}</span>`}
     </div>${fil()}`;
@@ -120,7 +138,7 @@ function carteLogement(e, i, o) {
     ${ok ? badge(o) : `<span class="pastille attention">Pas de tarif annulable sur cette fenêtre</span>`}
     ${o.annul.txt ? `<p class="petit">${o.annul.txt}</p>` : ""}
     <div class="action">
-      <div class="prix">${ok ? `<strong>${euros(o.prix[etat.fenetre])}</strong><small>${e.nuits} nuit${e.nuits > 1 ? "s" : ""} à deux${o.taxe ? ` + ~${o.taxe} € de taxes de réserve` : ""}</small>${!pris && diff ? `<small class="delta">${diff > 0 ? "+" : "−"}${euros(Math.abs(diff))} sur le total</small>` : ""}` : "<strong>—</strong>"}</div>
+      <div class="prix">${ok ? `<strong>${euros(val(o.prix))}</strong><small>${e.nuits} nuit${e.nuits > 1 ? "s" : ""} à deux${o.taxe ? ` + ~${o.taxe} € de taxes de réserve` : ""}</small>${!pris && diff ? `<small class="delta">${diff > 0 ? "+" : "−"}${euros(Math.abs(diff))} sur le total</small>` : ""}` : "<strong>—</strong>"}</div>
       <div class="boutons">
         <a class="lien" href="${lienResa(e, o)}" target="_blank" rel="noopener">${o.direct ? "Site officiel" : "Photos et tarifs"}</a>
         ${ok ? `<button class="choisir" data-o="${o.id}" aria-pressed="${pris}">${pris ? "✓ Notre choix" : "Choisir"}</button>` : ""}
@@ -164,7 +182,7 @@ function rendreEtape() {
         ${suiv ? `<a class="droite" href="${suiv.fichier}"><small>Étape ${i + 2} →</small>${suiv.nom}</a>` : `<a class="droite" href="index.html#choix"><small>Dernière étape →</small>Nos choix et notre budget</a>`}
       </nav>
     </div>`;
-  document.querySelectorAll("[data-o]").forEach(b => b.onclick = () => { etat.choix[i] = b.dataset.o; sauver(); rendre(); });
+  document.querySelectorAll("[data-o]").forEach(b => b.onclick = () => { etat.choix[e.fichier] = b.dataset.o; sauver(); rendre(); });
 }
 
 const trajets = () => `<div class="trajets">${ROUTE.map(r => `<div><span>${r.de} → ${r.a}</span><b>${r.txt}</b></div>`).join("")}</div>`;
@@ -172,19 +190,20 @@ const trajets = () => `<div class="trajets">${ROUTE.map(r => `<div><span>${r.de}
 function carteRoute() {
   const X = l => (l - 27.6) * 92, Y = l => (-l - 23.8) * 105;
   const pts = ETAPES.map(e => [X(e.carte[0]), Y(e.carte[1])]);
-  const d = [[X(31.12), Y(-29.6)]];
-  const arrets = [...pts, d[0]];
+  const d = F.fin ? [X(31.12), Y(-29.6)] : null;
+  const arrets = d ? [...pts, d] : pts;
   const liaisons = ROUTE.slice(1).map((r, n) => {
+    if (!arrets[n + 1]) return "";
     const x = (arrets[n][0] + arrets[n + 1][0]) / 2 + r.dx, y = (arrets[n][1] + arrets[n + 1][1]) / 2 + r.dy, l = r.txt.length * 7 + 14;
     return `<g class="liaison"><rect x="${(x - l / 2).toFixed(0)}" y="${(y - 12).toFixed(0)}" width="${l}" height="23" rx="11"/><text x="${x.toFixed(0)}" y="${(y + 4).toFixed(0)}">${r.txt}</text></g>`;
   }).join("");
-  const places = { 1: [-21, 5, "end"], 2: [-8, -20, "end"], 3: [22, 5, "start"], 4: [22, 5, "start"], 5: [-21, 5, "end"], 6: [22, 5, "start"] };
-  return `<svg viewBox="0 0 600 650" role="img" aria-label="Itinéraire de Johannesburg à Durban, avec distances et temps de route">
-    <path d="M${pts.map(p => p.map(n => n.toFixed(0)).join(" ")).join(" L")} L${d[0].map(n => n.toFixed(0)).join(" ")}" class="trace"/>
-    <text x="${d[0][0] + 14}" y="${d[0][1] + 5}" class="ville">Durban, vol retour</text><circle cx="${d[0][0]}" cy="${d[0][1]}" r="6" class="fin"/>
+  const places = { 1: [-21, 5, "end"], 2: [-8, -20, "end"], 3: [22, 5, "start"], 4: [22, 5, "start"], 5: [-21, 5, "end"], 6: d ? [22, 5, "start"] : null };
+  return `<svg viewBox="0 0 600 ${d ? 650 : 400}" role="img" aria-label="Itinéraire au départ de Johannesburg, avec distances et temps de route">
+    <path d="M${arrets.map(p => p.map(n => n.toFixed(0)).join(" ")).join(" L")}" class="trace"/>
+    ${d ? `<text x="${d[0] + 14}" y="${d[1] + 5}" class="ville">Durban, vol retour</text><circle cx="${d[0]}" cy="${d[1]}" r="6" class="fin"/>` : ""}
     ${liaisons}
     ${ETAPES.map((e, i) => { const [x, y] = pts[i], q = places[i]; return `<a href="${e.fichier}"><circle cx="${x}" cy="${y}" r="15" style="fill:${e.couleur}"/><text x="${x}" y="${y + 5}" class="num">${i + 1}</text>${q ? `<text x="${x + q[0]}" y="${y + q[1]}" class="ville" text-anchor="${q[2]}">${i === 3 ? "Satara" : e.court}</text>` : ""}</a>`; }).join("")}
-    <text x="${pts[0][0] - 30}" y="${pts[0][1] + 36}" class="ville">Johannesburg</text>
+    <text x="${pts[0][0] - 30}" y="${pts[0][1] + (d ? 36 : -24)}" class="ville">Johannesburg</text>
   </svg>`;
 }
 
@@ -200,9 +219,9 @@ function rendreAccueil() {
     <header class="heros accueil">
       <img src="photos/cen2.jpg" alt="${PHOTOS.cen2.alt}">
       <div class="voile"><div class="dedans">
-        <p class="sur">Été 2027 · 16 jours · 14 nuits sur place</p>
-        <h1>Du canyon à l'océan Indien</h1>
-        <p class="acc">Un carnet pour rêver à deux : les lions du Kruger, les zèbres d'Eswatini, les baleines de Cape Vidal. Et un budget maîtrisé autour de ${euros(OBJECTIF)}, avec des logements qu'on peut réserver aujourd'hui et annuler plus tard.</p>
+        <p class="sur">Été 2027 · ${F.jours} jours · ${ETAPES.reduce((s, e) => s + e.nuits, 0)} nuits sur place</p>
+        <h1>${F.titre}</h1>
+        <p class="acc">${F.acc} Et un budget maîtrisé autour de ${euros(OBJECTIF)}, avec des logements qu'on peut réserver aujourd'hui et annuler plus tard.</p>
         <a class="cta" href="${ETAPES[0].fichier}">Commencer le voyage</a>
       </div></div>
     </header>
@@ -216,7 +235,7 @@ function rendreAccueil() {
       <section class="deux">
         <div>
           <h2>La route</h2>
-          <p class="intro">On descend du nord au sud sans jamais revenir sur nos pas, avec un grand paysage différent tous les deux jours.</p>
+          <p class="intro">${F.route}</p>
           <p class="intro"><strong>${f.court}.</strong> ${f.atout}</p>
         </div>
         <div class="carte">${carteRoute()}</div>
@@ -236,7 +255,7 @@ function rendreAccueil() {
         <p class="intro">Le pays demande de la vigilance, surtout dans les grandes villes et sur la route la nuit. Tout notre itinéraire est pensé pour ça : on sait où sont les risques, et on les contourne.</p>
         <div class="rassure">
           <div><h3>Dans les parcs</h3><p>Le Kruger, c'est le cœur du voyage : accès contrôlés aux portes, camps clôturés et gardés la nuit. Ici, la prudence concerne surtout les animaux.</p></div>
-          <div><h3>En ville</h3><p>À Johannesburg, on arrive de jour et on dort à Rosebank. Le soir, on dîne sur place ou on commande un taxi. Soweto, ce sera avec un guide. Et on ne passe pas par le centre de Durban.</p></div>
+          <div><h3>En ville</h3><p>À Johannesburg, on arrive de jour et on dort à Rosebank. Le soir, on dîne sur place ou on commande un taxi. Soweto, ce sera avec un guide.${F.fin ? " Et on ne passe pas par le centre de Durban." : ""}</p></div>
           <div><h3>Sur la route</h3><p>Jamais de route de nuit : on arrive à chaque étape avant 17h30. On reste sur les grands axes, bagages cachés et réservoir au moins à moitié plein.</p></div>
           <div><h3>En Eswatini</h3><p>L'ambiance y est nettement plus paisible et détendue que dans les grandes villes sud-africaines. La vraie attention, là-bas, c'est la route et les animaux sur la chaussée.</p></div>
         </div>
@@ -251,7 +270,7 @@ function rendreAccueil() {
         </div>
       </section>
       <section>
-        <h2>Les 7 étapes</h2>
+        <h2>Les ${ETAPES.length} étapes</h2>
         <div class="etapes">${ETAPES.map((e, i) => `<a class="vignette" href="${e.fichier}">
           <img src="photos/${e.photos[0]}.jpg" alt="${PHOTOS[e.photos[0]].alt}" loading="lazy">
           <div><small>${i + 1} · ${dateJour(e.debut).toLocaleDateString("fr-FR", { day: "numeric", month: "short" })} · ${e.nuits} nuit${e.nuits > 1 ? "s" : ""}</small><h3>${e.nom}</h3><p>${e.titre}</p></div>
@@ -266,7 +285,7 @@ function rendreAccueil() {
       <section id="budget">
         <h2>Le budget</h2>
         <div class="comptes">
-          <div class="poste fort"><span>Logements choisis<small>14 nuits, réserve privée comprise</small></span><b>${euros(logement)}</b></div>
+          <div class="poste fort"><span>Logements choisis<small>${ETAPES.reduce((s, e) => s + e.nuits, 0)} nuits, réserve privée comprise</small></span><b>${euros(logement)}</b></div>
           ${fixes().map(p => `<div class="poste"><span>${p.lien ? `<a href="${p.lien}">${p.poste}</a>` : p.poste}<small>${p.detail}</small></span><b>${euros(p.prix)}</b></div>`).join("")}
           <div class="poste total"><span>Total pour deux</span><b>${euros(total)}</b></div>
         </div>
@@ -296,8 +315,8 @@ function rendreAccueil() {
 }
 
 function lienVoiture() {
-  const a = dateJour(2), b = dateJour(16);
-  const q = new URLSearchParams({ coordinates: "-26.1326,28.2324", dropCoordinates: "-29.6144,31.1164", doDay: b.getUTCDate(), doMonth: b.getUTCMonth() + 1, doYear: b.getUTCFullYear(), doHour: 12, doMinute: 0, puDay: a.getUTCDate(), puMonth: a.getUTCMonth() + 1, puYear: a.getUTCFullYear(), puHour: 15, puMinute: 0, driversAge: 35, ftsType: "A", dropFtsType: "A", location: "", dropLocation: "", locationName: "Aéroport OR Tambo de Johannesbourg", locationIata: "JNB", dropLocationName: "Aéroport international King Shaka", dropLocationIata: "DUR", prefcurrency: "EUR", preflang: "fr", filterCriteria_carCategory: "suvs", filterCriteria_transmission: "AUTOMATIC", filterCriteria_sortBy: "PRICE", filterCriteria_sortAscending: "true" });
+  const a = dateJour(2), b = dateJour(F.jours), [dc, dn, di, dh] = F.voiture.drop;
+  const q = new URLSearchParams({ coordinates: "-26.1326,28.2324", dropCoordinates: dc, doDay: b.getUTCDate(), doMonth: b.getUTCMonth() + 1, doYear: b.getUTCFullYear(), doHour: dh, doMinute: 0, puDay: a.getUTCDate(), puMonth: a.getUTCMonth() + 1, puYear: a.getUTCFullYear(), puHour: 15, puMinute: 0, driversAge: 35, ftsType: "A", dropFtsType: "A", location: "", dropLocation: "", locationName: "Aéroport OR Tambo de Johannesbourg", locationIata: "JNB", dropLocationName: dn, dropLocationIata: di, prefcurrency: "EUR", preflang: "fr", filterCriteria_carCategory: "suvs", filterCriteria_transmission: "AUTOMATIC", filterCriteria_sortBy: "PRICE", filterCriteria_sortAscending: "true" });
   return `https://www.rentalcars.com/search-results?${q}`;
 }
 
@@ -314,7 +333,7 @@ function rendreVoiture() {
       <p>${o.pitch}</p>
       <p class="retours ${o.vigilance ? "vigilance" : ""}">${o.retours}</p>
       <div class="chiffres">
-        <span>Location 14 jours${o.estime ? " (estimé)" : ""}<b>${euros(o.prix)}</b></span>
+        <span>Location ${F.voiture.jours} jours${o.estime ? " (estimé)" : ""}<b>${euros(o.prix)}</b></span>
         <span>Frais Eswatini<b>${euros(o.eswatini)}</b></span>
         <span>Dépôt bloqué<b>${montant(o.depot)}</b></span>
         <span>Franchise<b>${montant(o.franchise)}</b></span>
@@ -329,16 +348,16 @@ function rendreVoiture() {
     <header class="heros">
       <img src="photos/cen1.jpg" alt="${PHOTOS.cen1.alt}">
       <div class="voile"><div class="dedans">
-        <p class="sur">La voiture · Johannesburg → Durban</p>
+        <p class="sur">${F.voiture.sur}</p>
         <h1>Notre maison sur roues</h1>
-        <p class="acc">Quatorze jours, un aller simple et une frontière : une automatique assez haute pour voir par-dessus les herbes du Kruger.</p>
-        <p class="meta">Retrait le ${dateJour(2).toLocaleDateString("fr-FR", fmt)} à l'aéroport · retour le ${dateJour(16).toLocaleDateString("fr-FR", fmt)} à Durban</p>
+        <p class="acc">${F.voiture.acc}</p>
+        <p class="meta">Retrait le ${dateJour(2).toLocaleDateString("fr-FR", fmt)} à l'aéroport · retour le ${dateJour(F.jours).toLocaleDateString("fr-FR", fmt)} ${F.voiture.retour}</p>
       </div></div>
     </header>
     <div class="page">
       <section>
         <h2>Les options comparées</h2>
-        <p class="intro">Prix sur 14 jours depuis le choix du retour le lundi 9 août : relevés sur Rentalcars le 14 novembre 2026 pour Thrifty, Hertz et Europcar, estimés au prorata du relevé du 12 novembre pour les autres. Dépôts et franchises du 12 novembre, et du 31 octobre pour une partie des dépôts et franchises, avec annulation gratuite, pour un retrait à Johannesburg et un retour à Durban. Le lien ouvre la recherche à nos dates, où l'on retrouve le loueur voulu. Notre choix met à jour le budget. Conversion à 18,5 ZAR pour 1 €.</p>
+        <p class="intro">${F.voiture.intro} Le lien ouvre la recherche à nos dates, où l'on retrouve le loueur voulu. Notre choix met à jour le budget. Conversion à 18,5 ZAR pour 1 €.</p>
         <p><a class="cta" href="${lienVoiture()}" target="_blank" rel="noopener">Réserver sur Rentalcars</a></p>
         <div class="grille">${VOITURES.map(fiche).join("")}</div>
       </section>
@@ -362,7 +381,7 @@ function rendreVoiture() {
       <section class="savoir">
         <h2>À vérifier avant de payer</h2>
         <ul>
-          <li>Le prix inclut bien l'aller simple Johannesburg → Durban.</li>
+          ${F.fin ? "<li>Le prix inclut bien l'aller simple Johannesburg → Durban.</li>" : ""}
           <li>Les frais Eswatini sont facturés une seule fois, et le loueur fournit la lettre d'autorisation de sortie.</li>
           <li>Le type de carte exigé pour le dépôt.</li>
           <li>La couverture des pneus, des vitres et des pistes, et le coût d'un rachat de franchise, non compté dans le budget.</li>
@@ -378,7 +397,7 @@ function rendreVoiture() {
         <a class="droite" href="vols.html"><small>Ensuite →</small>Les vols</a>
       </nav>
     </div>`;
-  document.querySelectorAll("[data-v]").forEach(b => b.onclick = () => { etat.voiture = b.dataset.v; sauver(); rendre(); });
+  document.querySelectorAll("[data-v]").forEach(b => b.onclick = () => { etat.voiture[B()] = b.dataset.v; sauver(); rendre(); });
 }
 
 function rendreVols() {
@@ -405,12 +424,12 @@ function rendreVols() {
   };
   document.getElementById("contenu").innerHTML = `
     <header class="heros">
-      <img src="photos/luc1.jpg" alt="${PHOTOS.luc1.alt}">
+      <img src="photos/${F.fin ? "luc1" : "jnb1"}.jpg" alt="${PHOTOS[F.fin ? "luc1" : "jnb1"].alt}">
       <div class="voile"><div class="dedans">
-        <p class="sur">Les vols · Paris → Johannesburg, Durban → Paris</p>
+        <p class="sur">${F.vols.sur}</p>
         <h1>Les vols, à optimiser</h1>
         <p class="acc">Environ ${euros(coutVol(v))} à deux sur ${euros(totalFixes() + totalLogements())} : c'est ici que quelques heures ou un jour de décalage pèsent le plus.</p>
-        <p class="meta">Départ de Paris le ${dateFr(FENETRES[etat.fenetre].depart)} au soir · retour de Durban le ${dateJour(16).toLocaleDateString("fr-FR", { day: "numeric", month: "long" })}</p>
+        <p class="meta">Départ de Paris le ${dateFr(FENETRES[etat.fenetre].depart)} au soir · retour ${F.vols.retour} le ${dateJour(F.jours).toLocaleDateString("fr-FR", { day: "numeric", month: "long" })}</p>
       </div></div>
     </header>
     <div class="page">
@@ -419,7 +438,7 @@ function rendreVols() {
         <p class="intro">Prix relevés sur Google Flights le ${VOLS_RELEVE}, par personne, en classe économique, au départ de Paris CDG. Rien n'est acheté. Notre choix met à jour le budget. Les bagages viennent du relevé du 31 octobre et sont à relire avant de payer.</p>
         <div class="grille">${VOLS.map(fiche).join("")}</div>
       </section>
-      <section>
+      ${B() === "boucle" ? volsBoucle() : `<section>
         <h2>Et en décalant de quelques jours ?</h2>
         <p class="intro">Trois jours avant et trois jours après nos dates, même relevé. En résumé : notre dimanche de départ est déjà le jour le moins cher, et Emirates ne bouge presque pas. Seul le retour Ethiopian varie vraiment : le dimanche 8 août est son jour le plus cher, d'où notre retour le lundi.</p>
         <h3 class="sous">Aller Paris → Johannesburg</h3>
@@ -435,7 +454,7 @@ function rendreVols() {
           <li><strong>Le billet le moins cher reste l'aller-retour RwandAir par Johannesburg,</strong> à 663 € par personne. En échange, le dernier jour compte deux escales au lieu d'une, et une correspondance à Johannesburg que personne ne garantit.</li>
           <li><strong>Emirates reste à 585 €</strong> du 8 au 11 août, quel que soit le jour.</li>
         </ul>
-      </section>
+      </section>`}
       <section class="savoir">
         <h2>À vérifier avant de payer</h2>
         <ul>
@@ -451,13 +470,50 @@ function rendreVols() {
         <a class="droite" href="index.html#budget"><small>Retour →</small>Notre budget</a>
       </nav>
     </div>`;
-  document.querySelectorAll("[data-vol]").forEach(b => b.onclick = () => { etat.vol = b.dataset.vol; sauver(); rendre(); });
+  document.querySelectorAll("[data-vol]").forEach(b => b.onclick = () => { etat.vol[B()] = b.dataset.vol; sauver(); rendre(); });
+}
+
+function volsBoucle() {
+  const l = (t, s, p, nous) => `<div class="${nous ? "nous" : ""}"><span>${t}${nous ? " · notre date" : ""}<small>${s}</small></span><b>${euros(p)}</b></div>`;
+  return `<section>
+        <h2>Le prix dépend du jour du retour</h2>
+        <p class="intro">Aller-retour RwandAir Paris ↔ Johannesburg, par personne, même relevé. Le billet est à 663 € tant qu'on rentre avant le lundi férié du 9 août, puis il prend plus de 200 €.</p>
+        <div class="trajets jours-vols">
+          ${l("Retour le samedi 7 août", "départ le dimanche 25 juillet", 663)}
+          ${l("Retour le dimanche 8 août", "départ le dimanche 25 juillet", 663, true)}
+          ${l("Retour le lundi 9 août", "départ le dimanche 25 ou le lundi 26 juillet", 918)}
+          ${l("Retour le mardi 10 août", "départ le dimanche 25 juillet", 875)}
+          ${l("Retour le dimanche 8 août", "départ le samedi 24 juillet", 785)}
+        </div>
+      </section>
+      <section class="savoir">
+        <h2>Ce que cette version change</h2>
+        <ul>
+          <li><strong>Un seul billet, donc aucune correspondance à risque :</strong> pas de vol intérieur, pas de valises à réenregistrer.</li>
+          <li><strong>Le dernier jour se passe sans route :</strong> on dort à Johannesburg la veille, et l'aéroport est à 35 minutes.</li>
+          <li><strong>La plus longue étape est la veille du départ :</strong> environ 374 km depuis l'Eswatini, sans avion à attraper ce jour-là.</li>
+          <li><strong>Ce qu'on perd :</strong> St Lucia, Cape Vidal, la croisière sur l'estuaire et les rhinocéros de Hluhluwe-iMfolozi. Et un jour sur place par rapport à la base Durban.</li>
+        </ul>
+      </section>`;
+}
+
+function rendreAbsente() {
+  const e = ETAPES_TOUTES[+pageBrute], autre = Object.keys(FENETRES).find(k => k === e.seulement);
+  document.title = `${e.nom} · Afrique du Sud 2027`;
+  document.getElementById("contenu").innerHTML = `<div class="page"><section>
+    <h2>${e.nom} n'est pas dans cette version</h2>
+    <p class="intro">Cette étape fait partie de la version « ${FENETRES[autre].court} ». On peut y revenir d'un clic, ou continuer dans la version « ${F.court} ».</p>
+    <p><button class="cta" id="changer">Voir la version « ${FENETRES[autre].court} »</button></p>
+    <nav class="suite"><a href="index.html"><small>← Vue d'ensemble</small>Le voyage</a></nav>
+  </section></div>`;
+  document.getElementById("changer").onclick = () => { etat.fenetre = autre; sauver(); rendre(); };
 }
 
 function rendre() {
+  activer();
   const y = scrollY;
   entete();
-  vue === "vols" ? rendreVols() : vue === "voiture" ? rendreVoiture() : page === undefined ? rendreAccueil() : rendreEtape();
+  vue === "vols" ? rendreVols() : vue === "voiture" ? rendreVoiture() : page === undefined ? rendreAccueil() : page === -1 ? rendreAbsente() : rendreEtape();
   piedBudget();
   scrollTo(0, y);
 }
