@@ -318,7 +318,7 @@ function rendreAccueil() {
 }
 
 function lienVoiture() {
-  const a = dateJour(2), b = dateJour(F.jours), [dc, dn, di, dh] = F.voiture.drop;
+  const a = dateJour(2), b = dateJour(F.voiture.jourRetour || F.jours), [dc, dn, di, dh] = F.voiture.drop;
   const q = new URLSearchParams({ coordinates: "-26.1326,28.2324", dropCoordinates: dc, doDay: b.getUTCDate(), doMonth: b.getUTCMonth() + 1, doYear: b.getUTCFullYear(), doHour: dh, doMinute: 0, puDay: a.getUTCDate(), puMonth: a.getUTCMonth() + 1, puYear: a.getUTCFullYear(), puHour: 15, puMinute: 0, driversAge: 35, ftsType: "A", dropFtsType: "A", location: "", dropLocation: "", locationName: "Aéroport OR Tambo de Johannesbourg", locationIata: "JNB", dropLocationName: dn, dropLocationIata: di, prefcurrency: "EUR", preflang: "fr", filterCriteria_carCategory: "suvs", filterCriteria_transmission: "AUTOMATIC", filterCriteria_sortBy: "PRICE", filterCriteria_sortAscending: "true" });
   return `https://www.rentalcars.com/search-results?${q}`;
 }
@@ -354,7 +354,7 @@ function rendreVoiture() {
         <p class="sur">${F.voiture.sur}</p>
         <h1>Notre maison sur roues</h1>
         <p class="acc">${F.voiture.acc}</p>
-        <p class="meta">Retrait le ${dateJour(2).toLocaleDateString("fr-FR", fmt)} à l'aéroport · retour le ${dateJour(F.jours).toLocaleDateString("fr-FR", fmt)} ${F.voiture.retour}</p>
+        <p class="meta">Retrait le ${dateJour(2).toLocaleDateString("fr-FR", fmt)} à l'aéroport · retour le ${dateJour(F.voiture.jourRetour || F.jours).toLocaleDateString("fr-FR", fmt)} ${F.voiture.retour}</p>
       </div></div>
     </header>
     <div class="page">
