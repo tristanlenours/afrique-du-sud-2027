@@ -12,7 +12,7 @@ const FENETRES = {
 
 // Postes hors logement, repris du budget consolidé de la fiche.
 const FIXES = [
-  { poste: "Vols Paris → Johannesburg + Durban → Paris", detail: "RwandAir 525 € + Emirates 582 € par personne (relevé du 31 octobre 2026), zéro vol intérieur", prix: 2214 },
+  { poste: "Vols depuis Paris, pour deux", vols: true },
   { poste: "Trajet jusqu'à Paris CDG", detail: "Train ou voiture, pour deux", prix: 200 },
   { poste: "SUV automatique, essence, péages", voiture: true },
   { poste: "Droits d'entrée du Kruger", detail: "4 jours à 692 ZAR par adulte", prix: 300 },
@@ -217,6 +217,56 @@ const ETAPES = [
 
 // Liaisons entre étapes. Tronçons du canyon : calcul OSRM du 1er novembre 2026. Skukuza → Eswatini : calcul OSRM du 12 novembre 2026.
 // Le reste reprend le programme. dx, dy : position de l'étiquette sur la carte.
+// Vols : relevé Google Flights du 14 novembre 2026, prix par personne en classe économique, 1 adulte, au départ de Paris CDG.
+// Bagages : repris du relevé du 31 octobre 2026, non relus.
+const VOLS_RELEVE = "14 novembre 2026";
+const GF = q => "https://www.google.com/travel/flights/search?q=" + encodeURIComponent(q) + "&curr=EUR&hl=fr";
+const VOLS = [
+  { id: "rwandair-emirates", nom: "RwandAir à l'aller, Emirates au retour", sous: "Deux allers simples · aucun vol intérieur",
+    pitch: "Notre choix actuel. On atterrit à Johannesburg et on repart de Durban à 18h40, ce qui laisse le matin du 8 août pour Cape Vidal.",
+    retours: "Le retour le plus confortable (A380 entre Dubaï et Paris), pour 37 € de plus par personne qu'Ethiopian le même jour.",
+    lignes: [["Aller", "CDG 21h30 → Johannesburg 13h55 le lendemain, escale de 3h55 à Kigali", 527], ["Retour", "Durban 18h40 → CDG 13h35 le lendemain, escale de 3h20 à Dubaï", 585]],
+    bagages: "2 × 23 kg à l'aller, 1 × 23 kg au retour",
+    liens: [["Voir l'aller", "vol aller simple Paris CDG Johannesburg JNB 25 juillet 2027"], ["Voir le retour", "vol aller simple Durban Paris 8 août 2027"]] },
+  { id: "rwandair-ethiopian", nom: "RwandAir à l'aller, Ethiopian au retour", sous: "Deux allers simples · aucun vol intérieur",
+    pitch: "74 € de moins à deux, et une arrivée à Paris tôt le lundi matin.",
+    retours: "Départ de Durban à 14h15 : il faut quitter St Lucia vers 8h30 et renoncer à Cape Vidal le matin du 8 août.", vigilance: true,
+    lignes: [["Aller", "CDG 21h30 → Johannesburg 13h55 le lendemain, escale de 3h55 à Kigali", 527], ["Retour", "Durban 14h15 → CDG 6h45 le lendemain, escale de 3h05 à Addis-Abeba", 548]],
+    bagages: "2 × 23 kg dans les deux sens",
+    liens: [["Voir l'aller", "vol aller simple Paris CDG Johannesburg JNB 25 juillet 2027"], ["Voir le retour", "vol aller simple Durban Paris 8 août 2027"]] },
+  { id: "rwandair-ar-interne", nom: "Aller-retour RwandAir, plus un vol Durban → Johannesburg", sous: "Un aller-retour et un billet intérieur séparé",
+    pitch: "De loin le moins cher : 768 € de moins à deux que notre choix actuel.",
+    retours: "Deux billets séparés : si le vol intérieur a du retard, RwandAir ne nous attend pas, et il faut récupérer puis réenregistrer les valises à Johannesburg. Le vol de 13h25 laisse 3h10 de marge ; celui de 11h00 (South African, 73 €) en laisse 5h35 mais fait partir de St Lucia vers 6h45. Dans les deux cas, plus de Cape Vidal le 8 août. Bagage en soute du vol intérieur non vérifié.", vigilance: true,
+    lignes: [["Aller-retour", "CDG 21h30 → Johannesburg 13h55 le lendemain ; retour Johannesburg 17h45 → CDG 9h30 le lendemain, escales à Kigali", 663], ["Vol intérieur", "FlySafair, Durban 13h25 → Johannesburg 14h35, le 8 août", 65]],
+    bagages: "2 × 23 kg sur RwandAir ; vol intérieur à vérifier",
+    liens: [["Voir l'aller-retour", "vol Paris CDG Johannesburg JNB 25 juillet 2027 retour 8 août 2027"], ["Voir le vol intérieur", "vol aller simple Durban Johannesburg 8 août 2027"]] },
+  { id: "algerie-emirates", nom: "Air Algérie à l'aller, Emirates au retour", sous: "Deux allers simples · arrivée le matin",
+    pitch: "150 € de plus à deux pour atterrir à 8h50 : la journée du 26 juillet s'ouvre, avec Soweto et le musée de l'Apartheid.",
+    retours: "Aucun avis lu sur Air Algérie, ni sur ses bagages : à vérifier avant d'y penser sérieusement. British Airways arrive aussi le matin (9h25), à 784 € l'aller.", vigilance: true,
+    lignes: [["Aller", "CDG 18h00 → Johannesburg 8h50 le lendemain, escale de 3h15 à Alger", 602], ["Retour", "Durban 18h40 → CDG 13h35 le lendemain, escale de 3h20 à Dubaï", 585]],
+    bagages: "Aller non vérifié, 1 × 23 kg au retour",
+    liens: [["Voir l'aller", "vol aller simple Paris CDG Johannesburg JNB 25 juillet 2027"], ["Voir le retour", "vol aller simple Durban Paris 8 août 2027"]] },
+];
+// Prix par personne selon le jour. null : pas d'offre affichée ou prix non relevé.
+const VOLS_ALLER = [
+  { d: "2027-07-22", rwandair: 577, autre: "Kenya Airways 558 €, mais 24 h de trajet" },
+  { d: "2027-07-23", rwandair: null, autre: "Turkish Airlines 657 €" },
+  { d: "2027-07-24", rwandair: 577, autre: "Turkish Airlines 657 €, 28 h de trajet" },
+  { d: "2027-07-25", rwandair: 527, autre: "Air Algérie 602 €, arrivée 8h50", nous: true },
+  { d: "2027-07-26", rwandair: 527, autre: "British Airways 692 €, arrivée 9h25" },
+  { d: "2027-07-27", rwandair: 577, autre: "Air Algérie 602 €, arrivée 8h50" },
+  { d: "2027-07-28", rwandair: null, autre: "Turkish Airlines 657 €" },
+];
+const VOLS_RETOUR = [
+  { d: "2027-08-05", ethiopian: 454, emirates: 597 },
+  { d: "2027-08-06", ethiopian: 486, emirates: 597 },
+  { d: "2027-08-07", ethiopian: 486, emirates: null },
+  { d: "2027-08-08", ethiopian: 548, emirates: 585, nous: true },
+  { d: "2027-08-09", ethiopian: 454, emirates: 585 },
+  { d: "2027-08-10", ethiopian: 454, emirates: 585 },
+  { d: "2027-08-11", ethiopian: 454, emirates: 585 },
+];
+
 const ROUTE = [
   { de: "Aéroport", a: "Rosebank", km: 45, txt: "45 km · 35 min" },
   { de: "Rosebank", a: "Canyon", km: 410, txt: "~410 km · 5h30", dx: -62, dy: 44 },

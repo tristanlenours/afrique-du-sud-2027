@@ -1,6 +1,6 @@
 // Carnet de voyage : rendu des pages, choix des logements et budget en direct.
 const CLE = "safari-2027-25-juillet";
-const etat = { fenetre: "f2", choix: {}, voiture: VOITURES[0].id };
+const etat = { fenetre: "f2", choix: {}, voiture: VOITURES[0].id, vol: VOLS[0].id };
 const page = document.body.dataset.etape;
 const vue = document.body.dataset.vue;
 
@@ -12,6 +12,7 @@ function lire() {
     m[2].split("-").forEach((v, i) => {
       if (ETAPES[i]?.options[+v]) etat.choix[i] = ETAPES[i].options[+v].id;
       if (i === ETAPES.length && VOITURES[+v]) etat.voiture = VOITURES[+v].id;
+      if (i === ETAPES.length + 1 && VOLS[+v]) etat.vol = VOLS[+v].id;
     });
     sauver();
   }
@@ -32,7 +33,10 @@ function choisi(i) {
 const cout = (o) => o.prix[etat.fenetre] + (o.taxe || 0);
 const voiture = () => VOITURES.find(v => v.id === etat.voiture) || VOITURES[0];
 const coutVoiture = v => v.prix + v.eswatini + CARBURANT;
+const vol = () => VOLS.find(v => v.id === etat.vol) || VOLS[0];
+const coutVol = v => 2 * v.lignes.reduce((s, l) => s + l[2], 0);
 const fixes = () => FIXES.map(f => {
+  if (f.vols) { const a = vol(); return { ...f, lien: "vols.html", prix: coutVol(a), detail: `${a.nom} : ${a.lignes.map(l => `${l[0].toLowerCase()} ${l[2]} €`).join(" + ")} par personne (relevé du ${VOLS_RELEVE})` }; }
   if (!f.voiture) return f;
   const v = voiture();
   return { ...f, lien: "location-voiture.html", prix: coutVoiture(v), detail: `${v.loueur}, ${v.modele}, 13 jours : ${v.prix} € + ${v.eswatini} € de frais Eswatini + ~${CARBURANT} € d'essence et de péages, franchise non rachetée` };
@@ -79,6 +83,7 @@ function fil() {
     <a href="index.html" class="${page === undefined && !vue ? "actif" : ""}"><b>★</b><span>Le voyage</span></a>
     ${ETAPES.map((e, i) => `<a href="${e.fichier}" class="${+page === i ? "actif" : ""}"><b>${i + 1}</b><span>${e.court}</span></a>`).join("")}
     <a href="location-voiture.html" class="${vue === "voiture" ? "actif" : ""}"><b>🚙</b><span>Voiture</span></a>
+    <a href="vols.html" class="${vue === "vols" ? "actif" : ""}"><b>✈</b><span>Vols</span></a>
   </nav>`;
 }
 
@@ -188,7 +193,7 @@ function rendreAccueil() {
   const limites = ETAPES.map((e, i) => { const o = choisi(i); return { e, o, d: o.annul.type === "free" ? o.annul[etat.fenetre] : null }; });
   const prems = limites.filter(l => l.d).sort((a, b) => a.d.localeCompare(b.d))[0];
   const aConfirmer = limites.filter(l => !l.d);
-  const code = [...ETAPES.map((e, i) => e.options.indexOf(choisi(i))), VOITURES.indexOf(voiture())].join("-");
+  const code = [...ETAPES.map((e, i) => e.options.indexOf(choisi(i))), VOITURES.indexOf(voiture()), VOLS.indexOf(vol())].join("-");
   const lien = `${location.origin}${location.pathname}#nos-choix-${etat.fenetre}-${code}`;
   document.title = "Afrique du Sud 2027 · Notre voyage";
   document.getElementById("contenu").innerHTML = `
@@ -272,7 +277,7 @@ function rendreAccueil() {
         <ol class="plan">
           <li><strong>Maintenant : Booking, en tarif annulable.</strong> On ne paie souvent rien avant la date limite indiquée sur chaque logement. À vérifier sur la page de réservation.</li>
           <li><strong>En parallèle : SANParks pour Satara et Lower Sabie.</strong> Les réservations sont ouvertes pour juillet 2027 et les bungalows face à la rivière partent vite. Le barème publié ne retient rien à 31 jours ou plus, à reconfirmer avant de payer.</li>
-          <li><strong>Une fois les dates arrêtées : les vols.</strong> Ce sont eux qui nous engagent : ces billets ne sont pas annulables gratuitement, sauf tarif flexible.</li>
+          <li><strong>Une fois les dates arrêtées : <a href="vols.html">les vols</a>.</strong> Ce sont eux qui nous engagent : ces billets ne sont pas annulables gratuitement, sauf tarif flexible.</li>
           <li><strong>Au printemps 2027 : <a href="location-voiture.html">le SUV</a>,</strong> puis une dernière vérification de chaque logement avant ${prems ? dateFr(prems.d) : "la première échéance"}.</li>
         </ol>
         ${aConfirmer.length ? `<p class="alerte">À confirmer avant de payer : ${aConfirmer.map(l => l.o.nom).join(", ")}.</p>` : ""}
@@ -370,16 +375,88 @@ function rendreVoiture() {
       </section>
       <nav class="suite">
         <a href="${ETAPES[ETAPES.length - 1].fichier}"><small>← Étape ${ETAPES.length}</small>${ETAPES[ETAPES.length - 1].nom}</a>
-        <a class="droite" href="index.html#budget"><small>Retour →</small>Notre budget</a>
+        <a class="droite" href="vols.html"><small>Ensuite →</small>Les vols</a>
       </nav>
     </div>`;
   document.querySelectorAll("[data-v]").forEach(b => b.onclick = () => { etat.voiture = b.dataset.v; sauver(); rendre(); });
 }
 
+function rendreVols() {
+  const v = vol();
+  document.title = "Vols · Afrique du Sud 2027";
+  const jour = d => dateFr(d, { weekday: "short", day: "numeric", month: "long" });
+  const prix = n => n == null ? "—" : euros(n);
+  const fiche = o => {
+    const pris = o.id === v.id, diff = coutVol(o) - coutVol(v);
+    return `<article class="logement ${pris ? "pris" : ""}">
+      <div class="ligne"><h3>${o.nom}</h3></div>
+      <p class="zone">${o.sous}</p>
+      <p>${o.pitch}</p>
+      <p class="retours ${o.vigilance ? "vigilance" : ""}">${o.retours}</p>
+      ${o.lignes.map(([n, d, p]) => `<p class="petit"><strong>${n} · ${euros(p)} par personne.</strong> ${d}.</p>`).join("")}
+      <p class="petit"><strong>Bagages en soute.</strong> ${o.bagages}.</p>
+      <div class="action">
+        <div class="prix"><strong>${euros(coutVol(o))}</strong><small>pour nous deux</small>${!pris && diff ? `<small class="delta">${diff > 0 ? "+" : "−"}${euros(Math.abs(diff))} sur le total</small>` : ""}</div>
+        <div class="boutons">${o.liens.map(([t, q]) => `<a class="lien" href="${GF(q)}" target="_blank" rel="noopener">${t}</a>`).join("")}<button class="choisir" data-vol="${o.id}" aria-pressed="${pris}">${pris ? "✓ Notre choix" : "Choisir"}</button></div>
+      </div>
+    </article>`;
+  };
+  document.getElementById("contenu").innerHTML = `
+    <header class="heros">
+      <img src="photos/luc1.jpg" alt="${PHOTOS.luc1.alt}">
+      <div class="voile"><div class="dedans">
+        <p class="sur">Les vols · Paris → Johannesburg, Durban → Paris</p>
+        <h1>Le plus gros poste, à optimiser</h1>
+        <p class="acc">Environ ${euros(coutVol(v))} à deux sur ${euros(totalFixes() + totalLogements())} : c'est ici que quelques heures ou un jour de décalage pèsent le plus.</p>
+        <p class="meta">Départ de Paris le ${dateFr(FENETRES[etat.fenetre].depart)} au soir · retour de Durban le ${dateJour(15).toLocaleDateString("fr-FR", { day: "numeric", month: "long" })}</p>
+      </div></div>
+    </header>
+    <div class="page">
+      <section>
+        <h2>Les scénarios comparés</h2>
+        <p class="intro">Prix relevés sur Google Flights le ${VOLS_RELEVE}, par personne, en classe économique, au départ de Paris CDG. Rien n'est acheté. Notre choix met à jour le budget. Les bagages viennent du relevé du 31 octobre et sont à relire avant de payer.</p>
+        <div class="grille">${VOLS.map(fiche).join("")}</div>
+      </section>
+      <section>
+        <h2>Et en décalant de quelques jours ?</h2>
+        <p class="intro">Trois jours avant et trois jours après nos dates, même relevé. En résumé : notre dimanche de départ est déjà le jour le moins cher, et Emirates ne bouge presque pas. Seul le retour Ethiopian varie vraiment : le dimanche 8 août est son jour le plus cher.</p>
+        <h3 class="sous">Aller Paris → Johannesburg</h3>
+        <div class="trajets jours-vols">${VOLS_ALLER.map(a => `<div class="${a.nous ? "nous" : ""}"><span>${jour(a.d)}${a.nous ? " · notre date" : ""}<small>${a.autre}</small></span><b>${a.rwandair == null ? "Pas de RwandAir" : "RwandAir " + euros(a.rwandair)}</b></div>`).join("")}</div>
+        <h3 class="sous">Retour Durban → Paris</h3>
+        <div class="trajets jours-vols">${VOLS_RETOUR.map(r => `<div class="${r.nous ? "nous" : ""}"><span>${jour(r.d)}${r.nous ? " · notre date" : ""}<small>Emirates 18h40 : ${r.emirates == null ? "non relevé" : euros(r.emirates)}</small></span><b>Ethiopian ${prix(r.ethiopian)}</b></div>`).join("")}</div>
+      </section>
+      <section class="savoir">
+        <h2>Ce qu'on peut en tirer</h2>
+        <ul>
+          <li><strong>Partir un autre jour ne rapporte rien.</strong> RwandAir est à 527 € le dimanche 25 et le lundi 26 juillet, à 577 € les autres jours, et absent le vendredi et le mercredi.</li>
+          <li><strong>Rentrer le lundi 9 août avec Ethiopian : 454 € au lieu de 548 €.</strong> Avec l'aller RwandAir, cela fait 1 962 € à deux, soit 262 € de moins que notre choix. Mais il faut une nuit de plus, un 14ᵉ jour de voiture, et on arrive à Paris le mardi 10 : le gain réel est bien plus faible.</li>
+          <li><strong>Tout décaler d'un jour</strong> (départ le lundi 26 juillet, retour le lundi 9 août) donnerait les mêmes 1 962 € sans nuit en plus, mais oblige à revérifier chaque logement, dont les bungalows du Kruger et le lodge.</li>
+          <li><strong>Le vrai levier n'est pas la date, c'est le billet :</strong> l'aller-retour RwandAir par Johannesburg coûte 663 € par personne, contre 1 112 € pour nos deux allers simples. Il se paie en confort et en risque le dernier jour.</li>
+          <li><strong>Emirates reste à 585 €</strong> du 8 au 11 août : aucun gain à décaler si l'on garde ce retour.</li>
+        </ul>
+      </section>
+      <section class="savoir">
+        <h2>À vérifier avant de payer</h2>
+        <ul>
+          <li>Les billets ne sont pas annulables gratuitement, sauf tarif flexible : on les achète une fois les logements calés.</li>
+          <li>Le prix affiché est pour un adulte ; à deux, il peut différer de quelques euros s'il ne reste qu'une place au tarif le plus bas.</li>
+          <li>La franchise de bagages de chaque billet, surtout sur le vol intérieur et sur Air Algérie.</li>
+          <li>Google Flights annonçait le ${VOLS_RELEVE} des prix bas pour l'aller, 128 € sous le niveau habituel, et un aller à partir de 457 € que je n'ai pas identifié dans la liste.</li>
+          <li>Les départs de Nantes ou de Brest n'ont pas été relevés à nouveau : le 31 octobre, ils coûtaient 700 à 1 300 € de plus à deux.</li>
+        </ul>
+      </section>
+      <nav class="suite">
+        <a href="location-voiture.html"><small>← La voiture</small>Location de voiture</a>
+        <a class="droite" href="index.html#budget"><small>Retour →</small>Notre budget</a>
+      </nav>
+    </div>`;
+  document.querySelectorAll("[data-vol]").forEach(b => b.onclick = () => { etat.vol = b.dataset.vol; sauver(); rendre(); });
+}
+
 function rendre() {
   const y = scrollY;
   entete();
-  vue === "voiture" ? rendreVoiture() : page === undefined ? rendreAccueil() : rendreEtape();
+  vue === "vols" ? rendreVols() : vue === "voiture" ? rendreVoiture() : page === undefined ? rendreAccueil() : rendreEtape();
   piedBudget();
   scrollTo(0, y);
 }
@@ -390,8 +467,8 @@ if (location.hash && !location.hash.startsWith("#nos-choix")) document.querySele
 document.querySelector(".fil .actif")?.scrollIntoView({ inline: "center", block: "nearest" });
 addEventListener("keydown", e => {
   if (e.target.matches("input,textarea") || e.altKey || e.ctrlKey || e.metaKey) return;
-  const fichiers = ["index.html", ...ETAPES.map(x => x.fichier), "location-voiture.html"];
-  const n = vue === "voiture" ? fichiers.length - 1 : page === undefined ? 0 : +page + 1;
+  const fichiers = ["index.html", ...ETAPES.map(x => x.fichier), "location-voiture.html", "vols.html"];
+  const n = vue === "vols" ? fichiers.length - 1 : vue === "voiture" ? fichiers.length - 2 : page === undefined ? 0 : +page + 1;
   const dest = e.key === "ArrowRight" ? fichiers[n + 1] : e.key === "ArrowLeft" ? fichiers[n - 1] : null;
   if (dest) location.href = dest;
 });
