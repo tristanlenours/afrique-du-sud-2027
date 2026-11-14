@@ -59,7 +59,7 @@ const fixes = () => FIXES.map(f => {
   if (!f.voiture) return { ...f, prix: val(f.prix), detail: val(f.detail) };
   const v = voiture();
   return { ...f, lien: "location-voiture.html", prix: coutVoiture(v), detail: `${v.loueur}, ${v.modele}, ${F.voiture.jours} jours : ${v.prix} € + ${v.eswatini} € de frais Eswatini + ~${val(CARBURANT)} € d'essence et de péages, franchise non rachetée` };
-});
+}).filter(f => f.prix !== 0);
 const totalFixes = () => fixes().reduce((s, f) => s + f.prix, 0);
 const totalLogements = () => ETAPES.reduce((s, e, i) => s + cout(choisi(i)), 0);
 
@@ -192,20 +192,21 @@ const trajets = () => `<div class="trajets">${ROUTE.map(r => `<div><span>${r.de}
 function carteRoute() {
   const X = l => (l - 27.6) * 92, Y = l => (-l - 23.8) * 105;
   const pts = ETAPES.map(e => [X(e.carte[0]), Y(e.carte[1])]);
-  const d = F.fin ? [X(31.12), Y(-29.6)] : null;
-  const arrets = d ? [...pts, d] : pts;
+  const d = F.fin ? [X(F.fin.carte[0]), Y(F.fin.carte[1])] : null;
+  const chemin = pts.filter((p, i) => !ETAPES[i].horsCarte), arrets = d ? [...chemin, d] : chemin;
+  const retour = ETAPES.some(e => e.horsCarte);
   const liaisons = ROUTE.slice(1).map((r, n) => {
     if (!arrets[n + 1]) return "";
     const x = (arrets[n][0] + arrets[n + 1][0]) / 2 + r.dx, y = (arrets[n][1] + arrets[n + 1][1]) / 2 + r.dy, l = r.txt.length * 7 + 14;
     return `<g class="liaison"><rect x="${(x - l / 2).toFixed(0)}" y="${(y - 12).toFixed(0)}" width="${l}" height="23" rx="11"/><text x="${x.toFixed(0)}" y="${(y + 4).toFixed(0)}">${r.txt}</text></g>`;
   }).join("");
-  const places = { 1: [-21, 5, "end"], 2: [-8, -20, "end"], 3: [22, 5, "start"], 4: [22, 5, "start"], 5: [-21, 5, "end"], 6: [22, 5, "start"], 7: d ? null : [0, 34, "middle"] };
+  const places = { 1: [-21, 5, "end"], 2: [-8, -20, "end"], 3: [22, 5, "start"], 4: [22, 5, "start"], 5: [-21, 5, "end"], 6: [22, 5, "start"] };
   return `<svg viewBox="0 0 600 ${d ? 650 : 560}" role="img" aria-label="Itinéraire au départ de Johannesburg, avec distances et temps de route">
     <path d="M${arrets.map(p => p.map(n => n.toFixed(0)).join(" ")).join(" L")}" class="trace"/>
-    ${d ? `<text x="${d[0] + 14}" y="${d[1] + 5}" class="ville">Durban, vol retour</text><circle cx="${d[0]}" cy="${d[1]}" r="6" class="fin"/>` : ""}
+    ${d ? `<text x="${d[0] + (retour ? -14 : 14)}" y="${d[1] + (retour ? 24 : 5)}" class="ville"${retour ? ' text-anchor="end"' : ""}>${F.fin.txt}</text><circle cx="${d[0]}" cy="${d[1]}" r="6" class="fin"/>` : ""}
     ${liaisons}
-    ${ETAPES.map((e, i) => { const [x, y] = pts[i], q = places[i]; return `<a href="${e.fichier}"><circle cx="${x}" cy="${y}" r="15" style="fill:${e.couleur}"/><text x="${x}" y="${y + 5}" class="num">${i + 1}</text>${q ? `<text x="${x + q[0]}" y="${y + q[1]}" class="ville" text-anchor="${q[2]}">${i === 3 ? "Satara" : e.court}</text>` : ""}</a>`; }).join("")}
-    <text x="${pts[0][0] - 30}" y="${pts[0][1] + (d ? 36 : 72)}" class="ville">Johannesburg</text>
+    ${ETAPES.map((e, i) => { const [x, y] = pts[i], q = e.horsCarte ? null : places[i]; return `<a href="${e.fichier}"><circle cx="${x}" cy="${y}" r="15" style="fill:${e.couleur}"/><text x="${x}" y="${y + 5}" class="num">${i + 1}</text>${q ? `<text x="${x + q[0]}" y="${y + q[1]}" class="ville" text-anchor="${q[2]}">${i === 3 ? "Satara" : e.court}</text>` : ""}</a>`; }).join("")}
+    <text x="${pts[0][0] - 30}" y="${pts[0][1] + (retour ? 72 : 36)}" class="ville">Johannesburg</text>
   </svg>`;
 }
 
@@ -383,7 +384,7 @@ function rendreVoiture() {
       <section class="savoir">
         <h2>À vérifier avant de payer</h2>
         <ul>
-          ${F.fin ? "<li>Le prix inclut bien l'aller simple Johannesburg → Durban.</li>" : ""}
+          <li>Le prix inclut bien l'aller simple ${F.voiture.allerSimple}.</li>
           <li>Les frais Eswatini sont facturés une seule fois, et le loueur fournit la lettre d'autorisation de sortie.</li>
           <li>Le type de carte exigé pour le dépôt.</li>
           <li>La couverture des pneus, des vitres et des pistes, et le coût d'un rachat de franchise, non compté dans le budget.</li>
@@ -483,18 +484,24 @@ function volsBoucle() {
         <div class="trajets jours-vols">
           ${l("Départ le jeudi 22 juillet", "retour le samedi 7 ou le dimanche 8 août", euros(785), true)}
           ${l("Départ le samedi 24 juillet", "retour le samedi 7 ou le dimanche 8 août", euros(785))}
-          ${l("Départ le dimanche 25 juillet", "retour le samedi 7 ou le dimanche 8 août : 13 nuits seulement", euros(663))}
+          ${l("Départ le dimanche 25 juillet", "retour le samedi 7 ou le dimanche 8 août : trop court pour tout faire", euros(663))}
           ${l("Départ le dimanche 25 juillet", "retour le lundi 9 août", euros(918))}
           ${l("Départ le mardi 20 juillet", "retour le samedi 7 août", euros(918))}
+        </div>
+        <h3 class="sous">Le vol intérieur du vendredi 6 août</h3>
+        <div class="trajets jours-vols">
+          ${l("Richards Bay → Johannesburg", "deux vols : 12h35 et 18h00 · à 74 km de St Lucia", euros(122), true)}
+          ${l("Durban → Johannesburg", "une trentaine de vols dans la journée · à 212 km de St Lucia", "65 à " + euros(86))}
         </div>
       </section>
       <section class="savoir">
         <h2>Ce que cette version change</h2>
         <ul>
-          <li><strong>Un seul billet, donc aucune correspondance à risque :</strong> pas de vol intérieur, pas de valises à réenregistrer.</li>
-          <li><strong>Tout le programme tient :</strong> St Lucia trois nuits, Hluhluwe-iMfolozi, Cape Vidal, et Soweto en plus le dernier matin.</li>
-          <li><strong>Le dernier jour se passe sans route :</strong> on dort à Johannesburg la veille, et l'aéroport est à 35 minutes.</li>
-          <li><strong>Le prix à payer :</strong> un départ le jeudi 22 juillet, deux nuits de plus, et environ 500 km de route en plus, en deux journées de 372 km et 275 km.</li>
+          <li><strong>Le vol intérieur n'est pas enchaîné avec le long-courrier :</strong> il a lieu la veille, avec une nuit à Johannesburg entre les deux. Un retard ou une annulation se rattrape le soir même.</li>
+          <li><strong>Un seul billet pour Paris,</strong> à l'aller comme au retour, donc aucune valise à réenregistrer le jour du départ.</li>
+          <li><strong>Moins de route chargée de camions :</strong> par Richards Bay, 34 km de N2 le dernier jour, contre 178 km pour rejoindre Durban.</li>
+          <li><strong>Une nuit de plus sur place et Soweto le dernier matin,</strong> pour un retour à Paris le dimanche.</li>
+          <li><strong>Le prix à payer :</strong> un départ le jeudi 22 juillet, et deux derniers jours sans voiture à Johannesburg.</li>
         </ul>
       </section>`;
 }

@@ -5,13 +5,13 @@ const RELEVE = "11 novembre 2026";
 const OBJECTIF = 7000;
 
 const FENETRES = {
-  f2: { label: "Vers Durban", depart: "2027-07-25", court: "Arrivée à Johannesburg, retour de Durban", atout: "Les safaris sont terminés avant le pont férié du 6 au 9 août, qu'on passe au bord de l'océan." , jours: 16, fin: "Durban", titre: "Du canyon à l'océan Indien", acc: "Un carnet pour rêver à deux : les lions du Kruger, les zèbres d'Eswatini, les baleines de Cape Vidal.", route: "On descend du nord au sud sans jamais revenir sur nos pas, avec un grand paysage différent tous les deux jours.",
-    voiture: { sur: "La voiture · Johannesburg → Durban", acc: "Quatorze jours, un aller simple et une frontière : une automatique assez haute pour voir par-dessus les herbes du Kruger.", jours: 14, retour: "à Durban", drop: ["-29.6144,31.1164", "Aéroport international King Shaka", "DUR", 12], intro: "Prix sur 14 jours depuis le choix du retour le lundi 9 août : relevés sur Rentalcars le 14 novembre 2026 pour Thrifty, Hertz et Europcar, estimés au prorata du relevé du 12 novembre pour les autres. Dépôts et franchises du 12 novembre, et du 31 octobre pour une partie, avec annulation gratuite, pour un retrait à Johannesburg et un retour à Durban." },
+  f2: { label: "Sans vol intérieur", depart: "2027-07-25", court: "Arrivée à Johannesburg, retour de Durban", atout: "Les safaris sont terminés avant le pont férié du 6 au 9 août, qu'on passe au bord de l'océan." , jours: 16, fin: { carte: [31.12, -29.6], txt: "Durban, vol retour" }, titre: "Du canyon à l'océan Indien", acc: "Un carnet pour rêver à deux : les lions du Kruger, les zèbres d'Eswatini, les baleines de Cape Vidal.", route: "On descend du nord au sud sans jamais revenir sur nos pas, avec un grand paysage différent tous les deux jours.",
+    voiture: { sur: "La voiture · Johannesburg → Durban", acc: "Quatorze jours, un aller simple et une frontière : une automatique assez haute pour voir par-dessus les herbes du Kruger.", jours: 14, retour: "à Durban", allerSimple: "Johannesburg → Durban", drop: ["-29.6144,31.1164", "Aéroport international King Shaka", "DUR", 12], intro: "Prix sur 14 jours depuis le choix du retour le lundi 9 août : relevés sur Rentalcars le 14 novembre 2026 pour Thrifty, Hertz et Europcar, estimés au prorata du relevé du 12 novembre pour les autres. Dépôts et franchises du 12 novembre, et du 31 octobre pour une partie, avec annulation gratuite, pour un retrait à Johannesburg et un retour à Durban." },
     vols: { sur: "Les vols · Paris → Johannesburg, Durban → Paris", retour: "de Durban" } },
-  boucle: { label: "Boucle", comme: "f2", depart: "2027-07-22", court: "Boucle par Johannesburg", atout: "Un seul aller-retour, une voiture rendue là où on l'a prise, tout le programme de la base Durban, et un dernier jour sans route : Soweto le matin, l'avion le soir. En échange, un départ trois jours plus tôt et deux journées de route en plus.", jours: 18, fin: null, annulARelire: true, titre: "Du canyon à l'océan Indien, en boucle", acc: "Un carnet pour rêver à deux : les lions du Kruger, les zèbres d'Eswatini, les baleines de Cape Vidal, puis Soweto avant l'envol.", route: "Une boucle au départ de Johannesburg : on monte vers le canyon, on descend le Kruger, on traverse l'Eswatini jusqu'à l'océan, puis on remonte par les hauts plateaux. Version créée le 14 novembre 2026 pour être comparée à la base Durban.",
-    note: "Version boucle : tout est avancé de trois jours par rapport à la base Durban. Les disponibilités ont été relevées le 14 novembre 2026 ; certaines remarques datées de cette page décrivent encore la base Durban.",
-    voiture: { sur: "La voiture · Johannesburg → Johannesburg", acc: "Seize jours, une boucle et une frontière : une automatique assez haute pour voir par-dessus les herbes du Kruger.", jours: 16, retour: "à Johannesburg", drop: ["-26.1326,28.2324", "Aéroport OR Tambo de Johannesbourg", "JNB", 14], intro: "Relevé Rentalcars du 14 novembre 2026 chez Thrifty, voiture rendue à l'aéroport de Johannesburg : pas de frais d'aller simple. Les autres loueurs ne sont pas encore relevés pour cette version. Frais Eswatini, dépôt et franchise repris du relevé du 12 novembre." },
-    vols: { sur: "Les vols · Paris ↔ Johannesburg", retour: "de Johannesburg" } },
+  boucle: { label: "Avec vol intérieur", comme: "f2", depart: "2027-07-22", court: "Aller-retour par Johannesburg, avec un vol intérieur la veille", atout: "Un seul billet long-courrier, tout le programme, une nuit de plus, et Soweto le dernier matin. Le vol intérieur a lieu la veille du grand départ : un retard n'a plus de conséquence. En échange, on part un jeudi, trois jours plus tôt.", jours: 17, fin: { carte: [32.09, -28.74], txt: "Richards Bay, vol intérieur" }, annulARelire: true, titre: "Du canyon à l'océan Indien", acc: "Un carnet pour rêver à deux : les lions du Kruger, les zèbres d'Eswatini, les baleines de Cape Vidal, puis Soweto avant l'envol.", route: "On descend du nord au sud sans jamais revenir sur nos pas, puis on rentre à Johannesburg en avion la veille du vol pour Paris. Version créée le 14 novembre 2026 pour être comparée à la version sans vol intérieur.",
+    note: "Version avec vol intérieur : tout est avancé de trois jours par rapport à l'autre version. Les disponibilités ont été relevées le 14 novembre 2026 ; certaines remarques datées de cette page décrivent encore l'autre version.",
+    voiture: { sur: "La voiture · Johannesburg → Richards Bay", acc: "Quatorze jours, un aller simple et une frontière : une automatique assez haute pour voir par-dessus les herbes du Kruger.", jours: 14, retour: "à Richards Bay", allerSimple: "Johannesburg → Richards Bay (ou Durban)", drop: ["-28.741,32.092", "Aéroport de Richards Bay", "RCB", 11], intro: "Relevé Rentalcars du 14 novembre 2026 chez Thrifty, pour 14 jours, voiture rendue à l'aéroport de Richards Bay ; le prix relevé est le même pour un retour à Durban. Les autres loueurs ne sont pas relevés pour cette version. Frais Eswatini, dépôt et franchise repris du relevé du 12 novembre." },
+    vols: { sur: "Les vols · Paris ↔ Johannesburg, plus un vol intérieur", retour: "de Johannesburg" } },
   // Fenêtre du 18 juillet retirée le 1er novembre 2026. Pour la réactiver, remettre cette ligne : les prix f1 sont conservés.
   // f1: { label: "18 juil. → 2 août", depart: "2027-07-18", court: "Mi-juillet", atout: "On arrive pile à la rentrée scolaire sud-africaine, une semaine entière avant le pont du 9 août." },
 };
@@ -23,7 +23,8 @@ const FIXES = [
   { poste: "SUV automatique, essence, péages", voiture: true },
   { poste: "Droits d'entrée du Kruger", detail: "4 jours à 692 ZAR par adulte", prix: 300 },
   { poste: "Activités et visites", detail: { f2: "Soweto, Panorama Route, marche et sortie du soir au Kruger, Mlilwane, Hluhluwe-iMfolozi, Cape Vidal, croisière hippos", boucle: "Soweto, Panorama Route, marche et sortie du soir au Kruger, Mlilwane, Hluhluwe-iMfolozi, Cape Vidal, croisière hippos" }, prix: 422 },
-  { poste: "Repas hors réserve privée", detail: "Environ 50 € par jour à deux, braai au bungalow et bons restaurants", prix: { f2: 600, boucle: 700 } },
+  { poste: "Repas hors réserve privée", detail: "Environ 50 € par jour à deux, braai au bungalow et bons restaurants", prix: { f2: 600, boucle: 650 } },
+  { poste: "Transferts à Johannesburg sans voiture", detail: "Train ou taxi entre l'aéroport et Rosebank, deux trajets à deux : estimation, tarifs non vérifiés", prix: { f2: 0, boucle: 55 } },
   { poste: "Pourboires, pharmacie, assurance", detail: "Bas de fourchette : 250 €, jusqu'à 550 € selon les imprévus et souvenirs", prix: 250 },
 ];
 
@@ -63,8 +64,6 @@ const PHOTOS = {
   sud6: { alt: "Visiteurs accoudés à une rambarde devant la rivière et un ancien pont ferroviaire métallique", cap: "La rivière Sabie et l'ancien pont ferroviaire, vus du camp de Skukuza", a: "flowcomm", l: "CC BY 2.0", u: "https://commons.wikimedia.org/wiki/File:Skukuza_camp,_Kruger_National_Park_(10900778066).jpg" },
   luc5: { alt: "Rhinocéros blanc traversant une piste de terre rouge", cap: "Rhinocéros blanc à Hluhluwe-iMfolozi", a: "Bernard Gagnon", l: "CC BY-SA 4.0", u: "https://commons.wikimedia.org/wiki/File:Rhinoceros_in_Hluhluwe%E2%80%93Imfolozi_Park_01.jpg" },
   luc6: { alt: "Groupe de zèbres traversant une piste boueuse entre les buissons", cap: "Zèbres sur une piste de Hluhluwe-iMfolozi", a: "Bernard Gagnon", l: "CC BY-SA 4.0", u: "https://commons.wikimedia.org/wiki/File:Zebras_in_Hluhluwe%E2%80%93Imfolozi_Park.jpg" },
-  wak1: { alt: "Bras d'eau bleus entre des roselières vertes, prairies à l'arrière-plan", cap: "La réserve humide de Wakkerstroom", a: "Bernard Dupont", l: "CC BY-SA 2.0", u: "https://commons.wikimedia.org/wiki/File:Wetland_Reserve_..._(46767449621).jpg" },
-  wak2: { alt: "Roseaux et mare au premier plan, prairies et montagnes tabulaires sous un ciel chargé", cap: "Les zones humides autour de Wakkerstroom", a: "Eric Gropp", l: "CC BY 2.0", u: "https://commons.wikimedia.org/wiki/File:Around_Wakkerstroom.jpg" },
 };
 
 const SP = "https://www.sanparks.org/reservations/accommodation/filters";
@@ -229,32 +228,17 @@ const ETAPES_TOUTES = [
     ],
   },
   {
-    fichier: "etape-8-wakkerstroom.html", seulement: "boucle", nom: "Wakkerstroom", court: "Wakkerstroom", lieu: "Mpumalanga", couleur: "#7a6a8a",
-    titre: "Couper la route du retour", accroche: "Un village des hauts plateaux, à mi-chemin, pour ne pas faire 600 km d'une traite.",
-    recit: "De St Lucia à Johannesburg, il y a près de 600 km : on les coupe en deux. Wakkerstroom est un village d'altitude entouré de prairies et de zones humides, où l'on vient surtout pour les oiseaux. Des voyageurs qui y ont fait étape entre le Kruger et le Drakensberg en parlent comme d'une jolie halte où ils seraient bien restés plus d'une nuit. Le point faible n'est pas le village mais la route pour y arriver.",
-    nuits: 1, debut: 16, photos: ["wak2", "wak1"], carte: [30.14, -27.35],
+    fichier: "etape-8-retour-johannesburg.html", seulement: "boucle", horsCarte: true, nom: "Retour à Johannesburg", court: "Retour", lieu: "Gauteng", couleur: "#9a5b2f",
+    titre: "Une nuit de marge avant l'envol", accroche: "Un petit vol la veille, une nuit à Rosebank, Soweto le matin : le long-courrier ne dépend plus d'aucune correspondance.",
+    recit: "On rend la voiture au bord de l'océan et on rentre à Johannesburg en avion, la veille du grand départ. Si ce vol a du retard ou saute, rien n'est perdu : il en reste un autre le soir, et toute une nuit de marge. Le lendemain matin, on fait enfin ce que l'arrivée à 13h55 ne permettait pas : Soweto avec un guide local et le musée de l'Apartheid. Puis on décolle à 17h45.",
+    nuits: 1, debut: 16, photos: ["jnb3", "jnb1", "jnb2"], carte: [28.1, -26.45],
     jours: [
-      { j: 16, t: "Des dunes aux hauts plateaux", k: "~372 km · 5h10 hors pauses, plutôt 6h30 en pratique", d: "Départ de St Lucia vers 7h30. Environ 257 km sur la N2 par Pongola et Piet Retief, puis 86 km sur la R543 jusqu'au village. La N2 est ici l'axe des camions de charbon : on roule de jour, sans chercher à doubler, et on garde de la marge. Calcul OSRM du 14 novembre 2026." },
+      { j: 16, t: "Le vol vers Johannesburg", k: "74 km de route, puis 1h30 de vol", d: "Départ de St Lucia vers 9h30, voiture rendue à l'aéroport de Richards Bay, vol de 12h35, arrivée à Johannesburg à 14h05. Train ou taxi jusqu'à Rosebank. Si le vol est annulé, il reste celui de 18h00, ou l'aéroport de Durban à 2h40 de route." },
+      { j: 17, t: "Soweto, puis l'envol", k: "sans voiture", d: "Matinée à Soweto avec un guide qui vient nous chercher, et musée de l'Apartheid. Aéroport en train ou en taxi, vol RwandAir à 17h45, Paris le dimanche 8 août à 9h30." },
     ],
-    savoir: ["La N2 entre Pongola, Piet Retief et Ermelo porte un très gros trafic de camions de charbon vers Richards Bay : chaussée abîmée par endroits, accidents de poids lourds et blocages ponctuels signalés entre 2022 et 2024. Aucun état des lieux de 2026 trouvé : à vérifier la veille auprès du logement.", "Aucune information récente trouvée sur l'état de la R543 entre Piet Retief et Wakkerstroom. Autour du village, plusieurs routes sont en gravier.", "Solution de repli si l'on prend du retard : dormir à Piet Retief, sur la N2, à 286 km de St Lucia (309 km le lendemain).", "Variantes calculées : Ermelo (391 km, puis 220 km, tout sur grands axes mais ville sans intérêt et brouillards fréquents), Dundee et les champs de bataille zoulous (316 km par des routes rurales, puis 369 km), réserve d'Ithala (258 km, puis 463 km).", "On est à environ 1 800 m d'altitude en plein hiver : nuits froides à prévoir."],
+    savoir: ["Ces deux derniers jours se passent sans voiture : le train Gautrain relie l'aéroport à Rosebank avec un changement à Sandton. Horaires et tarifs non vérifiés.", "Richards Bay n'a que deux vols par jour vers Johannesburg (12h35 et 18h00 au relevé du 14 novembre 2026). Durban en a une trentaine.", "La visite de Soweto se réserve à l'avance, avec prise en charge à l'hôtel. Horaires non vérifiés : il faut être à l'aéroport vers 14h30."],
     options: [
-      { id: "meadow", nom: "Meadow View Guest Room", zone: "Wakkerstroom, à 500 m du centre", note: 9.5, avis: 81, prix: { boucle: 53 }, slug: "za/meadow-view-guest-room", retours: "Relevé Booking du 14 novembre 2026 pour la nuit du 6 août.", annul: { type: "a-confirmer" }, pitch: "Chambre d'hôtes centrale et très bien notée, au prix le plus doux." },
-      { id: "wetlands-game", nom: "Wetlands Game Lodge", zone: "Wakkerstroom, à 6,3 km du centre", note: 9.2, avis: 423, prix: { boucle: 72 }, slug: "za/wetlands-game-lodge", retours: "Relevé Booking du 14 novembre 2026 pour la nuit du 6 août.", annul: { type: "a-confirmer" }, pitch: "Le plus grand nombre d'avis, hors du village." },
-      { id: "wetlands-house", nom: "Wetlands Country House & Sheds", zone: "Wakkerstroom, à 1,7 km du centre", note: 9.6, avis: 42, prix: { boucle: 147 }, slug: "za/wetlands-country-house-amp-sheds", retours: "Relevé Booking du 14 novembre 2026 pour la nuit du 6 août.", annul: { type: "a-confirmer" }, pitch: "La meilleure note, nettement plus cher." },
-    ],
-  },
-  {
-    fichier: "etape-9-retour-johannesburg.html", seulement: "boucle", nom: "Retour à Johannesburg", court: "Retour", lieu: "Gauteng", couleur: "#9a5b2f",
-    titre: "Boucler la boucle", accroche: "Une dernière nuit à Rosebank, Soweto le matin, l'avion le soir : le dernier jour se passe sans route.",
-    recit: "On revient à Johannesburg la veille du vol, par les hauts plateaux, sans avion à attraper ce jour-là. Le dimanche matin, on fait enfin ce que l'arrivée à 13h55 ne permettait pas : Soweto avec un guide local et le musée de l'Apartheid. Puis on rend la voiture là où on l'a prise, et on décolle à 17h45.",
-    nuits: 1, debut: 17, photos: ["jnb3", "jnb1", "jnb2"], carte: [28.1, -26.45],
-    jours: [
-      { j: 17, t: "Les hauts plateaux", k: "~275 km · 3h25", d: "Départ de Wakkerstroom dans la matinée, arrivée à Rosebank en début d'après-midi. Calcul OSRM du 14 novembre 2026." },
-      { j: 18, t: "Soweto, puis l'envol", k: "45 km · 35 min", d: "Matinée à Soweto avec un guide et musée de l'Apartheid. Voiture rendue à l'aéroport vers 14h, vol RwandAir à 17h45, Paris le lundi 9 août à 9h30." },
-    ],
-    savoir: ["C'est le week-end prolongé du 9 août, férié en Afrique du Sud : la visite de Soweto se réserve à l'avance.", "Le soir, taxi commandé ou dîner sur place, comme à l'arrivée.", "Horaires de la visite de Soweto non vérifiés : il faut être à l'aéroport vers 14h."],
-    options: [
-      { id: "rosebank-retour", nom: "Southern Sun Rosebank", zone: "Rosebank", note: 8.6, avis: 6306, prix: { boucle: 81 }, slug: "za/the-rosebank", retours: "Relevé Booking du 14 novembre 2026 pour la nuit du 7 août : 81 € à deux sans petit-déjeuner, 90 € avec.", annul: { type: "a-confirmer" }, pitch: "Le même hôtel qu'à l'arrivée : on connaît déjà la route et le quartier." },
+      { id: "rosebank-retour", nom: "Southern Sun Rosebank", zone: "Rosebank", note: 8.6, avis: 6306, prix: { boucle: 81 }, slug: "za/the-rosebank", retours: "Relevé Booking du 14 novembre 2026 pour la nuit du 6 août : 81 € à deux sans petit-déjeuner, 90 € avec, annulation gratuite avant le 5 août 2027.", annul: { type: "a-confirmer" }, pitch: "Le même hôtel qu'à l'arrivée : on connaît déjà le quartier." },
     ],
   },
 ];
@@ -303,13 +287,20 @@ const VOLS_TOUS = [
     lignes: [["Aller", "CDG 18h00 le dimanche 25 juillet → Johannesburg 8h50 le lundi", 602], ["Retour", "Durban 14h15 le lundi 9 août → CDG 6h45 le mardi", 454]],
     bagages: "Aller non vérifié, 2 × 23 kg au retour",
     liens: [["Voir l'aller", "vol aller simple Paris CDG Johannesburg JNB 25 juillet 2027"], ["Voir le retour", "vol aller simple Durban Paris 9 août 2027"]] },
-  { id: "rwandair-ar", base: "boucle", nom: "Aller-retour RwandAir par Johannesburg", sous: "Un seul billet · aucun vol intérieur",
-    pitch: "Un seul dossier pour tout le voyage : rien à réenregistrer, aucune correspondance à risque, et le retour un dimanche.",
-    retours: "785 € en partant le jeudi 22 ou le samedi 24 juillet. Le même billet est à 663 € au départ du dimanche 25, mais il ne laisse plus assez de jours pour tout faire.",
-    escales: ["Aller : 16h25 de trajet, dont 3h55 d'escale à Kigali", "Retour : 15h45 de trajet, dont 3h d'escale à Kigali"],
-    lignes: [["Aller-retour", "CDG 21h30 le jeudi 22 juillet → Johannesburg 13h55 le vendredi ; retour Johannesburg 17h45 le dimanche 8 août → CDG 9h30 le lundi", 785]],
-    bagages: "2 × 23 kg dans les deux sens",
-    liens: [["Voir l'aller-retour", "vol Paris CDG Johannesburg JNB 22 juillet 2027 retour 8 août 2027"]] },
+  { id: "rwandair-ar-rcb", base: "boucle", nom: "Aller-retour RwandAir, vol intérieur depuis Richards Bay", sous: "Un aller-retour · un vol intérieur la veille",
+    pitch: "Le moins de route possible le dernier jour : 74 km, dont 34 km de N2. Le vol intérieur a lieu la veille du long-courrier, avec une nuit à Johannesburg entre les deux.",
+    retours: "Deux vols par jour seulement, et 98 € de plus à deux que par Durban. Bagage en soute du vol intérieur non vérifié.",
+    escales: ["Aller : 16h25 de trajet, dont 3h55 d'escale à Kigali", "Retour : 15h45 de trajet, dont 3h d'escale à Kigali", "Vol intérieur : 1h30 sans escale, la veille, puis une nuit à Johannesburg"],
+    lignes: [["Aller-retour", "CDG 21h30 le jeudi 22 juillet → Johannesburg 13h55 le vendredi ; retour Johannesburg 17h45 le samedi 7 août → CDG 9h30 le dimanche", 785], ["Vol intérieur", "Richards Bay 12h35 → Johannesburg 14h05, le vendredi 6 août", 122]],
+    bagages: "2 × 23 kg sur RwandAir ; vol intérieur à vérifier",
+    liens: [["Voir l'aller-retour", "vol Paris CDG Johannesburg JNB 22 juillet 2027 retour 7 août 2027"], ["Voir le vol intérieur", "vol aller simple Richards Bay Johannesburg 6 août 2027"]] },
+  { id: "rwandair-ar-dur", base: "boucle", nom: "Aller-retour RwandAir, vol intérieur depuis Durban", sous: "Un aller-retour · un vol intérieur la veille",
+    pitch: "Le moins cher, avec une trentaine de vols dans la journée : si l'un saute, on prend le suivant.",
+    retours: "Il faut rouler 212 km jusqu'à l'aéroport de Durban, dont 178 km de N2. Le trafic de camions sur ce tronçon n'a pas été relevé. Bagage en soute du vol intérieur non vérifié.", vigilance: true,
+    escales: ["Aller : 16h25 de trajet, dont 3h55 d'escale à Kigali", "Retour : 15h45 de trajet, dont 3h d'escale à Kigali", "Vol intérieur : 1h10 sans escale, la veille, puis une nuit à Johannesburg"],
+    lignes: [["Aller-retour", "CDG 21h30 le jeudi 22 juillet → Johannesburg 13h55 le vendredi ; retour Johannesburg 17h45 le samedi 7 août → CDG 9h30 le dimanche", 785], ["Vol intérieur", "Durban 13h25 → Johannesburg 14h35, le vendredi 6 août (autres vols à 73 €)", 65]],
+    bagages: "2 × 23 kg sur RwandAir ; vol intérieur à vérifier",
+    liens: [["Voir l'aller-retour", "vol Paris CDG Johannesburg JNB 22 juillet 2027 retour 7 août 2027"], ["Voir le vol intérieur", "vol aller simple Durban Johannesburg 6 août 2027"]] },
 ];
 // Prix par personne selon le jour. null : pas d'offre affichée ou prix non relevé.
 const VOLS_ALLER = [
@@ -350,15 +341,13 @@ const ROUTES = {
     { de: "Satara", a: "Skukuza", km: 93, txt: "~93 km · 3h30–4h", dx: 86, dy: 6 },
     { de: "Lower Sabie", a: "Eswatini", km: 262, txt: "~262 km · 4h25", dx: 74, dy: 0 },
     { de: "Eswatini", a: "St Lucia", km: 330, txt: "330 km · 4h15", dx: 84, dy: 0 },
-    { de: "St Lucia", a: "Wakkerstroom", km: 372, txt: "~372 km · 5h10", dx: 30, dy: 34 },
-    { de: "Wakkerstroom", a: "Rosebank", km: 275, txt: "~275 km · 3h25", dx: -30, dy: 34 },
-    { de: "Rosebank", a: "Aéroport", km: 45, txt: "45 km · 35 min" },
+    { de: "St Lucia", a: "Richards Bay", km: 74, txt: "74 km · 1h10", dx: -66, dy: 8 },
   ],
 };
 
 // Prix sur 14 jours (Johannesburg 26 juillet 15h → Durban 9 août 12h) : relevés Rentalcars du 14 novembre 2026 pour Thrifty, Hertz et Europcar ; estimés au prorata du relevé 13 jours du 12 novembre pour les autres (estime: true).
 // Frais Eswatini, dépôts et franchises : relus le 12 novembre pour Hertz et Thrifty, repris du 31 octobre pour les autres.
-const CARBURANT = { f2: 215, boucle: 265 };
+const CARBURANT = 215;
 const VOITURES_TOUTES = [
   { id: "thrifty-tcross", loueur: "Thrifty", modele: "Volkswagen T-Cross", note: 8.3, avis: "1 000+", prix: 583, eswatini: 108, depot: 1378, franchise: 1270, pitch: "Notre choix, retenu le 12 novembre 2026 : un vrai petit SUV à 3 bagages, moins cher qu'Alamo. En contrepartie, près de 1 400 € bloqués sur la carte.", retours: "Relevé du 12 novembre 2026. Aucun avis client lu sur Thrifty à ce stade : à lire avant de réserver. Autorisation écrite pour l'Eswatini à demander au moins 48 heures avant le retrait." },
   { id: "alamo", loueur: "Alamo", modele: "Toyota Urban Cruiser", note: 8.2, avis: "500+", prix: 644, estime: true, eswatini: 135, depot: 270, franchise: 1622, pitch: "L'ancien choix : un vrai petit SUV, un petit dépôt et les meilleurs retours récents, mais plus cher que Thrifty.", retours: "6 avis DiscoverCars de 2026, tous positifs (3 à Johannesburg, 3 à Durban, dont juillet). Dépôt rendu le matin même à Durban. Échantillon très petit." },
@@ -366,8 +355,8 @@ const VOITURES_TOUTES = [
   { id: "hertz", loueur: "Hertz", modele: "Toyota Starlet Cross", note: 8.0, avis: "2 000+", prix: 430, eswatini: 108, depot: 1027, franchise: 919, pitch: "Le moins cher, mais 2 bagages en soute et plus de 1 000 € bloqués sur la carte.", retours: "5 avis DiscoverCars de 2026 à Johannesburg : un dépôt doublé au comptoir, un dépôt resté bloqué, des pneus sous-gonflés, mais un bon retour sur la Starlet en août." },
   { id: "europcar", loueur: "Europcar", modele: "Toyota Urban Cruiser", note: 8.3, avis: "2 000+", prix: 516, eswatini: 118, depot: 2303, franchise: 2303, pitch: "Prix correct, mais dépôt et franchise très élevés. Montants lus sur le Corolla Cross, frais Eswatini comptés par frontière.", retours: "4 avis DiscoverCars de 2026 à Johannesburg : 2 sur 4 signalent un litige de carburant ou un réservoir pas plein au retrait." },
   { id: "first-jolion", loueur: "First Car Rental", modele: "Haval Jolion", note: 8.6, avis: "2 000+", prix: 639, estime: true, eswatini: 70, depot: null, franchise: null, pitch: "Le même loueur avec un vrai gabarit de SUV, pour une centaine d'euros de plus.", retours: "Aucun avis de 2026 lu sur ce modèle. Les constats sur l'essence et les changements de véhicule de First Car Rental valent aussi ici.", vigilance: true },
-  { id: "thrifty-tcross-boucle", base: "boucle", loueur: "Thrifty", modele: "Volkswagen T-Cross", note: 8.3, avis: "1 000+", prix: 571, eswatini: 108, depot: 1378, franchise: 1270, pitch: "La même voiture que dans la base Durban, rendue à Johannesburg : deux jours de plus pour 12 € de moins, faute de frais d'aller simple.", retours: "Relevé Rentalcars du 14 novembre 2026, 16 jours. Dépôt, franchise et frais Eswatini repris du relevé du 12 novembre. Aucun avis client lu sur Thrifty à ce stade." },
-  { id: "thrifty-starlet-boucle", base: "boucle", loueur: "Thrifty", modele: "Toyota Starlet Cross", note: 8.3, avis: "1 000+", prix: 380, eswatini: 108, depot: null, franchise: null, pitch: "Plus petit et 191 € moins cher, avec 2 bagages en soute.", retours: "Relevé Rentalcars du 14 novembre 2026, 16 jours. Dépôt et franchise non relevés.", vigilance: true },
+  { id: "thrifty-tcross-boucle", base: "boucle", loueur: "Thrifty", modele: "Volkswagen T-Cross", note: 8.3, avis: "1 000+", prix: 583, eswatini: 108, depot: 1378, franchise: 1270, pitch: "La même voiture et le même prix que dans l'autre version, rendue à Richards Bay ou à Durban.", retours: "Relevé Rentalcars du 14 novembre 2026, 14 jours. Dépôt, franchise et frais Eswatini repris du relevé du 12 novembre. Aucun avis client lu sur Thrifty à ce stade." },
+  { id: "thrifty-starlet-boucle", base: "boucle", loueur: "Thrifty", modele: "Toyota Starlet Cross", note: 8.3, avis: "1 000+", prix: 415, eswatini: 108, depot: null, franchise: null, pitch: "Plus petit et 168 € moins cher, avec 2 bagages en soute.", retours: "Relevé Rentalcars du 14 novembre 2026, 14 jours. Dépôt et franchise non relevés.", vigilance: true },
 ];
 const VOITURES_EXCLUES = [
   { loueur: "Woodford", modele: "Toyota Urban Cruiser", raison: "L'entrée en Eswatini est interdite, alors que notre route y passe. Note 8,5, mais exclu." },
