@@ -188,3 +188,6 @@ figcaption a { display: block; color: #e8ddcc; font-size: 11px; text-decoration:
 .enroute h3 { font-size: 17px; margin: 18px 0 8px; }
 .jours-vols small { display: block; color: var(--doux); font-size: 13.5px; font-weight: 400; }
 .jours-vols .nous { color: var(--acacia); font-weight: 600; }
+.escales { width: 100%; margin: 8px 0 4px; padding: 9px 12px; background: #f7ebcf; color: #4d3a0c; border-radius: 8px; font-size: 14.5px; }
+.escales b { display: block; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 3px; }
+.escales div + div { margin-top: 4px; }

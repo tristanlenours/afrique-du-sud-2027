@@ -34,7 +34,7 @@ const cout = (o) => o.prix[etat.fenetre] + (o.taxe || 0);
 const voiture = () => VOITURES.find(v => v.id === etat.voiture) || VOITURES[0];
 const coutVoiture = v => v.prix + v.eswatini + CARBURANT;
 const vol = () => VOLS.find(v => v.id === etat.vol) || VOLS[0];
-const coutVol = v => 2 * v.lignes.reduce((s, l) => s + l[2], 0);
+const coutVol = v => 2 * v.lignes.reduce((s, l) => s + l[2], 0) + (v.extras || []).reduce((s, x) => s + x[2], 0);
 const fixes = () => FIXES.map(f => {
   if (f.vols) { const a = vol(); return { ...f, lien: "vols.html", prix: coutVol(a), detail: `${a.nom} : ${a.lignes.map(l => `${l[0].toLowerCase()} ${l[2]} €`).join(" + ")} par personne (relevé du ${VOLS_RELEVE})` }; }
   if (!f.voiture) return f;
@@ -392,11 +392,13 @@ function rendreVols() {
       <div class="ligne"><h3>${o.nom}</h3></div>
       <p class="zone">${o.sous}</p>
       <p>${o.pitch}</p>
+      <div class="escales"><b>Durées et escales</b>${o.escales.map(x => `<div>${x}</div>`).join("")}</div>
       <p class="retours ${o.vigilance ? "vigilance" : ""}">${o.retours}</p>
       ${o.lignes.map(([n, d, p]) => `<p class="petit"><strong>${n} · ${euros(p)} par personne.</strong> ${d}.</p>`).join("")}
+      ${(o.extras || []).map(([n, d, p]) => `<p class="petit"><strong>${n} · environ ${euros(p)} à deux.</strong> Estimation ${d}.</p>`).join("")}
       <p class="petit"><strong>Bagages en soute.</strong> ${o.bagages}.</p>
       <div class="action">
-        <div class="prix"><strong>${euros(coutVol(o))}</strong><small>pour nous deux</small>${!pris && diff ? `<small class="delta">${diff > 0 ? "+" : "−"}${euros(Math.abs(diff))} sur le total</small>` : ""}</div>
+        <div class="prix"><strong>${euros(coutVol(o))}</strong><small>pour nous deux${o.extras ? ", jour en plus compris" : ""}</small>${!pris && diff ? `<small class="delta">${diff > 0 ? "+" : "−"}${euros(Math.abs(diff))} sur le total</small>` : ""}</div>
         <div class="boutons">${o.liens.map(([t, q]) => `<a class="lien" href="${GF(q)}" target="_blank" rel="noopener">${t}</a>`).join("")}<button class="choisir" data-vol="${o.id}" aria-pressed="${pris}">${pris ? "✓ Notre choix" : "Choisir"}</button></div>
       </div>
     </article>`;
@@ -429,9 +431,9 @@ function rendreVols() {
         <h2>Ce qu'on peut en tirer</h2>
         <ul>
           <li><strong>Partir un autre jour ne rapporte rien.</strong> RwandAir est à 527 € le dimanche 25 et le lundi 26 juillet, à 577 € les autres jours, et absent le vendredi et le mercredi.</li>
-          <li><strong>Rentrer le lundi 9 août avec Ethiopian : 454 € au lieu de 548 €.</strong> Avec l'aller RwandAir, cela fait 1 962 € à deux, soit 262 € de moins que notre choix. Mais il faut une nuit de plus, un 14ᵉ jour de voiture, et on arrive à Paris le mardi 10 : le gain réel est bien plus faible.</li>
+          <li><strong>Rentrer le lundi 9 août avec Ethiopian : une journée de plus, presque offerte.</strong> Les billets tombent à 1 962 € à deux, soit 262 € de moins. La nuit, la voiture et les repas du jour en plus coûtent environ 178 € : il reste environ 84 € d'économie, avec un dimanche entier à Cape Vidal. On arrive à Paris le mardi 10 au matin.</li>
           <li><strong>Tout décaler d'un jour</strong> (départ le lundi 26 juillet, retour le lundi 9 août) donnerait les mêmes 1 962 € sans nuit en plus, mais oblige à revérifier chaque logement, dont les bungalows du Kruger et le lodge.</li>
-          <li><strong>Le vrai levier n'est pas la date, c'est le billet :</strong> l'aller-retour RwandAir par Johannesburg coûte 663 € par personne, contre 1 112 € pour nos deux allers simples. Il se paie en confort et en risque le dernier jour.</li>
+          <li><strong>Le vrai levier n'est pas la date, c'est le billet :</strong> l'aller-retour RwandAir par Johannesburg coûte 663 € par personne, contre 1 112 € pour nos deux allers simples. En échange, le dernier jour compte deux escales au lieu d'une, et une correspondance à Johannesburg que personne ne garantit.</li>
           <li><strong>Emirates reste à 585 €</strong> du 8 au 11 août : aucun gain à décaler si l'on garde ce retour.</li>
         </ul>
       </section>
