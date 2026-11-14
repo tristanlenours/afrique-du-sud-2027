@@ -5,7 +5,7 @@ const RELEVE = "11 novembre 2026";
 const OBJECTIF = 7000;
 
 const FENETRES = {
-  f2: { label: "25 juil. → 9 août", depart: "2027-07-25", court: "Fin juillet", atout: "Les safaris sont terminés avant le pont férié du 6 au 9 août, qu'on passe au bord de l'océan." },
+  f2: { label: "25 juil. → 10 août", depart: "2027-07-25", court: "Fin juillet", atout: "Les safaris sont terminés avant le pont férié du 6 au 9 août, qu'on passe au bord de l'océan." },
   // Fenêtre du 18 juillet retirée le 1er novembre 2026. Pour la réactiver, remettre cette ligne : les prix f1 sont conservés.
   // f1: { label: "18 juil. → 2 août", depart: "2027-07-18", court: "Mi-juillet", atout: "On arrive pile à la rentrée scolaire sud-africaine, une semaine entière avant le pont du 9 août." },
 };
@@ -17,7 +17,7 @@ const FIXES = [
   { poste: "SUV automatique, essence, péages", voiture: true },
   { poste: "Droits d'entrée du Kruger", detail: "4 jours à 692 ZAR par adulte", prix: 300 },
   { poste: "Activités et visites", detail: "Soweto, Panorama Route, marche et sortie du soir au Kruger, Mlilwane, Hluhluwe-iMfolozi, Cape Vidal, croisière hippos", prix: 422 },
-  { poste: "Repas hors réserve privée", detail: "Environ 50 € par jour à deux, braai au bungalow et bons restaurants", prix: 550 },
+  { poste: "Repas hors réserve privée", detail: "Environ 50 € par jour à deux, braai au bungalow et bons restaurants", prix: 600 },
   { poste: "Pourboires, pharmacie, assurance", detail: "Bas de fourchette : 250 €, jusqu'à 550 € selon les imprévus et souvenirs", prix: 250 },
 ];
 
@@ -194,23 +194,24 @@ const ETAPES = [
     fichier: "etape-7-st-lucia.html", nom: "St Lucia", court: "St Lucia", lieu: "KwaZulu-Natal", couleur: "#2f7a8a",
     titre: "Le final sur l'océan Indien", accroche: "Du sable chaud, des hippos sur l'estuaire et des baleines depuis les dunes pour finir en beauté.",
     recit: "La route descend vers la chaleur du KwaZulu-Natal. À Cape Vidal, une longue plage sauvage, une eau à 21–22 °C, et en pleine saison de migration, les baleines à bosse se voient depuis les dunes aux jumelles. L'après-midi, deux heures de croisière sur une eau de miroir, entre 800 hippopotames et 1 000 crocodiles. Entre les deux, une matinée chez les rhinocéros de Hluhluwe-iMfolozi, à une heure de route. Le soir, poisson grillé. Il faudra prendre la voiture même pour 300 mètres : la nuit, les rues appartiennent aux hippos.",
-    nuits: 2, debut: 13, photos: ["luc1", "luc5", "luc2", "luc6", "luc3", "luc4"], carte: [32.41, -28.37],
+    nuits: 3, debut: 13, photos: ["luc1", "luc5", "luc2", "luc6", "luc3", "luc4"], carte: [32.41, -28.37],
     enroute: [
       { trajet: "De Mlilwane à St Lucia, le 6 août (environ 335 km, frontière à Lavumisa)", arrets: [["Le lac Jozini", "côté sud-africain, la N2 longe ce grand lac de barrage au pied des monts Lebombo."], ["Hluhluwe", "petite ville des ananas, avec la boutique de vannerie zouloue Ilala Weavers. C'est aussi la sortie vers le parc où l'on revient le lendemain matin."]] },
-      { trajet: "De St Lucia à l'aéroport de Durban, le 8 août (environ 207 km)", arrets: [["Pas d'arrêt prévu", "on part vers midi après Cape Vidal, pour rendre la voiture avant 15h. L'aéroport King Shaka est au nord de Durban : on ne traverse pas la ville."]] },
+      { trajet: "De St Lucia à l'aéroport de Durban, le 9 août (environ 207 km)", arrets: [["Pas d'arrêt prévu", "on part vers 8h30 pour rendre la voiture vers 11h30 et embarquer à 14h15. L'aéroport King Shaka est au nord de Durban : on ne traverse pas la ville."]] },
     ],
     jours: [
       { j: 13, t: "Vers l'océan", k: "330 km · 4h15", d: "Sortie d'Eswatini à Lavumisa, autoroute N2 dans le KwaZulu-Natal, arrivée vers 15h30." },
       { j: 14, t: "Les rhinocéros, puis les hippos", k: "~100 km aller-retour + pistes", d: "Départ vers 5h45 pour Hluhluwe-iMfolozi par Nyalazi Gate (49 km, 1h) : safari en voiture jusqu'à midi dans la grande réserve à rhinocéros. Retour à St Lucia pour la croisière de 2h sur l'estuaire à 15h." },
-      { j: 15, t: "Cape Vidal, puis Durban", k: "~207 km · 2h35", d: "Plage et baleines depuis les dunes de Cape Vidal le matin, départ de St Lucia vers midi. Vol Emirates à 18h40, Paris le lendemain en début d'après-midi. Autoroute N2 jusqu'à l'aéroport King Shaka, sans traverser Durban." },
+      { j: 15, t: "Cape Vidal, sans regarder l'heure", k: "~70 km aller-retour", d: "La journée gagnée avec le retour du lundi : plage, baleines depuis les dunes et pistes du parc iSimangaliso, à notre rythme. Dernier dîner à St Lucia." },
+      { j: 16, t: "Durban et le vol retour", k: "~207 km · 2h35", d: "Départ de St Lucia vers 8h30, autoroute N2 jusqu'à l'aéroport King Shaka, sans traverser Durban. Voiture rendue vers 11h30, vol Ethiopian à 14h15, Paris le mardi 10 août à 6h45." },
     ],
-    savoir: ["La nuit, on ne marche jamais dans St Lucia : hippopotames dans les rues.", "On décide de la sortie baleines sur place, selon la houle. Rien à réserver avant.", "Hluhluwe-iMfolozi, ajouté le 12 novembre 2026 : 300 ZAR par adulte selon le dernier barème publié (environ 32 € à deux, à reconfirmer pour 2027). Portes ouvertes de 6h à 18h en hiver selon Ezemvelo ; des opérateurs annoncent 17h, on sort avant.", "Retour retenu le 12 novembre 2026 : Emirates à 18h40 depuis Durban, pour garder Cape Vidal le matin du départ. Billet pas encore acheté.", "Sur le parking, 5 à 10 ZAR pour les gardiens officiels en gilet.", "Prix des logements de St Lucia relus le 14 novembre 2026, pour deux : Leopard Tree Lodge inchangé en direct, les quatre autres en hausse sur Booking."],
+    savoir: ["La nuit, on ne marche jamais dans St Lucia : hippopotames dans les rues.", "On décide de la sortie baleines sur place, selon la houle. Rien à réserver avant.", "Hluhluwe-iMfolozi, ajouté le 12 novembre 2026 : 300 ZAR par adulte selon le dernier barème publié (environ 32 € à deux, à reconfirmer pour 2027). Portes ouvertes de 6h à 18h en hiver selon Ezemvelo ; des opérateurs annoncent 17h, on sort avant.", "Retour retenu le 14 novembre 2026 : Ethiopian le lundi 9 août à 14h15 depuis Durban, ce qui nous donne une troisième nuit ici et un dimanche entier à Cape Vidal. Billet pas encore acheté.", "Le lundi 9 août est férié en Afrique du Sud : St Lucia sera animée tout le week-end, on réserve tôt.", "Sur le parking, 5 à 10 ZAR pour les gardiens officiels en gilet.", "Prix des logements relevés le 14 novembre 2026 pour trois nuits à deux. Leopard Corner Lodge n'a rien sur trois nuits."],
     options: [
-      { id: "leopardtree", nom: "Leopard Tree Lodge", zone: "St Lucia", note: 9.7, avis: 737, prix: { f1: 184, f2: 175 }, slug: "za/lalapanzi-guest-house-st-lucia", retours: "Juillet 2026 : 9,7/10 sur 31 avis, très constant. Accueil de Thea, propreté et jardin reviennent souvent.", annul: { type: "free", f1: "2027-07-09", f2: "2027-07-16" }, pitch: "À 750 m de la plage, piscine dans un jardin où passent phacochères et petites antilopes." },
-      { id: "ambience", nom: "African Ambience Guest House", zone: "St Lucia", note: 9.6, avis: 352, prix: { f1: 168, f2: 195 }, repas: "Petit-déjeuner inclus", slug: "za/africanambience-guesthouse", annul: { type: "free", f1: "2027-06-30", f2: "2027-07-07" }, pitch: "Note exceptionnelle et petit-déjeuner compris, pour un prix très doux." },
-      { id: "ndiza", nom: "Ndiza Lodge and Cabanas", zone: "St Lucia", note: 9.3, avis: 537, prix: { f1: 185, f2: 221 }, slug: "za/ndiza-lodge-and-cabanas", annul: { type: "free", f1: "2027-07-09", f2: "2027-07-16" }, pitch: "2 piscines et terrasse panoramique sur l'océan et l'embouchure de l'estuaire." },
-      { id: "corner", nom: "Leopard Corner Lodge", zone: "St Lucia", note: 9.6, avis: 1051, prix: { f1: 246, f2: 274 }, repas: "Petit-déjeuner inclus", slug: "za/leopard-corner", annul: { type: "free", f1: "2027-07-09", f2: "2027-07-16" }, pitch: "Guesthouse très soignée avec piscine, à 800 m de la plage." },
-      { id: "dreamz", nom: "African-Dreamz Guest House", zone: "St Lucia", note: 9.0, avis: 291, prix: { f1: 142, f2: 202 }, slug: "za/african-dreamz-guest-house", annul: { type: "free", f1: "2027-07-23", f2: "2027-07-30" }, pitch: "Annulable le plus tard de la sélection." },
+      { id: "leopardtree", nom: "Leopard Tree Lodge", zone: "St Lucia", note: 9.7, avis: 737, prix: { f1: 184, f2: 278 }, slug: "za/lalapanzi-guest-house-st-lucia", retours: "Juillet 2026 : 9,7/10 sur 31 avis, très constant. Accueil de Thea, propreté et jardin reviennent souvent. Trois nuits depuis le 14 novembre 2026 : la réservation en ligne refuse 3 nuits d'affilée, donc 2 nuits dans l'appartement Hummingbird puis 1 nuit dans le Wagtail, ou une demande par e-mail au lodge pour garder le même.", annul: { type: "free", f1: "2027-07-09", f2: "2027-07-16" }, pitch: "À 750 m de la plage, piscine dans un jardin où passent phacochères et petites antilopes." },
+      { id: "ambience", nom: "African Ambience Guest House", zone: "St Lucia", note: 9.6, avis: 352, prix: { f1: 168, f2: 292 }, repas: "Petit-déjeuner inclus", slug: "za/africanambience-guesthouse", annul: { type: "free", f1: "2027-06-30", f2: "2027-07-07" }, pitch: "Note exceptionnelle et petit-déjeuner compris, pour un prix très doux." },
+      { id: "ndiza", nom: "Ndiza Lodge and Cabanas", zone: "St Lucia", note: 9.3, avis: 537, prix: { f1: 185, f2: 377 }, slug: "za/ndiza-lodge-and-cabanas", annul: { type: "free", f1: "2027-07-09", f2: "2027-07-16" }, pitch: "2 piscines et terrasse panoramique sur l'océan et l'embouchure de l'estuaire." },
+      { id: "corner", nom: "Leopard Corner Lodge", zone: "St Lucia", note: 9.6, avis: 1051, prix: { f1: 246, f2: null }, repas: "Petit-déjeuner inclus", slug: "za/leopard-corner", annul: { type: "free", f1: "2027-07-09", f2: "2027-07-16" }, pitch: "Guesthouse très soignée avec piscine, à 800 m de la plage." },
+      { id: "dreamz", nom: "African-Dreamz Guest House", zone: "St Lucia", note: 9.0, avis: 291, prix: { f1: 142, f2: 302 }, slug: "za/african-dreamz-guest-house", annul: { type: "free", f1: "2027-07-23", f2: "2027-07-30" }, pitch: "Annulable le plus tard de la sélection." },
     ],
   },
 ];
@@ -222,42 +223,43 @@ const ETAPES = [
 const VOLS_RELEVE = "14 novembre 2026";
 const GF = q => "https://www.google.com/travel/flights/search?q=" + encodeURIComponent(q) + "&curr=EUR&hl=fr";
 const VOLS = [
-  { id: "rwandair-emirates", nom: "RwandAir à l'aller, Emirates au retour", sous: "Deux allers simples · aucun vol intérieur",
-    pitch: "Notre choix actuel. On atterrit à Johannesburg et on repart de Durban à 18h40, ce qui laisse le matin du 8 août pour Cape Vidal.",
-    retours: "Le retour le plus confortable (A380 entre Dubaï et Paris), pour 37 € de plus par personne qu'Ethiopian le même jour.",
-    lignes: [["Aller", "CDG 21h30 → Johannesburg 13h55 le lendemain, escale de 3h55 à Kigali", 527], ["Retour", "Durban 18h40 → CDG 13h35 le lendemain, escale de 3h20 à Dubaï", 585]],
-    escales: ["Aller : 16h25 de trajet, dont 3h55 d'escale à Kigali", "Retour : 18h55 de trajet, dont 3h20 d'escale à Dubaï"],
-    bagages: "2 × 23 kg à l'aller, 1 × 23 kg au retour",
-    liens: [["Voir l'aller", "vol aller simple Paris CDG Johannesburg JNB 25 juillet 2027"], ["Voir le retour", "vol aller simple Durban Paris 8 août 2027"]] },
-  { id: "rwandair-ethiopian-lundi", nom: "Une journée de plus : retour Ethiopian le lundi 9 août", sous: "Deux allers simples · une nuit de plus à St Lucia",
-    pitch: "Ethiopian tombe à 454 € le lundi. Une fois payés la nuit, la voiture et les repas du jour en plus, il reste environ 69 € d'économie à deux, et tout le dimanche 8 août pour Cape Vidal sans regarder l'heure.",
-    retours: "Nuit du 8 août vérifiée le 14 novembre 2026 : Leopard Tree Lodge refuse 3 nuits d'affilée en ligne (restriction de séjour), mais a un autre appartement libre ce soir-là, donc avec un déménagement, sauf accord du lodge par e-mail. Sans déménager : 3 nuits à African Ambience pour 292 €, petit-déjeuner compris. Voiture et repas restent des estimations. Départ de St Lucia vers 8h30 le lundi, arrivée à Paris le mardi 10 août à 6h45.", vigilance: true,
+  { id: "rwandair-ethiopian-lundi", nom: "RwandAir à l'aller, Ethiopian au retour le lundi 9 août", sous: "Deux allers simples · aucun vol intérieur",
+    pitch: "Notre choix, retenu le 14 novembre 2026. Ethiopian est à 454 € le lundi, contre 548 € le dimanche : la journée de plus à St Lucia est presque payée par le billet, et le dimanche 8 août est tout entier pour Cape Vidal.",
+    retours: "Départ de St Lucia vers 8h30 le lundi, arrivée à Paris le mardi 10 août à 6h45. Billets non achetés.",
     escales: ["Aller : 16h25 de trajet, dont 3h55 d'escale à Kigali", "Retour : 16h30 de trajet, dont 3h05 d'escale à Addis-Abeba"],
-    lignes: [["Aller", "CDG 21h30 → Johannesburg 13h55 le lendemain", 527], ["Retour", "Durban 14h15 le lundi 9 août → CDG 6h45 le mardi", 454]],
-    extras: [["Nuit en plus à St Lucia", "Appartement Wagtail à Leopard Tree Lodge, 1 908 ZAR, relevé en direct le 14 novembre 2026", 103], ["14ᵉ jour de voiture", "Estimation au prorata du tarif Thrifty", 40], ["Repas du jour en plus", "Estimation, comme les autres jours", 50]],
+    lignes: [["Aller", "CDG 21h30 le dimanche 25 juillet → Johannesburg 13h55 le lundi", 527], ["Retour", "Durban 14h15 le lundi 9 août → CDG 6h45 le mardi", 454]],
     bagages: "2 × 23 kg dans les deux sens",
     liens: [["Voir l'aller", "vol aller simple Paris CDG Johannesburg JNB 25 juillet 2027"], ["Voir le retour", "vol aller simple Durban Paris 9 août 2027"]] },
-  { id: "rwandair-ethiopian", nom: "RwandAir à l'aller, Ethiopian au retour", sous: "Deux allers simples · aucun vol intérieur",
-    pitch: "74 € de moins à deux, et une arrivée à Paris tôt le lundi matin.",
-    retours: "Départ de Durban à 14h15 : il faut quitter St Lucia vers 8h30 et renoncer à Cape Vidal le matin du 8 août.", vigilance: true,
-    escales: ["Aller : 16h25 de trajet, dont 3h55 d'escale à Kigali", "Retour : 16h30 de trajet, dont 3h05 d'escale à Addis-Abeba"],
-    lignes: [["Aller", "CDG 21h30 → Johannesburg 13h55 le lendemain, escale de 3h55 à Kigali", 527], ["Retour", "Durban 14h15 → CDG 6h45 le lendemain, escale de 3h05 à Addis-Abeba", 548]],
-    bagages: "2 × 23 kg dans les deux sens",
+  { id: "rwandair-emirates-lundi", nom: "RwandAir à l'aller, Emirates au retour le lundi 9 août", sous: "Deux allers simples · aucun vol intérieur",
+    pitch: "Le même lundi, mais avec un départ à 18h40 : une dernière matinée tranquille au lieu d'un réveil pour la route, et l'A380 entre Dubaï et Paris.",
+    retours: "262 € de plus à deux, et une arrivée à Paris le mardi à 13h35 au lieu de 6h45.",
+    escales: ["Aller : 16h25 de trajet, dont 3h55 d'escale à Kigali", "Retour : 18h55 de trajet, dont 3h20 d'escale à Dubaï"],
+    lignes: [["Aller", "CDG 21h30 le dimanche 25 juillet → Johannesburg 13h55 le lundi", 527], ["Retour", "Durban 18h40 le lundi 9 août → CDG 13h35 le mardi", 585]],
+    bagages: "2 × 23 kg à l'aller, 1 × 23 kg au retour",
+    liens: [["Voir l'aller", "vol aller simple Paris CDG Johannesburg JNB 25 juillet 2027"], ["Voir le retour", "vol aller simple Durban Paris 9 août 2027"]] },
+  { id: "rwandair-emirates", nom: "Retour le dimanche 8 août avec Emirates", sous: "L'ancien choix · un jour de moins sur place",
+    pitch: "Le plan d'avant : on repart de Durban le dimanche à 18h40, après une matinée à Cape Vidal.",
+    retours: "Une journée de moins pour 43 € de plus : c'est ce qui nous a fait basculer sur le lundi.", vigilance: true,
+    escales: ["Aller : 16h25 de trajet, dont 3h55 d'escale à Kigali", "Retour : 18h55 de trajet, dont 3h20 d'escale à Dubaï"],
+    lignes: [["Aller", "CDG 21h30 le dimanche 25 juillet → Johannesburg 13h55 le lundi", 527], ["Retour", "Durban 18h40 le dimanche 8 août → CDG 13h35 le lundi", 585]],
+    extras: [["Une nuit de moins à St Lucia", "Appartement Wagtail en moins, relevé du 14 novembre 2026", -103], ["Voiture 13 jours au lieu de 14", "Thrifty relevé à 517 € au lieu de 583 €", -66], ["Un jour de repas en moins", "Estimation", -50]],
+    bagages: "2 × 23 kg à l'aller, 1 × 23 kg au retour",
     liens: [["Voir l'aller", "vol aller simple Paris CDG Johannesburg JNB 25 juillet 2027"], ["Voir le retour", "vol aller simple Durban Paris 8 août 2027"]] },
-  { id: "rwandair-ar-interne", nom: "Aller-retour RwandAir, plus un vol Durban → Johannesburg", sous: "Un aller-retour et un billet intérieur séparé",
-    pitch: "De loin le moins cher : 768 € de moins à deux. Ce billet arrive et repart de Johannesburg, alors que notre voyage finit à Durban, à environ 570 km : il faut donc ajouter un petit vol intérieur, acheté à part.",
-    retours: "L'inconvénient : les deux billets ne se connaissent pas. Si le vol intérieur est en retard ou annulé, RwandAir ne nous attend pas et le retour vers Paris est perdu, à racheter au prix du jour. À Johannesburg, on reprend nos valises et on les réenregistre nous-mêmes. Le vol de 13h25 laisse 3h10 pour tout cela ; celui de 11h00 (South African, 73 €) en laisse 5h35, mais fait partir de St Lucia vers 6h45. Dans les deux cas, plus de Cape Vidal le 8 août. Bagage en soute du vol intérieur non vérifié.", vigilance: true,
-    lignes: [["Aller-retour", "CDG 21h30 → Johannesburg 13h55 le lendemain ; retour Johannesburg 17h45 → CDG 9h30 le lendemain, escales à Kigali", 663], ["Vol intérieur", "FlySafair, Durban 13h25 → Johannesburg 14h35, le 8 août", 65]],
+  { id: "rwandair-ar-interne", nom: "Aller-retour RwandAir, plus un vol Durban → Johannesburg", sous: "Retour le dimanche 8 août · un billet intérieur séparé",
+    pitch: "De loin le moins cher : environ 725 € de moins à deux. Ce billet arrive et repart de Johannesburg, alors que notre voyage finit à Durban, à environ 570 km : il faut donc ajouter un petit vol intérieur, acheté à part.",
+    retours: "L'inconvénient : les deux billets ne se connaissent pas. Si le vol intérieur est en retard ou annulé, RwandAir ne nous attend pas et le retour vers Paris est perdu, à racheter au prix du jour. À Johannesburg, on reprend nos valises et on les réenregistre nous-mêmes. Le vol de 13h25 laisse 3h10 pour tout cela ; celui de 11h00 (South African, 73 €) en laisse 5h35, mais fait partir de St Lucia vers 6h45. Bagage en soute du vol intérieur non vérifié. Le même montage avec un retour le lundi 9 août n'a pas été relevé.", vigilance: true,
     escales: ["Aller : 16h25 de trajet, dont 3h55 d'escale à Kigali", "Retour : 20h05 de Durban à Paris, avec deux escales : 3h10 à Johannesburg, valises à reprendre et à réenregistrer, puis 3h à Kigali"],
+    lignes: [["Aller-retour", "CDG 21h30 → Johannesburg 13h55 le lendemain ; retour Johannesburg 17h45 le dimanche 8 août → CDG 9h30 le lundi", 663], ["Vol intérieur", "FlySafair, Durban 13h25 → Johannesburg 14h35, le 8 août", 65]],
+    extras: [["Une nuit de moins à St Lucia", "Appartement Wagtail en moins, relevé du 14 novembre 2026", -103], ["Voiture 13 jours au lieu de 14", "Thrifty relevé à 517 € au lieu de 583 €", -66], ["Un jour de repas en moins", "Estimation", -50]],
     bagages: "2 × 23 kg sur RwandAir ; vol intérieur à vérifier",
     liens: [["Voir l'aller-retour", "vol Paris CDG Johannesburg JNB 25 juillet 2027 retour 8 août 2027"], ["Voir le vol intérieur", "vol aller simple Durban Johannesburg 8 août 2027"]] },
-  { id: "algerie-emirates", nom: "Air Algérie à l'aller, Emirates au retour", sous: "Deux allers simples · arrivée le matin",
+  { id: "algerie-ethiopian-lundi", nom: "Air Algérie à l'aller, Ethiopian au retour le lundi 9 août", sous: "Deux allers simples · arrivée le matin",
     pitch: "150 € de plus à deux pour atterrir à 8h50 : la journée du 26 juillet s'ouvre, avec Soweto et le musée de l'Apartheid.",
     retours: "Aucun avis lu sur Air Algérie, ni sur ses bagages : à vérifier avant d'y penser sérieusement. British Airways arrive aussi le matin (9h25), à 784 € l'aller.", vigilance: true,
-    lignes: [["Aller", "CDG 18h00 → Johannesburg 8h50 le lendemain, escale de 3h15 à Alger", 602], ["Retour", "Durban 18h40 → CDG 13h35 le lendemain, escale de 3h20 à Dubaï", 585]],
-    escales: ["Aller : 14h50 de trajet, dont 3h15 d'escale à Alger", "Retour : 18h55 de trajet, dont 3h20 d'escale à Dubaï"],
-    bagages: "Aller non vérifié, 1 × 23 kg au retour",
-    liens: [["Voir l'aller", "vol aller simple Paris CDG Johannesburg JNB 25 juillet 2027"], ["Voir le retour", "vol aller simple Durban Paris 8 août 2027"]] },
+    escales: ["Aller : 14h50 de trajet, dont 3h15 d'escale à Alger", "Retour : 16h30 de trajet, dont 3h05 d'escale à Addis-Abeba"],
+    lignes: [["Aller", "CDG 18h00 le dimanche 25 juillet → Johannesburg 8h50 le lundi", 602], ["Retour", "Durban 14h15 le lundi 9 août → CDG 6h45 le mardi", 454]],
+    bagages: "Aller non vérifié, 2 × 23 kg au retour",
+    liens: [["Voir l'aller", "vol aller simple Paris CDG Johannesburg JNB 25 juillet 2027"], ["Voir le retour", "vol aller simple Durban Paris 9 août 2027"]] },
 ];
 // Prix par personne selon le jour. null : pas d'offre affichée ou prix non relevé.
 const VOLS_ALLER = [
@@ -273,8 +275,8 @@ const VOLS_RETOUR = [
   { d: "2027-08-05", ethiopian: 454, emirates: 597 },
   { d: "2027-08-06", ethiopian: 486, emirates: 597 },
   { d: "2027-08-07", ethiopian: 486, emirates: null },
-  { d: "2027-08-08", ethiopian: 548, emirates: 585, nous: true },
-  { d: "2027-08-09", ethiopian: 454, emirates: 585 },
+  { d: "2027-08-08", ethiopian: 548, emirates: 585 },
+  { d: "2027-08-09", ethiopian: 454, emirates: 585, nous: true },
   { d: "2027-08-10", ethiopian: 454, emirates: 585 },
   { d: "2027-08-11", ethiopian: 454, emirates: 585 },
 ];
@@ -290,16 +292,16 @@ const ROUTE = [
   { de: "St Lucia", a: "Durban", km: 207, txt: "~207 km · 2h35", dx: -84, dy: 0 },
 ];
 
-// Prix : relevé Rentalcars du 12 novembre 2026, automatique, annulation gratuite, 13 jours, Johannesburg 26 juillet 15h → Durban 8 août 15h.
+// Prix sur 14 jours (Johannesburg 26 juillet 15h → Durban 9 août 12h) : relevés Rentalcars du 14 novembre 2026 pour Thrifty, Hertz et Europcar ; estimés au prorata du relevé 13 jours du 12 novembre pour les autres (estime: true).
 // Frais Eswatini, dépôts et franchises : relus le 12 novembre pour Hertz et Thrifty, repris du 31 octobre pour les autres.
 const CARBURANT = 215;
 const VOITURES = [
-  { id: "thrifty-tcross", loueur: "Thrifty", modele: "Volkswagen T-Cross", note: 8.3, avis: "1 000+", prix: 517, eswatini: 108, depot: 1378, franchise: 1270, pitch: "Notre choix, retenu le 12 novembre 2026 : un vrai petit SUV à 3 bagages pour 108 € de moins qu'Alamo. En contrepartie, près de 1 400 € bloqués sur la carte.", retours: "Relevé du 12 novembre 2026. Aucun avis client lu sur Thrifty à ce stade : à lire avant de réserver. Autorisation écrite pour l'Eswatini à demander au moins 48 heures avant le retrait." },
-  { id: "alamo", loueur: "Alamo", modele: "Toyota Urban Cruiser", note: 8.2, avis: "500+", prix: 598, eswatini: 135, depot: 270, franchise: 1622, pitch: "L'ancien choix : un vrai petit SUV, un petit dépôt et les meilleurs retours récents, pour 108 € de plus que Thrifty.", retours: "6 avis DiscoverCars de 2026, tous positifs (3 à Johannesburg, 3 à Durban, dont juillet). Dépôt rendu le matin même à Durban. Échantillon très petit." },
-  { id: "first-fronx", loueur: "First Car Rental", modele: "Suzuki Fronx", note: 8.6, avis: "2 000+", prix: 499, eswatini: 70, depot: 162, franchise: 973, pitch: "Meilleure note globale, petit dépôt, petite franchise, mais des retours récents préoccupants.", retours: "Équipe et rapidité saluées à Johannesburg. Mais essence facturée malgré un plein rendu dans 3 avis de septembre et octobre 2026, et Fronx remplacé par un autre modèle dans 2 des 3 avis de 2026 qui le citent.", vigilance: true },
-  { id: "hertz", loueur: "Hertz", modele: "Toyota Starlet Cross", note: 8.0, avis: "2 000+", prix: 384, eswatini: 108, depot: 1027, franchise: 919, pitch: "Le moins cher, mais 2 bagages en soute et plus de 1 000 € bloqués sur la carte.", retours: "5 avis DiscoverCars de 2026 à Johannesburg : un dépôt doublé au comptoir, un dépôt resté bloqué, des pneus sous-gonflés, mais un bon retour sur la Starlet en août." },
-  { id: "europcar", loueur: "Europcar", modele: "Toyota Urban Cruiser", note: 8.3, avis: "2 000+", prix: 479, eswatini: 118, depot: 2303, franchise: 2303, pitch: "Prix correct, mais dépôt et franchise très élevés. Montants lus sur le Corolla Cross, frais Eswatini comptés par frontière.", retours: "4 avis DiscoverCars de 2026 à Johannesburg : 2 sur 4 signalent un litige de carburant ou un réservoir pas plein au retrait." },
-  { id: "first-jolion", loueur: "First Car Rental", modele: "Haval Jolion", note: 8.6, avis: "2 000+", prix: 593, eswatini: 70, depot: null, franchise: null, pitch: "Le même loueur avec un vrai gabarit de SUV, pour 94 € de plus.", retours: "Aucun avis de 2026 lu sur ce modèle. Les constats sur l'essence et les changements de véhicule de First Car Rental valent aussi ici.", vigilance: true },
+  { id: "thrifty-tcross", loueur: "Thrifty", modele: "Volkswagen T-Cross", note: 8.3, avis: "1 000+", prix: 583, eswatini: 108, depot: 1378, franchise: 1270, pitch: "Notre choix, retenu le 12 novembre 2026 : un vrai petit SUV à 3 bagages, moins cher qu'Alamo. En contrepartie, près de 1 400 € bloqués sur la carte.", retours: "Relevé du 12 novembre 2026. Aucun avis client lu sur Thrifty à ce stade : à lire avant de réserver. Autorisation écrite pour l'Eswatini à demander au moins 48 heures avant le retrait." },
+  { id: "alamo", loueur: "Alamo", modele: "Toyota Urban Cruiser", note: 8.2, avis: "500+", prix: 644, estime: true, eswatini: 135, depot: 270, franchise: 1622, pitch: "L'ancien choix : un vrai petit SUV, un petit dépôt et les meilleurs retours récents, mais plus cher que Thrifty.", retours: "6 avis DiscoverCars de 2026, tous positifs (3 à Johannesburg, 3 à Durban, dont juillet). Dépôt rendu le matin même à Durban. Échantillon très petit." },
+  { id: "first-fronx", loueur: "First Car Rental", modele: "Suzuki Fronx", note: 8.6, avis: "2 000+", prix: 537, estime: true, eswatini: 70, depot: 162, franchise: 973, pitch: "Meilleure note globale, petit dépôt, petite franchise, mais des retours récents préoccupants.", retours: "Équipe et rapidité saluées à Johannesburg. Mais essence facturée malgré un plein rendu dans 3 avis de septembre et octobre 2026, et Fronx remplacé par un autre modèle dans 2 des 3 avis de 2026 qui le citent.", vigilance: true },
+  { id: "hertz", loueur: "Hertz", modele: "Toyota Starlet Cross", note: 8.0, avis: "2 000+", prix: 430, eswatini: 108, depot: 1027, franchise: 919, pitch: "Le moins cher, mais 2 bagages en soute et plus de 1 000 € bloqués sur la carte.", retours: "5 avis DiscoverCars de 2026 à Johannesburg : un dépôt doublé au comptoir, un dépôt resté bloqué, des pneus sous-gonflés, mais un bon retour sur la Starlet en août." },
+  { id: "europcar", loueur: "Europcar", modele: "Toyota Urban Cruiser", note: 8.3, avis: "2 000+", prix: 516, eswatini: 118, depot: 2303, franchise: 2303, pitch: "Prix correct, mais dépôt et franchise très élevés. Montants lus sur le Corolla Cross, frais Eswatini comptés par frontière.", retours: "4 avis DiscoverCars de 2026 à Johannesburg : 2 sur 4 signalent un litige de carburant ou un réservoir pas plein au retrait." },
+  { id: "first-jolion", loueur: "First Car Rental", modele: "Haval Jolion", note: 8.6, avis: "2 000+", prix: 639, estime: true, eswatini: 70, depot: null, franchise: null, pitch: "Le même loueur avec un vrai gabarit de SUV, pour une centaine d'euros de plus.", retours: "Aucun avis de 2026 lu sur ce modèle. Les constats sur l'essence et les changements de véhicule de First Car Rental valent aussi ici.", vigilance: true },
 ];
 const VOITURES_EXCLUES = [
   { loueur: "Woodford", modele: "Toyota Urban Cruiser", raison: "L'entrée en Eswatini est interdite, alors que notre route y passe. Note 8,5, mais exclu." },

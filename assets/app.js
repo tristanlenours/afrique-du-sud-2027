@@ -1,5 +1,5 @@
 // Carnet de voyage : rendu des pages, choix des logements et budget en direct.
-const CLE = "safari-2027-25-juillet";
+const CLE = "safari-2027-25-juillet-v2";
 const etat = { fenetre: "f2", choix: {}, voiture: VOITURES[0].id, vol: VOLS[0].id };
 const page = document.body.dataset.etape;
 const vue = document.body.dataset.vue;
@@ -39,7 +39,7 @@ const fixes = () => FIXES.map(f => {
   if (f.vols) { const a = vol(); return { ...f, lien: "vols.html", prix: coutVol(a), detail: `${a.nom} : ${a.lignes.map(l => `${l[0].toLowerCase()} ${l[2]} €`).join(" + ")} par personne (relevé du ${VOLS_RELEVE})` }; }
   if (!f.voiture) return f;
   const v = voiture();
-  return { ...f, lien: "location-voiture.html", prix: coutVoiture(v), detail: `${v.loueur}, ${v.modele}, 13 jours : ${v.prix} € + ${v.eswatini} € de frais Eswatini + ~${CARBURANT} € d'essence et de péages, franchise non rachetée` };
+  return { ...f, lien: "location-voiture.html", prix: coutVoiture(v), detail: `${v.loueur}, ${v.modele}, 14 jours : ${v.prix} € + ${v.eswatini} € de frais Eswatini + ~${CARBURANT} € d'essence et de péages, franchise non rachetée` };
 });
 const totalFixes = () => fixes().reduce((s, f) => s + f.prix, 0);
 const totalLogements = () => ETAPES.reduce((s, e, i) => s + cout(choisi(i)), 0);
@@ -200,7 +200,7 @@ function rendreAccueil() {
     <header class="heros accueil">
       <img src="photos/cen2.jpg" alt="${PHOTOS.cen2.alt}">
       <div class="voile"><div class="dedans">
-        <p class="sur">Été 2027 · 15 jours · 13 nuits sur place</p>
+        <p class="sur">Été 2027 · 16 jours · 14 nuits sur place</p>
         <h1>Du canyon à l'océan Indien</h1>
         <p class="acc">Un carnet pour rêver à deux : les lions du Kruger, les zèbres d'Eswatini, les baleines de Cape Vidal. Et un budget maîtrisé autour de ${euros(OBJECTIF)}, avec des logements qu'on peut réserver aujourd'hui et annuler plus tard.</p>
         <a class="cta" href="${ETAPES[0].fichier}">Commencer le voyage</a>
@@ -266,7 +266,7 @@ function rendreAccueil() {
       <section id="budget">
         <h2>Le budget</h2>
         <div class="comptes">
-          <div class="poste fort"><span>Logements choisis<small>13 nuits, réserve privée comprise</small></span><b>${euros(logement)}</b></div>
+          <div class="poste fort"><span>Logements choisis<small>14 nuits, réserve privée comprise</small></span><b>${euros(logement)}</b></div>
           ${fixes().map(p => `<div class="poste"><span>${p.lien ? `<a href="${p.lien}">${p.poste}</a>` : p.poste}<small>${p.detail}</small></span><b>${euros(p.prix)}</b></div>`).join("")}
           <div class="poste total"><span>Total pour deux</span><b>${euros(total)}</b></div>
         </div>
@@ -296,8 +296,8 @@ function rendreAccueil() {
 }
 
 function lienVoiture() {
-  const a = dateJour(2), b = dateJour(15);
-  const q = new URLSearchParams({ coordinates: "-26.1326,28.2324", dropCoordinates: "-29.6144,31.1164", doDay: b.getUTCDate(), doMonth: b.getUTCMonth() + 1, doYear: b.getUTCFullYear(), doHour: 11, doMinute: 0, puDay: a.getUTCDate(), puMonth: a.getUTCMonth() + 1, puYear: a.getUTCFullYear(), puHour: 15, puMinute: 0, driversAge: 35, ftsType: "A", dropFtsType: "A", location: "", dropLocation: "", locationName: "Aéroport OR Tambo de Johannesbourg", locationIata: "JNB", dropLocationName: "Aéroport international King Shaka", dropLocationIata: "DUR", prefcurrency: "EUR", preflang: "fr", filterCriteria_carCategory: "suvs", filterCriteria_transmission: "AUTOMATIC", filterCriteria_sortBy: "PRICE", filterCriteria_sortAscending: "true" });
+  const a = dateJour(2), b = dateJour(16);
+  const q = new URLSearchParams({ coordinates: "-26.1326,28.2324", dropCoordinates: "-29.6144,31.1164", doDay: b.getUTCDate(), doMonth: b.getUTCMonth() + 1, doYear: b.getUTCFullYear(), doHour: 12, doMinute: 0, puDay: a.getUTCDate(), puMonth: a.getUTCMonth() + 1, puYear: a.getUTCFullYear(), puHour: 15, puMinute: 0, driversAge: 35, ftsType: "A", dropFtsType: "A", location: "", dropLocation: "", locationName: "Aéroport OR Tambo de Johannesbourg", locationIata: "JNB", dropLocationName: "Aéroport international King Shaka", dropLocationIata: "DUR", prefcurrency: "EUR", preflang: "fr", filterCriteria_carCategory: "suvs", filterCriteria_transmission: "AUTOMATIC", filterCriteria_sortBy: "PRICE", filterCriteria_sortAscending: "true" });
   return `https://www.rentalcars.com/search-results?${q}`;
 }
 
@@ -314,7 +314,7 @@ function rendreVoiture() {
       <p>${o.pitch}</p>
       <p class="retours ${o.vigilance ? "vigilance" : ""}">${o.retours}</p>
       <div class="chiffres">
-        <span>Location 13 jours<b>${euros(o.prix)}</b></span>
+        <span>Location 14 jours${o.estime ? " (estimé)" : ""}<b>${euros(o.prix)}</b></span>
         <span>Frais Eswatini<b>${euros(o.eswatini)}</b></span>
         <span>Dépôt bloqué<b>${montant(o.depot)}</b></span>
         <span>Franchise<b>${montant(o.franchise)}</b></span>
@@ -331,14 +331,14 @@ function rendreVoiture() {
       <div class="voile"><div class="dedans">
         <p class="sur">La voiture · Johannesburg → Durban</p>
         <h1>Notre maison sur roues</h1>
-        <p class="acc">Treize jours, un aller simple et une frontière : une automatique assez haute pour voir par-dessus les herbes du Kruger.</p>
-        <p class="meta">Retrait le ${dateJour(2).toLocaleDateString("fr-FR", fmt)} à l'aéroport · retour le ${dateJour(15).toLocaleDateString("fr-FR", fmt)} à Durban</p>
+        <p class="acc">Quatorze jours, un aller simple et une frontière : une automatique assez haute pour voir par-dessus les herbes du Kruger.</p>
+        <p class="meta">Retrait le ${dateJour(2).toLocaleDateString("fr-FR", fmt)} à l'aéroport · retour le ${dateJour(16).toLocaleDateString("fr-FR", fmt)} à Durban</p>
       </div></div>
     </header>
     <div class="page">
       <section>
         <h2>Les options comparées</h2>
-        <p class="intro">Relevé Rentalcars du 12 novembre 2026 pour les prix, du 31 octobre pour une partie des dépôts et franchises, avec annulation gratuite, pour un retrait à Johannesburg et un retour à Durban. Le lien ouvre la recherche à nos dates, où l'on retrouve le loueur voulu. Notre choix met à jour le budget. Conversion à 18,5 ZAR pour 1 €.</p>
+        <p class="intro">Prix sur 14 jours depuis le choix du retour le lundi 9 août : relevés sur Rentalcars le 14 novembre 2026 pour Thrifty, Hertz et Europcar, estimés au prorata du relevé du 12 novembre pour les autres. Dépôts et franchises du 12 novembre, et du 31 octobre pour une partie des dépôts et franchises, avec annulation gratuite, pour un retrait à Johannesburg et un retour à Durban. Le lien ouvre la recherche à nos dates, où l'on retrouve le loueur voulu. Notre choix met à jour le budget. Conversion à 18,5 ZAR pour 1 €.</p>
         <p><a class="cta" href="${lienVoiture()}" target="_blank" rel="noopener">Réserver sur Rentalcars</a></p>
         <div class="grille">${VOITURES.map(fiche).join("")}</div>
       </section>
@@ -398,7 +398,7 @@ function rendreVols() {
       ${(o.extras || []).map(([n, d, p]) => `<p class="petit"><strong>${n} · environ ${euros(p)} à deux.</strong> ${d}.</p>`).join("")}
       <p class="petit"><strong>Bagages en soute.</strong> ${o.bagages}.</p>
       <div class="action">
-        <div class="prix"><strong>${euros(coutVol(o))}</strong><small>pour nous deux${o.extras ? ", jour en plus compris" : ""}</small>${!pris && diff ? `<small class="delta">${diff > 0 ? "+" : "−"}${euros(Math.abs(diff))} sur le total</small>` : ""}</div>
+        <div class="prix"><strong>${euros(coutVol(o))}</strong><small>pour nous deux${o.extras ? ", avec un jour de moins sur place" : ""}</small>${!pris && diff ? `<small class="delta">${diff > 0 ? "+" : "−"}${euros(Math.abs(diff))} sur le total</small>` : ""}</div>
         <div class="boutons">${o.liens.map(([t, q]) => `<a class="lien" href="${GF(q)}" target="_blank" rel="noopener">${t}</a>`).join("")}<button class="choisir" data-vol="${o.id}" aria-pressed="${pris}">${pris ? "✓ Notre choix" : "Choisir"}</button></div>
       </div>
     </article>`;
@@ -410,7 +410,7 @@ function rendreVols() {
         <p class="sur">Les vols · Paris → Johannesburg, Durban → Paris</p>
         <h1>Les vols, à optimiser</h1>
         <p class="acc">Environ ${euros(coutVol(v))} à deux sur ${euros(totalFixes() + totalLogements())} : c'est ici que quelques heures ou un jour de décalage pèsent le plus.</p>
-        <p class="meta">Départ de Paris le ${dateFr(FENETRES[etat.fenetre].depart)} au soir · retour de Durban le ${dateJour(15).toLocaleDateString("fr-FR", { day: "numeric", month: "long" })}</p>
+        <p class="meta">Départ de Paris le ${dateFr(FENETRES[etat.fenetre].depart)} au soir · retour de Durban le ${dateJour(16).toLocaleDateString("fr-FR", { day: "numeric", month: "long" })}</p>
       </div></div>
     </header>
     <div class="page">
@@ -421,20 +421,19 @@ function rendreVols() {
       </section>
       <section>
         <h2>Et en décalant de quelques jours ?</h2>
-        <p class="intro">Trois jours avant et trois jours après nos dates, même relevé. En résumé : notre dimanche de départ est déjà le jour le moins cher, et Emirates ne bouge presque pas. Seul le retour Ethiopian varie vraiment : le dimanche 8 août est son jour le plus cher.</p>
+        <p class="intro">Trois jours avant et trois jours après nos dates, même relevé. En résumé : notre dimanche de départ est déjà le jour le moins cher, et Emirates ne bouge presque pas. Seul le retour Ethiopian varie vraiment : le dimanche 8 août est son jour le plus cher, d'où notre retour le lundi.</p>
         <h3 class="sous">Aller Paris → Johannesburg</h3>
         <div class="trajets jours-vols">${VOLS_ALLER.map(a => `<div class="${a.nous ? "nous" : ""}"><span>${jour(a.d)}${a.nous ? " · notre date" : ""}<small>${a.autre}</small></span><b>${a.rwandair == null ? "Pas de RwandAir" : "RwandAir " + euros(a.rwandair)}</b></div>`).join("")}</div>
         <h3 class="sous">Retour Durban → Paris</h3>
         <div class="trajets jours-vols">${VOLS_RETOUR.map(r => `<div class="${r.nous ? "nous" : ""}"><span>${jour(r.d)}${r.nous ? " · notre date" : ""}<small>Emirates 18h40 : ${r.emirates == null ? "non relevé" : euros(r.emirates)}</small></span><b>Ethiopian ${prix(r.ethiopian)}</b></div>`).join("")}</div>
       </section>
       <section class="savoir">
-        <h2>Ce qu'on peut en tirer</h2>
+        <h2>Ce qu'on en a tiré</h2>
         <ul>
+          <li><strong>On rentre le lundi 9 août avec Ethiopian.</strong> Le billet retour passe de 548 € à 454 € par personne. La nuit, la voiture et les repas du jour en plus coûtent environ 219 € à deux : au total, une journée de plus pour 43 € de moins que l'ancien plan.</li>
           <li><strong>Partir un autre jour ne rapporte rien.</strong> RwandAir est à 527 € le dimanche 25 et le lundi 26 juillet, à 577 € les autres jours, et absent le vendredi et le mercredi.</li>
-          <li><strong>Rentrer le lundi 9 août avec Ethiopian : une journée de plus, presque offerte.</strong> Les billets tombent à 1 962 € à deux, soit 262 € de moins. La nuit, la voiture et les repas du jour en plus coûtent environ 193 € : il reste environ 69 € d'économie, avec un dimanche entier à Cape Vidal. On arrive à Paris le mardi 10 au matin.</li>
-          <li><strong>Tout décaler d'un jour</strong> (départ le lundi 26 juillet, retour le lundi 9 août) donnerait les mêmes 1 962 € sans nuit en plus, mais oblige à revérifier chaque logement, dont les bungalows du Kruger et le lodge.</li>
-          <li><strong>Le vrai levier n'est pas la date, c'est le billet :</strong> l'aller-retour RwandAir par Johannesburg coûte 663 € par personne, contre 1 112 € pour nos deux allers simples. En échange, le dernier jour compte deux escales au lieu d'une, et une correspondance à Johannesburg que personne ne garantit.</li>
-          <li><strong>Emirates reste à 585 €</strong> du 8 au 11 août : aucun gain à décaler si l'on garde ce retour.</li>
+          <li><strong>Le billet le moins cher reste l'aller-retour RwandAir par Johannesburg,</strong> à 663 € par personne. En échange, le dernier jour compte deux escales au lieu d'une, et une correspondance à Johannesburg que personne ne garantit.</li>
+          <li><strong>Emirates reste à 585 €</strong> du 8 au 11 août, quel que soit le jour.</li>
         </ul>
       </section>
       <section class="savoir">
