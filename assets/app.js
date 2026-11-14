@@ -11,7 +11,8 @@ function activer() {
   if (!FENETRES[etat.fenetre]) etat.fenetre = Object.keys(FENETRES)[0];
   F = FENETRES[etat.fenetre];
   const ici = x => !x.seulement || x.seulement === B();
-  ETAPES = ETAPES_TOUTES.filter(ici).map(e => ({ ...e, ...(e.variante?.[B()] || {}), jours: e.jours.filter(ici) }));
+  const v = x => ({ ...x, ...(x.variante?.[B()] || {}) });
+  ETAPES = ETAPES_TOUTES.filter(ici).map(e => ({ ...v(e), jours: e.jours.filter(ici), enroute: e.enroute?.filter(ici), options: e.options.map(v) }));
   VOLS = VOLS_TOUS.filter(v => (v.base || "f2") === B());
   VOITURES = VOITURES_TOUTES.filter(v => (v.base || "f2") === B());
   ROUTE = ROUTES[B()];
@@ -50,14 +51,14 @@ function choisi(i) {
 }
 const cout = (o) => val(o.prix) + (o.taxe || 0);
 const voiture = () => VOITURES.find(v => v.id === etat.voiture[B()]) || VOITURES[0];
-const coutVoiture = v => v.prix + v.eswatini + CARBURANT;
+const coutVoiture = v => v.prix + v.eswatini + val(CARBURANT);
 const vol = () => VOLS.find(v => v.id === etat.vol[B()]) || VOLS[0];
 const coutVol = v => 2 * v.lignes.reduce((s, l) => s + l[2], 0) + (v.extras || []).reduce((s, x) => s + x[2], 0);
 const fixes = () => FIXES.map(f => {
   if (f.vols) { const a = vol(); return { ...f, lien: "vols.html", prix: coutVol(a), detail: `${a.nom} : ${a.lignes.map(l => `${l[0].toLowerCase()} ${l[2]} €`).join(" + ")} par personne (relevé du ${VOLS_RELEVE})` }; }
   if (!f.voiture) return { ...f, prix: val(f.prix), detail: val(f.detail) };
   const v = voiture();
-  return { ...f, lien: "location-voiture.html", prix: coutVoiture(v), detail: `${v.loueur}, ${v.modele}, ${F.voiture.jours} jours : ${v.prix} € + ${v.eswatini} € de frais Eswatini + ~${CARBURANT} € d'essence et de péages, franchise non rachetée` };
+  return { ...f, lien: "location-voiture.html", prix: coutVoiture(v), detail: `${v.loueur}, ${v.modele}, ${F.voiture.jours} jours : ${v.prix} € + ${v.eswatini} € de frais Eswatini + ~${val(CARBURANT)} € d'essence et de péages, franchise non rachetée` };
 });
 const totalFixes = () => fixes().reduce((s, f) => s + f.prix, 0);
 const totalLogements = () => ETAPES.reduce((s, e, i) => s + cout(choisi(i)), 0);
@@ -86,6 +87,7 @@ function lienResa(e, o) {
 
 function badge(o) {
   const a = o.annul;
+  if (a.type === "free" && F.annulARelire && !(B() in a)) return `<span class="pastille moyen">Annulation gratuite, date limite à relire pour ces dates</span>`;
   if (a.type === "free") return `<span class="pastille ok">Annulation gratuite jusqu'au ${dateFr(pk(a))}</span>`;
   if (a.type === "sanparks") return `<span class="pastille moyen">Paiement intégral à la réservation, sans frais d'annulation à plus de 30 jours</span>`;
   return `<span class="pastille attention">Annulation à confirmer</span>`;
@@ -163,7 +165,7 @@ function rendreEtape() {
       </div></div>
     </header>
     <div class="page">
-      <section class="recit"><p>${e.recit}</p></section>
+      <section class="recit"><p>${e.recit}</p>${F.note ? `<p class="alerte">${F.note}</p>` : ""}</section>
       <section class="galerie">${e.photos.slice(0).map((k, n) => photo(k, n === 0 ? "large" : "")).join("")}</section>
       <section>
         <h2>Au programme</h2>
@@ -197,8 +199,8 @@ function carteRoute() {
     const x = (arrets[n][0] + arrets[n + 1][0]) / 2 + r.dx, y = (arrets[n][1] + arrets[n + 1][1]) / 2 + r.dy, l = r.txt.length * 7 + 14;
     return `<g class="liaison"><rect x="${(x - l / 2).toFixed(0)}" y="${(y - 12).toFixed(0)}" width="${l}" height="23" rx="11"/><text x="${x.toFixed(0)}" y="${(y + 4).toFixed(0)}">${r.txt}</text></g>`;
   }).join("");
-  const places = { 1: [-21, 5, "end"], 2: [-8, -20, "end"], 3: [22, 5, "start"], 4: [22, 5, "start"], 5: d ? [-21, 5, "end"] : [22, 5, "start"], 6: d ? [22, 5, "start"] : null };
-  return `<svg viewBox="0 0 600 ${d ? 650 : 400}" role="img" aria-label="Itinéraire au départ de Johannesburg, avec distances et temps de route">
+  const places = { 1: [-21, 5, "end"], 2: [-8, -20, "end"], 3: [22, 5, "start"], 4: [22, 5, "start"], 5: [-21, 5, "end"], 6: [22, 5, "start"], 7: d ? null : [0, 34, "middle"] };
+  return `<svg viewBox="0 0 600 ${d ? 650 : 560}" role="img" aria-label="Itinéraire au départ de Johannesburg, avec distances et temps de route">
     <path d="M${arrets.map(p => p.map(n => n.toFixed(0)).join(" ")).join(" L")}" class="trace"/>
     ${d ? `<text x="${d[0] + 14}" y="${d[1] + 5}" class="ville">Durban, vol retour</text><circle cx="${d[0]}" cy="${d[1]}" r="6" class="fin"/>` : ""}
     ${liaisons}
@@ -474,25 +476,25 @@ function rendreVols() {
 }
 
 function volsBoucle() {
-  const l = (t, s, p, nous) => `<div class="${nous ? "nous" : ""}"><span>${t}${nous ? " · notre date" : ""}<small>${s}</small></span><b>${euros(p)}</b></div>`;
+  const l = (t, s, p, nous) => `<div class="${nous ? "nous" : ""}"><span>${t}${nous ? " · notre choix" : ""}<small>${s}</small></span><b>${p}</b></div>`;
   return `<section>
-        <h2>Le prix dépend du jour du retour</h2>
-        <p class="intro">Aller-retour RwandAir Paris ↔ Johannesburg, par personne, même relevé. Le billet est à 663 € tant qu'on rentre avant le lundi férié du 9 août, puis il prend plus de 200 €.</p>
+        <h2>Le prix dépend des jours de départ et de retour</h2>
+        <p class="intro">Aller-retour RwandAir Paris ↔ Johannesburg, par personne, même relevé. RwandAir ne part pas de Paris le mercredi 21 ni le vendredi 23 juillet.</p>
         <div class="trajets jours-vols">
-          ${l("Retour le samedi 7 août", "départ le dimanche 25 juillet", 663)}
-          ${l("Retour le dimanche 8 août", "départ le dimanche 25 juillet", 663, true)}
-          ${l("Retour le lundi 9 août", "départ le dimanche 25 ou le lundi 26 juillet", 918)}
-          ${l("Retour le mardi 10 août", "départ le dimanche 25 juillet", 875)}
-          ${l("Retour le dimanche 8 août", "départ le samedi 24 juillet", 785)}
+          ${l("Départ le jeudi 22 juillet", "retour le samedi 7 ou le dimanche 8 août", euros(785), true)}
+          ${l("Départ le samedi 24 juillet", "retour le samedi 7 ou le dimanche 8 août", euros(785))}
+          ${l("Départ le dimanche 25 juillet", "retour le samedi 7 ou le dimanche 8 août : 13 nuits seulement", euros(663))}
+          ${l("Départ le dimanche 25 juillet", "retour le lundi 9 août", euros(918))}
+          ${l("Départ le mardi 20 juillet", "retour le samedi 7 août", euros(918))}
         </div>
       </section>
       <section class="savoir">
         <h2>Ce que cette version change</h2>
         <ul>
           <li><strong>Un seul billet, donc aucune correspondance à risque :</strong> pas de vol intérieur, pas de valises à réenregistrer.</li>
+          <li><strong>Tout le programme tient :</strong> St Lucia trois nuits, Hluhluwe-iMfolozi, Cape Vidal, et Soweto en plus le dernier matin.</li>
           <li><strong>Le dernier jour se passe sans route :</strong> on dort à Johannesburg la veille, et l'aéroport est à 35 minutes.</li>
-          <li><strong>La plus longue étape est la veille du départ :</strong> environ 374 km depuis l'Eswatini, sans avion à attraper ce jour-là.</li>
-          <li><strong>Ce qu'on perd :</strong> St Lucia, Cape Vidal, la croisière sur l'estuaire et les rhinocéros de Hluhluwe-iMfolozi. Et un jour sur place par rapport à la base Durban.</li>
+          <li><strong>Le prix à payer :</strong> un départ le jeudi 22 juillet, deux nuits de plus, et environ 500 km de route en plus, en deux journées de 372 km et 275 km.</li>
         </ul>
       </section>`;
 }
