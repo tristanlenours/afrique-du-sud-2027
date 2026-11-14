@@ -1,5 +1,5 @@
 // Carnet de voyage : rendu des pages, choix des logements et budget en direct.
-const CLE = "safari-2027-25-juillet-v3";
+const CLE = "safari-2027-25-juillet-v4";
 const etat = { fenetre: "f2", choix: {}, voiture: {}, vol: {} };
 const pageBrute = document.body.dataset.etape;
 // Deux versions du voyage (« bases ») : ce qui suit est recalculé à chaque changement de version.
@@ -292,7 +292,8 @@ function rendreAccueil() {
           ${fixes().map(p => `<div class="poste"><span>${p.lien ? `<a href="${p.lien}">${p.poste}</a>` : p.poste}<small>${p.detail}</small></span><b>${euros(p.prix)}</b></div>`).join("")}
           <div class="poste total"><span>Total pour deux</span><b>${euros(total)}</b></div>
         </div>
-        <p class="intro">${reste >= 0 ? `Il reste ${euros(reste)} sous notre objectif.` : `On dépasse notre objectif de ${euros(-reste)}.`} Si on atteint le haut de la fourchette des imprévus, il faut ajouter 300 € au total. Pour comparer, les Rocheuses nous avaient coûté 7 349 € en 2025.</p>
+        <p class="intro">${reste >= 0 ? `Il reste ${euros(reste)} sous notre objectif.` : `On dépasse notre objectif de ${euros(-reste)} avec cette configuration « Opti Qualité + Voiture optimisée » (chalet en dur au canyon, suite Premium avec piscine privée chauffée à Ndzhaka, 3 nuits avec petits-déjeuners sans déménagement à St Lucia, SUV Hertz automatique).`} Si on atteint le haut de la fourchette des imprévus, il faut ajouter 300 € au total. Pour comparer, les Rocheuses nous avaient coûté 7 349 € en 2025.</p>
+        <p class="alerte"><strong>En option : Configuration 3 « Coûts maîtrisés » (7 148 € à 7 265 €, pas à qualité équivalente).</strong> Si l'on souhaite se rapprocher des 7 000 € en arbitrant sur <a href="etape-3-reserve-privee.html#logements">la réserve privée</a> : 1) <em>Pungwe Bush Camp</em> aux mêmes dates (1 423 € TTC, <strong>−441 € → 7 148 €</strong>) conserve l'ordre « Privé d'abord » à Manyeleti mais sans piscine, ni prise en tente, ni boissons incluses ; 2) <em>Ndzhaka en Tente Standard</em> via le « Swap » J7–J8 (1 540 € TTC, <strong>−324 € → 7 265 €</strong>) n'est pas à qualité équivalente : on perd la piscine privée chauffée, on inverse l'ordre pédagogique (Satara avant le lodge privé) et on ajoute ~100 km (2h–2h30) de route.</p>
       </section>
       <section id="reserver">
         <h2>Réserver sans risque</h2>
