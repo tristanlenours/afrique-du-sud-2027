@@ -5,13 +5,9 @@ const RELEVE = "11 novembre 2026";
 const OBJECTIF = 7000;
 
 const FENETRES = {
-  f2: { label: "Sans vol intérieur", depart: "2027-07-25", court: "Arrivée à Johannesburg, retour de Durban", atout: "Les safaris sont terminés avant le pont férié du 6 au 9 août, qu'on passe au bord de l'océan." , jours: 16, fin: { carte: [31.12, -29.6], txt: "Durban, vol retour" }, titre: "Du canyon à l'océan Indien", acc: "Un carnet pour rêver à deux : les lions du Kruger, les zèbres d'Eswatini, les baleines de Cape Vidal.", route: "On descend du nord au sud sans jamais revenir sur nos pas, avec un grand paysage différent tous les deux jours.",
+  f2: { label: "25 juil. → 10 août", depart: "2027-07-25", court: "Arrivée à Johannesburg, retour de Durban", atout: "Les safaris sont terminés avant le pont férié du 6 au 9 août, qu'on passe au bord de l'océan." , jours: 16, fin: { carte: [31.12, -29.6], txt: "Durban, vol retour" }, titre: "Du canyon à l'océan Indien", acc: "Un carnet pour rêver à deux : les lions du Kruger, les zèbres d'Eswatini, les baleines de Cape Vidal.", route: "On descend du nord au sud sans jamais revenir sur nos pas, avec un grand paysage différent tous les deux jours.",
     voiture: { sur: "La voiture · Johannesburg → Durban", acc: "Quatorze jours, un aller simple et une frontière : une automatique assez haute pour voir par-dessus les herbes du Kruger.", jours: 14, retour: "à Durban", allerSimple: "Johannesburg → Durban", drop: ["-29.6144,31.1164", "Aéroport international King Shaka", "DUR", 12], intro: "Prix sur 14 jours depuis le choix du retour le lundi 9 août : relevés sur Rentalcars le 14 novembre 2026 pour Thrifty, Hertz et Europcar, estimés au prorata du relevé du 12 novembre pour les autres. Dépôts et franchises du 12 novembre, et du 31 octobre pour une partie, avec annulation gratuite, pour un retrait à Johannesburg et un retour à Durban." },
     vols: { sur: "Les vols · Paris → Johannesburg, Durban → Paris", retour: "de Durban" } },
-  boucle: { label: "Avec vol intérieur", comme: "f2", depart: "2027-07-22", court: "Aller-retour par Johannesburg, avec un vol intérieur la veille", atout: "Un seul billet long-courrier, tout le programme, une nuit de plus, et Soweto le dernier matin. Le vol intérieur a lieu la veille du grand départ : un retard n'a plus de conséquence. En échange, on part un jeudi, trois jours plus tôt.", jours: 17, fin: { carte: [32.09, -28.74], txt: "Richards Bay, vol intérieur" }, annulARelire: true, titre: "Du canyon à l'océan Indien", acc: "Un carnet pour rêver à deux : les lions du Kruger, les zèbres d'Eswatini, les baleines de Cape Vidal, puis Soweto avant l'envol.", route: "On descend du nord au sud sans jamais revenir sur nos pas, puis on rentre à Johannesburg en avion la veille du vol pour Paris. Version créée le 14 novembre 2026 pour être comparée à la version sans vol intérieur.",
-    note: "Version avec vol intérieur : tout est avancé de trois jours par rapport à l'autre version. Les disponibilités ont été relevées le 14 novembre 2026 ; certaines remarques datées de cette page décrivent encore l'autre version.",
-    voiture: { sur: "La voiture · Johannesburg → Richards Bay", acc: "Quatorze jours, un aller simple et une frontière : une automatique assez haute pour voir par-dessus les herbes du Kruger.", jours: 14, jourRetour: 16, retour: "à Richards Bay", allerSimple: "Johannesburg → Richards Bay (ou Durban)", drop: ["-28.741,32.092", "Aéroport de Richards Bay", "RCB", 11], intro: "Relevé Rentalcars du 14 novembre 2026 chez Thrifty, pour 14 jours, voiture rendue à l'aéroport de Richards Bay ; le prix relevé est le même pour un retour à Durban. Les autres loueurs ne sont pas relevés pour cette version. Frais Eswatini, dépôt et franchise repris du relevé du 12 novembre." },
-    vols: { sur: "Les vols · Paris ↔ Johannesburg, plus un vol intérieur", retour: "de Johannesburg" } },
   // Fenêtre du 18 juillet retirée le 1er novembre 2026. Pour la réactiver, remettre cette ligne : les prix f1 sont conservés.
   // f1: { label: "18 juil. → 2 août", depart: "2027-07-18", court: "Mi-juillet", atout: "On arrive pile à la rentrée scolaire sud-africaine, une semaine entière avant le pont du 9 août." },
 };
@@ -24,7 +20,6 @@ const FIXES = [
   { poste: "Droits d'entrée du Kruger", detail: "4 jours à 692 ZAR par adulte", prix: 300 },
   { poste: "Activités et visites", detail: { f2: "Soweto, Panorama Route, marche et sortie du soir au Kruger, Mlilwane, Hluhluwe-iMfolozi, Cape Vidal, croisière hippos", boucle: "Soweto, Panorama Route, marche et sortie du soir au Kruger, Mlilwane, Hluhluwe-iMfolozi, Cape Vidal, croisière hippos" }, prix: 422 },
   { poste: "Repas hors réserve privée", detail: "Environ 50 € par jour à deux, braai au bungalow et bons restaurants", prix: { f2: 600, boucle: 650 } },
-  { poste: "Transferts à Johannesburg sans voiture", detail: "Train ou taxi entre l'aéroport et Rosebank, deux trajets à deux : estimation, tarifs non vérifiés", prix: { f2: 0, boucle: 55 } },
   { poste: "Pourboires, pharmacie, assurance", detail: "Bas de fourchette : 250 €, jusqu'à 550 € selon les imprévus et souvenirs", prix: 250 },
 ];
 
@@ -165,13 +160,9 @@ const ETAPES_TOUTES = [
     nuits: 2, variante: { boucle: { savoir: ["Relevé SANParks du 14 novembre 2026 : aucun bungalow à Lower Sabie le 30 juillet (seulement des huttes à sanitaires communs), mais 6 BD2U et 2 BD2 libres le 31. D'où l'ordre de cette version : Skukuza le 30 juillet (18 BE2 libres), puis Lower Sabie le 31.", "Skukuza est le camp historique et le plus grand du parc, avec deux piscines et un restaurant au bord de l'eau. Notre bungalow BE2 y a deux lits simples, la climatisation et une salle d'eau privée, mais une cuisine commune.", "À Lower Sabie, le restaurant est moyen selon le Routard : on préfère la cuisinette et le braai du bungalow.", "SANParks demande le paiement intégral par carte à la réservation. Prix repris du relevé du 12 novembre 2026, à relire pour ces dates."] } }, debut: 9, photos: ["sud2", "sud1", "sud6", "sud3", "sud4"], carte: [31.92, -25.12],
     enroute: [
       { seulement: "f2", trajet: "De Satara à Lower Sabie (95 km de safari)", arrets: [["L'aire de pique-nique de Tshokwane", "la halte à mi-parcours, dans un secteur que le Routard dit très généreux en lions."], ["Le belvédère de Nkumbe", "sur la route H10, une vue dégagée sur les plaines, un des rares endroits où l'on peut descendre de voiture."], ["Sunset Dam", "à la porte de Lower Sabie, un plan d'eau à hippopotames et crocodiles, parfait en fin d'après-midi."]] },
-      { seulement: "boucle", trajet: "De Satara à Skukuza (environ 93 km de safari)", arrets: [["L'aire de pique-nique de Tshokwane", "la halte à mi-parcours, dans un secteur que le Routard dit très généreux en lions."], ["L'affût de Lake Panic", "près de Skukuza, un abri d'observation au bord d'un petit lac, réputé pour les oiseaux et les hippopotames."]] },
-      { seulement: "boucle", trajet: "De Skukuza à Lower Sabie (46 km le long de la Sabie)", arrets: [["L'aire de pique-nique de Nkuhlu", "à mi-chemin, au bord de la rivière."], ["Sunset Dam", "à la porte de Lower Sabie, un plan d'eau à hippopotames et crocodiles, parfait en fin d'après-midi."]] },
       { seulement: "f2", trajet: "De Lower Sabie à Skukuza (46 km le long de la Sabie)", arrets: [["L'aire de pique-nique de Nkuhlu", "à une vingtaine de kilomètres, au bord de la rivière : la pause après la marche de l'aube."], ["L'affût de Lake Panic", "près de Skukuza, un abri d'observation au bord d'un petit lac, réputé pour les oiseaux et les hippopotames."]] },
     ],
     jours: [
-      { j: 9, seulement: "boucle", t: "La descente vers Skukuza", k: "~93 km · 3h30–4h de safari", d: "Pause pique-nique à Tshokwane, puis les plaines jusqu'à la rivière Sabie. Installation à Skukuza, le camp historique du parc." },
-      { j: 10, seulement: "boucle", t: "Le long de la Sabie", k: "~46 km le long de la rivière", d: "Route H4-1 au bord de l'eau jusqu'à Lower Sabie, installation face à la rivière, coucher de soleil à Sunset Dam et braai sur la terrasse." },
       { j: 9, seulement: "f2", t: "La grande descente", k: "95 km · 3h30–4h de safari", d: "Pause pique-nique à Tshokwane, plaines à herbivores, installation face à la rivière." },
       { j: 10, seulement: "f2", t: "À pied dans la brousse, puis Skukuza", k: "~45 km le long de la rivière", d: "05h30 : Guided Morning Walk à Lower Sabie (~33 € par personne). Puis route H4-1 le long de la rivière Sabie jusqu'à Skukuza, installation et dernier safari au coucher du soleil." },
     ],
@@ -189,10 +180,8 @@ const ETAPES_TOUTES = [
     nuits: 2, debut: 11, photos: ["esw1", "esw2", "esw3", "esw4"], carte: [31.2, -26.47],
     enroute: [
       { seulement: "f2", trajet: "De Skukuza à Mlilwane (environ 236 km, frontière à Jeppes Reef)", arrets: [["L'aire de pique-nique d'Afsaal", "sur la route de Malelane Gate, la halte café du dernier safari."], ["Le barrage de Maguga", "en Eswatini, un grand lac de montagne avec un point de vue, à l'écart de la route de Piggs Peak."], ["Ngwenya Glass", "une verrerie artisanale où l'on voit les souffleurs au travail, près de la jonction avec la route de Mbabane. C'est un petit détour, à garder seulement si l'on est en avance."], ["Swazi Candles, à Malkerns", "un marché d'artisanat tout près de Mlilwane, facile à caser le jour de l'arrivée ou le lendemain."]] },
-      { seulement: "boucle", trajet: "De Lower Sabie à Mlilwane (environ 262 km, frontière à Jeppes Reef)", arrets: [["Le barrage de Maguga", "en Eswatini, un grand lac de montagne avec un point de vue, à l'écart de la route de Piggs Peak."], ["Ngwenya Glass", "une verrerie artisanale où l'on voit les souffleurs au travail, près de la jonction avec la route de Mbabane. C'est un petit détour, à garder seulement si l'on est en avance."], ["Swazi Candles, à Malkerns", "un marché d'artisanat tout près de Mlilwane, facile à caser le jour de l'arrivée ou le lendemain."]] },
     ],
     jours: [
-      { j: 11, seulement: "boucle", t: "Passage de frontière", k: "~262 km · 4h25 hors frontière", d: "À 5h30, marche guidée de l'aube à Lower Sabie (~33 € par personne). Puis traversée du sud du parc jusqu'à Malelane Gate, passage à Jeppes Reef et route de montagne via Piggs Peak. Calcul OSRM du 14 novembre 2026, attente à la frontière en plus." },
       { j: 11, seulement: "f2", t: "Passage de frontière", k: "~236 km · 4h30 hors frontière", d: "Départ tôt de Skukuza, dernier safari jusqu'à Malelane Gate (63 km dans le parc), passage à Jeppes Reef et route de montagne via Piggs Peak. Calcul OSRM du 12 novembre 2026, attente à la frontière en plus." },
       { j: 12, t: "Zéro voiture", k: "0 km", d: "Grasse matinée, marche vers Execution Rock ou VTT au milieu des antilopes, après-midi piscine et artisanat swazi." },
     ],
@@ -225,20 +214,6 @@ const ETAPES_TOUTES = [
       { id: "ndiza", nom: "Ndiza Lodge and Cabanas", zone: "St Lucia", note: 9.3, avis: 537, prix: { f1: 185, f2: 377 }, slug: "za/ndiza-lodge-and-cabanas", annul: { type: "free", f1: "2027-07-09", f2: "2027-07-16" }, pitch: "2 piscines et terrasse panoramique sur l'océan et l'embouchure de l'estuaire." },
       { id: "corner", nom: "Leopard Corner Lodge", zone: "St Lucia", note: 9.6, avis: 1051, prix: { f1: 246, f2: null }, repas: "Petit-déjeuner inclus", slug: "za/leopard-corner", annul: { type: "free", f1: "2027-07-09", f2: "2027-07-16" }, pitch: "Guesthouse très soignée avec piscine, à 800 m de la plage." },
       { id: "dreamz", nom: "African-Dreamz Guest House", zone: "St Lucia", note: 9.0, avis: 291, prix: { f1: 142, f2: 302 }, slug: "za/african-dreamz-guest-house", annul: { type: "free", f1: "2027-07-23", f2: "2027-07-30" }, pitch: "Annulable le plus tard de la sélection." },
-    ],
-  },
-  {
-    fichier: "etape-8-retour-johannesburg.html", seulement: "boucle", horsCarte: true, nom: "Retour à Johannesburg", court: "Retour", lieu: "Gauteng", couleur: "#9a5b2f",
-    titre: "Une nuit de marge avant l'envol", accroche: "Un petit vol la veille, une nuit à Rosebank, Soweto le matin : le long-courrier ne dépend plus d'aucune correspondance.",
-    recit: "On rend la voiture au bord de l'océan et on rentre à Johannesburg en avion, la veille du grand départ. Si ce vol a du retard ou saute, rien n'est perdu : il en reste un autre le soir, et toute une nuit de marge. Le lendemain matin, on fait enfin ce que l'arrivée à 13h55 ne permettait pas : Soweto avec un guide local et le musée de l'Apartheid. Puis on décolle à 17h45.",
-    nuits: 1, debut: 16, photos: ["jnb3", "jnb1", "jnb2"], carte: [28.1, -26.45],
-    jours: [
-      { j: 16, t: "Le vol vers Johannesburg", k: "74 km de route, puis 1h30 de vol", d: "Départ de St Lucia vers 9h30, voiture rendue à l'aéroport de Richards Bay, vol de 12h35, arrivée à Johannesburg à 14h05. Train ou taxi jusqu'à Rosebank. Si le vol est annulé, il reste celui de 18h00, ou l'aéroport de Durban à 2h40 de route." },
-      { j: 17, t: "Soweto, puis l'envol", k: "sans voiture", d: "Matinée à Soweto avec un guide qui vient nous chercher, et musée de l'Apartheid. Aéroport en train ou en taxi, vol RwandAir à 17h45, Paris le dimanche 8 août à 9h30." },
-    ],
-    savoir: ["Ces deux derniers jours se passent sans voiture : le train Gautrain relie l'aéroport à Rosebank avec un changement à Sandton. Horaires et tarifs non vérifiés.", "Richards Bay n'a que deux vols par jour vers Johannesburg (12h35 et 18h00 au relevé du 14 novembre 2026). Durban en a une trentaine.", "La visite de Soweto se réserve à l'avance, avec prise en charge à l'hôtel. Horaires non vérifiés : il faut être à l'aéroport vers 14h30."],
-    options: [
-      { id: "rosebank-retour", nom: "Southern Sun Rosebank", zone: "Rosebank", note: 8.6, avis: 6306, prix: { boucle: 81 }, slug: "za/the-rosebank", retours: "Relevé Booking du 14 novembre 2026 pour la nuit du 6 août : 81 € à deux sans petit-déjeuner, 90 € avec, annulation gratuite avant le 5 août 2027.", annul: { type: "a-confirmer" }, pitch: "Le même hôtel qu'à l'arrivée : on connaît déjà le quartier." },
     ],
   },
 ];
@@ -287,20 +262,6 @@ const VOLS_TOUS = [
     lignes: [["Aller", "CDG 18h00 le dimanche 25 juillet → Johannesburg 8h50 le lundi", 602], ["Retour", "Durban 14h15 le lundi 9 août → CDG 6h45 le mardi", 454]],
     bagages: "Aller non vérifié, 2 × 23 kg au retour",
     liens: [["Voir l'aller", "vol aller simple Paris CDG Johannesburg JNB 25 juillet 2027"], ["Voir le retour", "vol aller simple Durban Paris 9 août 2027"]] },
-  { id: "rwandair-ar-rcb", base: "boucle", nom: "Aller-retour RwandAir, vol intérieur depuis Richards Bay", sous: "Un aller-retour · un vol intérieur la veille",
-    pitch: "Le moins de route possible le dernier jour : 74 km, dont 34 km de N2. Le vol intérieur a lieu la veille du long-courrier, avec une nuit à Johannesburg entre les deux.",
-    retours: "Deux vols par jour seulement, et 98 € de plus à deux que par Durban. Bagage en soute du vol intérieur non vérifié.",
-    escales: ["Aller : 16h25 de trajet, dont 3h55 d'escale à Kigali", "Retour : 15h45 de trajet, dont 3h d'escale à Kigali", "Vol intérieur : 1h30 sans escale, la veille, puis une nuit à Johannesburg"],
-    lignes: [["Aller-retour", "CDG 21h30 le jeudi 22 juillet → Johannesburg 13h55 le vendredi ; retour Johannesburg 17h45 le samedi 7 août → CDG 9h30 le dimanche", 785], ["Vol intérieur", "Richards Bay 12h35 → Johannesburg 14h05, le vendredi 6 août", 122]],
-    bagages: "2 × 23 kg sur RwandAir ; vol intérieur à vérifier",
-    liens: [["Voir l'aller-retour", "vol Paris CDG Johannesburg JNB 22 juillet 2027 retour 7 août 2027"], ["Voir le vol intérieur", "vol aller simple Richards Bay Johannesburg 6 août 2027"]] },
-  { id: "rwandair-ar-dur", base: "boucle", nom: "Aller-retour RwandAir, vol intérieur depuis Durban", sous: "Un aller-retour · un vol intérieur la veille",
-    pitch: "Le moins cher, avec une trentaine de vols dans la journée : si l'un saute, on prend le suivant.",
-    retours: "Il faut rouler 212 km jusqu'à l'aéroport de Durban, dont 178 km de N2. Le trafic de camions sur ce tronçon n'a pas été relevé. Bagage en soute du vol intérieur non vérifié.", vigilance: true,
-    escales: ["Aller : 16h25 de trajet, dont 3h55 d'escale à Kigali", "Retour : 15h45 de trajet, dont 3h d'escale à Kigali", "Vol intérieur : 1h10 sans escale, la veille, puis une nuit à Johannesburg"],
-    lignes: [["Aller-retour", "CDG 21h30 le jeudi 22 juillet → Johannesburg 13h55 le vendredi ; retour Johannesburg 17h45 le samedi 7 août → CDG 9h30 le dimanche", 785], ["Vol intérieur", "Durban 13h25 → Johannesburg 14h35, le vendredi 6 août (autres vols à 73 €)", 65]],
-    bagages: "2 × 23 kg sur RwandAir ; vol intérieur à vérifier",
-    liens: [["Voir l'aller-retour", "vol Paris CDG Johannesburg JNB 22 juillet 2027 retour 7 août 2027"], ["Voir le vol intérieur", "vol aller simple Durban Johannesburg 6 août 2027"]] },
 ];
 // Prix par personne selon le jour. null : pas d'offre affichée ou prix non relevé.
 const VOLS_ALLER = [
@@ -333,16 +294,6 @@ const ROUTES = {
     { de: "Eswatini", a: "St Lucia", km: 330, txt: "330 km · 4h15", dx: 84, dy: 0 },
     { de: "St Lucia", a: "Durban", km: 207, txt: "~207 km · 2h35", dx: -84, dy: 0 },
   ],
-  boucle: [
-    { de: "Aéroport", a: "Rosebank", km: 45, txt: "45 km · 35 min" },
-    { de: "Rosebank", a: "Canyon", km: 410, txt: "~410 km · 5h30", dx: -62, dy: 44 },
-    { de: "Canyon", a: "Réserve privée", km: 150, txt: "~150 km · 2h45", dx: -6, dy: 38 },
-    { de: "Réserve privée", a: "Satara", km: 95, txt: "75–110 km · 2h30–3h30", dx: 86, dy: -38 },
-    { de: "Satara", a: "Skukuza", km: 93, txt: "~93 km · 3h30–4h", dx: 86, dy: 6 },
-    { de: "Lower Sabie", a: "Eswatini", km: 262, txt: "~262 km · 4h25", dx: 74, dy: 0 },
-    { de: "Eswatini", a: "St Lucia", km: 330, txt: "330 km · 4h15", dx: 84, dy: 0 },
-    { de: "St Lucia", a: "Richards Bay", km: 74, txt: "74 km · 1h10", dx: -66, dy: 8 },
-  ],
 };
 
 // Prix sur 14 jours (Johannesburg 26 juillet 15h → Durban 9 août 12h) : relevés Rentalcars du 14 novembre 2026 pour Thrifty, Hertz et Europcar ; estimés au prorata du relevé 13 jours du 12 novembre pour les autres (estime: true).
@@ -355,8 +306,6 @@ const VOITURES_TOUTES = [
   { id: "hertz", loueur: "Hertz", modele: "Toyota Starlet Cross", note: 8.0, avis: "2 000+", prix: 430, eswatini: 108, depot: 1027, franchise: 919, pitch: "Le moins cher, mais 2 bagages en soute et plus de 1 000 € bloqués sur la carte.", retours: "5 avis DiscoverCars de 2026 à Johannesburg : un dépôt doublé au comptoir, un dépôt resté bloqué, des pneus sous-gonflés, mais un bon retour sur la Starlet en août." },
   { id: "europcar", loueur: "Europcar", modele: "Toyota Urban Cruiser", note: 8.3, avis: "2 000+", prix: 516, eswatini: 118, depot: 2303, franchise: 2303, pitch: "Prix correct, mais dépôt et franchise très élevés. Montants lus sur le Corolla Cross, frais Eswatini comptés par frontière.", retours: "4 avis DiscoverCars de 2026 à Johannesburg : 2 sur 4 signalent un litige de carburant ou un réservoir pas plein au retrait." },
   { id: "first-jolion", loueur: "First Car Rental", modele: "Haval Jolion", note: 8.6, avis: "2 000+", prix: 639, estime: true, eswatini: 70, depot: null, franchise: null, pitch: "Le même loueur avec un vrai gabarit de SUV, pour une centaine d'euros de plus.", retours: "Aucun avis de 2026 lu sur ce modèle. Les constats sur l'essence et les changements de véhicule de First Car Rental valent aussi ici.", vigilance: true },
-  { id: "thrifty-tcross-boucle", base: "boucle", loueur: "Thrifty", modele: "Volkswagen T-Cross", note: 8.3, avis: "1 000+", prix: 583, eswatini: 108, depot: 1378, franchise: 1270, pitch: "La même voiture et le même prix que dans l'autre version, rendue à Richards Bay ou à Durban.", retours: "Relevé Rentalcars du 14 novembre 2026, 14 jours. Dépôt, franchise et frais Eswatini repris du relevé du 12 novembre. Aucun avis client lu sur Thrifty à ce stade." },
-  { id: "thrifty-starlet-boucle", base: "boucle", loueur: "Thrifty", modele: "Toyota Starlet Cross", note: 8.3, avis: "1 000+", prix: 415, eswatini: 108, depot: null, franchise: null, pitch: "Plus petit et 168 € moins cher, avec 2 bagages en soute.", retours: "Relevé Rentalcars du 14 novembre 2026, 14 jours. Dépôt et franchise non relevés.", vigilance: true },
 ];
 const VOITURES_EXCLUES = [
   { loueur: "Woodford", modele: "Toyota Urban Cruiser", raison: "L'entrée en Eswatini est interdite, alors que notre route y passe. Note 8,5, mais exclu." },
