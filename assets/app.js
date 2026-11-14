@@ -406,7 +406,7 @@ function rendreVols() {
       <img src="photos/luc1.jpg" alt="${PHOTOS.luc1.alt}">
       <div class="voile"><div class="dedans">
         <p class="sur">Les vols · Paris → Johannesburg, Durban → Paris</p>
-        <h1>Le plus gros poste, à optimiser</h1>
+        <h1>Les vols, à optimiser</h1>
         <p class="acc">Environ ${euros(coutVol(v))} à deux sur ${euros(totalFixes() + totalLogements())} : c'est ici que quelques heures ou un jour de décalage pèsent le plus.</p>
         <p class="meta">Départ de Paris le ${dateFr(FENETRES[etat.fenetre].depart)} au soir · retour de Durban le ${dateJour(15).toLocaleDateString("fr-FR", { day: "numeric", month: "long" })}</p>
       </div></div>
