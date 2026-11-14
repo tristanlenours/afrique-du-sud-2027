@@ -178,6 +178,7 @@ function rendreEtape() {
         <p class="intro">Notre sélection à nos dates, pour deux. Prix relevés le ${RELEVE}, ils peuvent bouger.</p>
         <div class="grille">${e.options.filter(dispo).map(o => carteLogement(e, i, o)).join("")}</div>
       </section>
+      ${e.manger ? `<section class="savoir" id="manger"><h2>Où manger</h2><p class="intro">Vérifié le 14 novembre 2026. Enseignes et horaires à confirmer avant le départ.</p><ul>${e.manger.map(s => `<li>${s}</li>`).join("")}</ul></section>` : ""}
       <section class="savoir"><h2>Bon à savoir</h2><ul>${e.savoir.map(s => `<li>${s}</li>`).join("")}</ul></section>
       <nav class="suite">
         ${prec ? `<a href="${prec.fichier}"><small>← Étape ${i}</small>${prec.nom}</a>` : `<a href="index.html"><small>← Vue d'ensemble</small>Le voyage</a>`}
