@@ -64,8 +64,17 @@ figcaption a { display: block; color: #e8ddcc; font-size: 11px; text-decoration:
 .grille { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 16px; }
 .logement { display: flex; flex-direction: column; align-items: flex-start; background: var(--carte); border: 2px solid var(--trait); border-radius: 12px; padding: 18px; }
 .logement.pris { border-color: var(--acacia); box-shadow: 0 6px 20px rgba(62, 107, 79, .16); }
+.logement.reserve { grid-column: 1 / -1; background: linear-gradient(to bottom, #f3f9f5, var(--carte) 140px); }
 .logement.off { opacity: .6; }
 .logement p { margin: 7px 0; font-size: 15px; }
+.badge-reserve { display: inline-flex; align-items: center; gap: 5px; background: var(--acacia); color: #fff; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 3px 10px; border-radius: 99px; margin-bottom: 8px; }
+.badge-reserve.mini { font-size: 11px; padding: 2px 8px; margin: 0 0 0 8px; vertical-align: middle; }
+.logement-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; margin: 10px 0 8px; }
+.logement-photos figure { margin: 0; position: relative; aspect-ratio: 16/10; border-radius: 9px; overflow: hidden; background: var(--trait); }
+.logement-photos img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+.logement-photos figure:hover img { transform: scale(1.04); }
+.logement-photos figcaption { font-size: 12px; padding: 18px 9px 6px; }
+.choix-thumb { flex: none; width: 52px; height: 38px; border-radius: 6px; object-fit: cover; }
 .ligne { display: flex; justify-content: space-between; gap: 10px; width: 100%; }
 .ligne h3 { font-size: 20px; }
 .note { background: var(--acacia); color: #fff; border-radius: 7px 7px 7px 0; padding: 2px 8px; font-weight: 600; font-size: 14px; height: fit-content; }
@@ -176,6 +185,8 @@ figcaption a { display: block; color: #e8ddcc; font-size: 11px; text-decoration:
   .promesses { grid-template-columns: 1fr 1fr; }
   .deux { grid-template-columns: 1fr; }
   .grille { grid-template-columns: 1fr; }
+  .logement-photos { grid-template-columns: 1fr; }
+  .logement-photos figure { aspect-ratio: 16/9; }
   .jours li { gap: 12px; }
   .jour { min-width: 68px; font-size: 22px; }
   #budget-fixe a { grid-template-columns: 1fr auto; gap: 5px 12px; }

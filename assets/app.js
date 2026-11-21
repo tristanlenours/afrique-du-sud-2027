@@ -1,5 +1,5 @@
 // Carnet de voyage : rendu des pages, choix des logements et budget en direct.
-const CLE = "safari-2027-25-juillet-v5";
+const CLE = "safari-2027-25-juillet-v6";
 const etat = { fenetre: "f2", choix: {}, voiture: {}, vol: {} };
 const pageBrute = document.body.dataset.etape;
 // Deux versions du voyage (« bases ») : ce qui suit est recalculé à chaque changement de version.
@@ -131,9 +131,12 @@ function piedBudget() {
 function carteLogement(e, i, o) {
   const pris = choisi(i).id === o.id, ok = dispo(o);
   const diff = ok ? cout(o) - cout(choisi(i)) : 0;
-  return `<article class="logement ${pris ? "pris" : ""} ${ok ? "" : "off"}">
+  const photosHtml = o.photos?.length ? `<div class="logement-photos">${o.photos.map(p => `<figure><img src="${p.src}" alt="${p.cap}" loading="lazy"><figcaption>${p.cap}</figcaption></figure>`).join("")}</div>` : "";
+  return `<article class="logement ${pris ? "pris" : ""} ${o.reserve ? "reserve" : ""} ${ok ? "" : "off"}">
+    ${o.reserve ? `<span class="badge-reserve">✓ Logement réservé</span>` : ""}
     <div class="ligne"><h3>${o.nom}</h3>${o.note ? `<span class="note">${o.note.toLocaleString("fr-FR", { minimumFractionDigits: 1 })}</span>` : ""}</div>
     <p class="zone">${o.zone}${o.avis ? ` · ${o.avis.toLocaleString("fr-FR")} avis` : ""}</p>
+    ${photosHtml}
     <p>${o.pitch}</p>
     ${o.retours ? `<p class="retours">${o.retours}</p>` : ""}
     ${o.repas ? `<p class="repas">${o.repas}</p>` : ""}
@@ -143,7 +146,7 @@ function carteLogement(e, i, o) {
       <div class="prix">${ok ? `<strong>${euros(val(o.prix))}</strong><small>${e.nuits} nuit${e.nuits > 1 ? "s" : ""} à deux${o.taxe ? ` + ~${o.taxe} € de taxes de réserve` : ""}</small>${!pris && diff ? `<small class="delta">${diff > 0 ? "+" : "−"}${euros(Math.abs(diff))} sur le total</small>` : ""}` : "<strong>—</strong>"}</div>
       <div class="boutons">
         <a class="lien" href="${lienResa(e, o)}" target="_blank" rel="noopener">${o.direct ? "Site officiel" : "Photos et tarifs"}</a>
-        ${ok ? `<button class="choisir" data-o="${o.id}" aria-pressed="${pris}">${pris ? "✓ Notre choix" : "Choisir"}</button>` : ""}
+        ${ok ? `<button class="choisir" data-o="${o.id}" aria-pressed="${pris}">${pris ? (o.reserve ? "✓ Réservé" : "✓ Notre choix") : "Choisir"}</button>` : ""}
       </div>
     </div>
   </article>`;
@@ -282,33 +285,32 @@ function rendreAccueil() {
       </section>
       <section id="choix">
         <h2>Nos choix</h2>
-        <p class="intro">On choisit sur chaque page d'étape et tout se met à jour ici. Le lien garde nos choix pour qu'on regarde la même chose.</p>
-        <div class="choix">${limites.map(({ e, o }, i) => `<a href="${e.fichier}#logements"><span class="n" style="background:${e.couleur}">${i + 1}</span><span class="c"><b>${o.nom}</b><small>${e.nom} · ${o.annul.type === "free" ? `annulable jusqu'au ${dateFr(o.annul[etat.fenetre])}` : "annulation à confirmer"}</small></span><span class="p">${euros(cout(o))}</span></a>`).join("")}</div>
+        <p class="intro">On choisit sur chaque page d'étape et tout se met à jour ici. Les logements déjà réservés affichent leurs photos sur chaque fiche — toutes les alternatives restent cliquables pour comparer.</p>
+        <div class="choix">${limites.map(({ e, o }, i) => `<a href="${e.fichier}#logements"><span class="n" style="background:${e.couleur}">${i + 1}</span>${o.photos?.[0] ? `<img class="choix-thumb" src="${o.photos[0].src}" alt="${o.nom}" loading="lazy">` : ""}<span class="c"><b>${o.nom}${o.reserve ? `<span class="badge-reserve mini">✓ Réservé</span>` : ""}</b><small>${e.nom} · ${o.annul.type === "free" ? `annulable jusqu'au ${dateFr(o.annul[etat.fenetre])}` : o.annul.type === "sanparks" ? "annulable sans frais à J-31" : "annulation à confirmer"}</small></span><span class="p">${euros(cout(o))}</span></a>`).join("")}</div>
         <div class="partage"><button id="partager">Copier le lien de nos choix</button><span id="copie" role="status"></span></div>
       </section>
       <section id="budget">
         <h2>Le budget</h2>
         <div class="comptes">
-          <div class="poste fort"><span>Logements choisis<small>${ETAPES.reduce((s, e) => s + e.nuits, 0)} nuits, réserve privée comprise</small></span><b>${euros(logement)}</b></div>
+          <div class="poste fort"><span>Logements choisis<small>${ETAPES.reduce((s, e) => s + e.nuits, 0)} nuits, réserve privée comprise (9 nuits réservées)</small></span><b>${euros(logement)}</b></div>
           ${fixes().map(p => `<div class="poste"><span>${p.lien ? `<a href="${p.lien}">${p.poste}</a>` : p.poste}<small>${p.detail}</small></span><b>${euros(p.prix)}</b></div>`).join("")}
           <div class="poste total"><span>Total pour deux</span><b>${euros(total)}</b></div>
         </div>
-        <p class="intro">${reste >= 0 ? `Il reste ${euros(reste)} sous notre objectif.` : `On dépasse notre objectif de ${euros(-reste)} avec cette configuration « Opti Qualité + Voiture optimisée » (chalet en dur au canyon, suite Premium avec piscine privée chauffée à Ndzhaka, 2 nuits vue rivière à Lower Sabie sans déménager à Skukuza, 3 nuits avec petits-déjeuners à St Lucia, SUV Hertz automatique).`} Si on atteint le haut de la fourchette des imprévus, il faut ajouter 300 € au total. Pour comparer, les Rocheuses nous avaient coûté 7 349 € en 2025.</p>
-        <p class="alerte"><strong>En option : Configuration 3 « Coûts maîtrisés » (7 055 € à 7 168 €, pas à qualité équivalente).</strong> Si l'on souhaite se rapprocher des 7 000 € en arbitrant sur <a href="etape-3-reserve-privee.html#logements">la réserve privée</a> : 1) <em>Pungwe Bush Camp</em> aux mêmes dates (~1 366 € TTC, <strong>−424 € → 7 055 €</strong>) conserve l'ordre « Privé d'abord » à Manyeleti mais sans piscine, ni prise en tente, ni boissons incluses ; 2) <em>Ndzhaka en Tente Standard</em> via le « Swap » J7–J8 (~1 479 € TTC, <strong>−311 € → 7 168 €</strong>) n'est pas à qualité équivalente : on perd la piscine privée chauffée, on inverse l'ordre pédagogique (Satara avant le lodge privé) et on ajoute ~100 km (2h–2h30) de route.</p>
+        <p class="intro">${reste >= 0 ? `On repasse ${euros(reste)} sous notre objectif de ${euros(OBJECTIF)} avec les 9 nuits déjà réservées (Buffelshoek à Manyeleti, Satara BD2EC, 2 nuits vue rivière à Lower Sabie et African Ambience à St Lucia).` : `On dépasse notre objectif de ${euros(-reste)} avec cette sélection.`} Si on atteint le haut de la fourchette des imprévus, il faut ajouter 300 € au total. Pour comparer, les Rocheuses nous avaient coûté 7 349 € en 2025.</p>
       </section>
       <section id="reserver">
-        <h2>Réserver sans risque</h2>
+        <h2>Avancement des réservations</h2>
         <ol class="plan">
-          <li><strong>Urgence immédiate (relevé du ${RELEVE}) : SANParks, Ndzhaka et St Lucia.</strong> Il ne reste plus qu'1 bungalow BD2EC continu à Satara, 2 BD2U vue rivière à Lower Sabie le 3 août, 1 seule suite Premium à Ndzhaka (conditions d'annulation à confirmer par écrit avant paiement) et 1 seule chambre Double Standard à African Ambience (Booking, annulable gratuitement jusqu'au 7 juillet).</li>
-          <li><strong>Dans la foulée : Booking &amp; Reilly's Rock (Eswatini, 4 chambres restantes),</strong> en tarif annulable.</li>
-          <li><strong>Une fois les dates et le Kruger calés : <a href="vols.html">les vols</a>.</strong> Ce sont eux qui nous engagent : ces billets ne sont pas annulables gratuitement, sauf tarif flexible.</li>
+          <li><strong>✓ Déjà réservé (9 nuits / 14, le ${RELEVE}) :</strong> <em>Buffelshoek Tented Camp</em> à Manyeleti (29–31 juil., annulable Booking jusqu'au 26 juil.), <em>Satara BD2EC</em> (31 juil.–2 août) + <em>Lower Sabie BD2U</em> vue rivière (2–4 août) sur SANParks, et <em>African Ambience Guest House</em> à St Lucia (6–9 août, annulable jusqu'au 7 juil.).</li>
+          <li><strong>Prochaine priorité : <em>Reilly's Rock</em> en Eswatini (4–6 août, 4 chambres Standard restantes),</strong> puis les 3 nuits restantes en annulable sur Booking (<em>Forever Resort Chalet</em> au canyon et <em>Southern Sun Rosebank</em> à Johannesburg).</li>
+          <li><strong>Une fois l'ensemble calé : <a href="vols.html">les vols</a></strong> (aller <em>RwandAir</em> le 25 juil. + retour <em>Ethiopian</em> de Durban le 9 août à 1 972 € à deux — confirmé meilleur rapport coût/sécurité le ${RELEVE}).</li>
           <li><strong>Au printemps 2027 : <a href="location-voiture.html">le SUV</a>,</strong> puis une dernière vérification de chaque logement avant ${prems ? dateFr(prems.d) : "la première échéance"}.</li>
         </ol>
         ${aConfirmer.length ? `<p class="alerte">À confirmer avant de payer : ${aConfirmer.map(l => l.o.nom).join(", ")}.</p>` : ""}
       </section>
       <footer class="credits"><h2>Sources et photos</h2>
-        <p>Prix et disponibilités relevés en direct le ${RELEVE} (Booking, NightsBridge, ResRequest, SANParks, Google Flights, Rentalcars), pour 2 adultes, avec remises membres/Genius sur Booking quand affichées. Conversion des montants en rands à 19,27 ZAR/€. Les prix des lodges en réserve privée peuvent varier avec le change et les taxes de conservation. Les photos montrent les lieux, pas les logements : le bouton de chaque fiche ouvre leurs vraies photos.</p>
-        <p>Photos libres via Wikimedia Commons : ${Object.values(PHOTOS).map(p => `<a href="${p.u}" target="_blank" rel="noopener">${p.cap}</a> (${p.a}, ${p.l})`).join(" · ")}.</p>
+        <p>Prix et disponibilités relevés en direct le ${RELEVE} (Booking, NightsBridge, ResRequest, SANParks, Google Flights, Rentalcars), pour 2 adultes, avec remises membres/Genius sur Booking quand affichées. Conversion des montants en rands à 19,27 ZAR/€. Les photos des logements réservés proviennent de leurs pages officielles (Manyeleti/Buffelshoek, SANParks, Booking/African Ambience).</p>
+        <p>Photos des paysages et de la faune via Wikimedia Commons : ${Object.values(PHOTOS).map(p => `<a href="${p.u}" target="_blank" rel="noopener">${p.cap}</a> (${p.a}, ${p.l})`).join(" · ")}.</p>
       </footer>
     </div>`;
   const b = document.getElementById("partager");
@@ -454,10 +456,10 @@ function rendreVols() {
       <section class="savoir">
         <h2>Ce qu'on en a tiré</h2>
         <ul>
-          <li><strong>On rentre le lundi 9 août avec Ethiopian.</strong> Au relevé du ${VOLS_RELEVE}, le billet retour passe de 550 € (dimanche 8) à 455 € (lundi 9) par personne, soit −190 € à deux pour une journée de plus sur place.</li>
-          <li><strong>Partir un autre jour ne rapporte rien.</strong> RwandAir est à 530 € le dimanche 25 juillet (527 € le lundi 26 au 14/11), 577 € les autres jours, et absent le vendredi et le mercredi.</li>
-          <li><strong>Le billet le moins cher reste l'aller-retour RwandAir par Johannesburg,</strong> à 663 € par personne (relevé du 14/11). En échange, le dernier jour compte deux escales au lieu d'une, et une correspondance à Johannesburg que personne ne garantit.</li>
-          <li><strong>Emirates est à 588 €</strong> les 8 et 9 août (585 € les 10 et 11 au 14/11).</li>
+          <li><strong>On rentre le lundi 9 août avec Ethiopian.</strong> Au relevé du ${VOLS_RELEVE}, le billet retour est à 456 €/pers. (vs 550 € le dimanche 8), soit 1 972 € à deux avec RwandAir à l'aller, zéro vol intérieur et une seule escale.</li>
+          <li><strong>L'aller-retour par Johannesburg (retour ≥ 9 août) ne fait pas gagner d'argent :</strong> le tarif promo RwandAir (666 €) n'existe que le samedi 7 août. Dès le 9 août, l'A/R passe à 849 € (878 € le 10, 788 € le 11) : avec le vol intérieur DUR → JNB (72 €/pers. SAA bagage inclus) et une nuit tampon à Joburg le 9 août, le total atteint ~2 080 € (+108 € vs Durban direct).</li>
+          <li><strong>Les billets multi-destinations uniques (PAR → JNB + DUR → PAR)</strong> démarrent à 1 310 €/pers. (Turkish) à 1 437 € (Ethiopian), soit +648 € à +902 € de plus à deux.</li>
+          <li><strong>Emirates est à 588 €</strong> les 8, 9 et 10 août (264 € de plus à deux vs Ethiopian).</li>
         </ul>
       </section>`}
       <section class="savoir">
