@@ -1,5 +1,5 @@
 // Carnet de voyage : rendu des pages, choix des logements et budget en direct.
-const CLE = "safari-2027-25-juillet-v4";
+const CLE = "safari-2027-25-juillet-v5";
 const etat = { fenetre: "f2", choix: {}, voiture: {}, vol: {} };
 const pageBrute = document.body.dataset.etape;
 // Deux versions du voyage (« bases ») : ce qui suit est recalculé à chaque changement de version.
@@ -293,21 +293,21 @@ function rendreAccueil() {
           ${fixes().map(p => `<div class="poste"><span>${p.lien ? `<a href="${p.lien}">${p.poste}</a>` : p.poste}<small>${p.detail}</small></span><b>${euros(p.prix)}</b></div>`).join("")}
           <div class="poste total"><span>Total pour deux</span><b>${euros(total)}</b></div>
         </div>
-        <p class="intro">${reste >= 0 ? `Il reste ${euros(reste)} sous notre objectif.` : `On dépasse notre objectif de ${euros(-reste)} avec cette configuration « Opti Qualité + Voiture optimisée » (chalet en dur au canyon, suite Premium avec piscine privée chauffée à Ndzhaka, 3 nuits avec petits-déjeuners sans déménagement à St Lucia, SUV Hertz automatique).`} Si on atteint le haut de la fourchette des imprévus, il faut ajouter 300 € au total. Pour comparer, les Rocheuses nous avaient coûté 7 349 € en 2025.</p>
-        <p class="alerte"><strong>En option : Configuration 3 « Coûts maîtrisés » (7 148 € à 7 265 €, pas à qualité équivalente).</strong> Si l'on souhaite se rapprocher des 7 000 € en arbitrant sur <a href="etape-3-reserve-privee.html#logements">la réserve privée</a> : 1) <em>Pungwe Bush Camp</em> aux mêmes dates (1 423 € TTC, <strong>−441 € → 7 148 €</strong>) conserve l'ordre « Privé d'abord » à Manyeleti mais sans piscine, ni prise en tente, ni boissons incluses ; 2) <em>Ndzhaka en Tente Standard</em> via le « Swap » J7–J8 (1 540 € TTC, <strong>−324 € → 7 265 €</strong>) n'est pas à qualité équivalente : on perd la piscine privée chauffée, on inverse l'ordre pédagogique (Satara avant le lodge privé) et on ajoute ~100 km (2h–2h30) de route.</p>
+        <p class="intro">${reste >= 0 ? `Il reste ${euros(reste)} sous notre objectif.` : `On dépasse notre objectif de ${euros(-reste)} avec cette configuration « Opti Qualité + Voiture optimisée » (chalet en dur au canyon, suite Premium avec piscine privée chauffée à Ndzhaka, 2 nuits vue rivière à Lower Sabie sans déménager à Skukuza, 3 nuits avec petits-déjeuners à St Lucia, SUV Hertz automatique).`} Si on atteint le haut de la fourchette des imprévus, il faut ajouter 300 € au total. Pour comparer, les Rocheuses nous avaient coûté 7 349 € en 2025.</p>
+        <p class="alerte"><strong>En option : Configuration 3 « Coûts maîtrisés » (7 055 € à 7 168 €, pas à qualité équivalente).</strong> Si l'on souhaite se rapprocher des 7 000 € en arbitrant sur <a href="etape-3-reserve-privee.html#logements">la réserve privée</a> : 1) <em>Pungwe Bush Camp</em> aux mêmes dates (~1 366 € TTC, <strong>−424 € → 7 055 €</strong>) conserve l'ordre « Privé d'abord » à Manyeleti mais sans piscine, ni prise en tente, ni boissons incluses ; 2) <em>Ndzhaka en Tente Standard</em> via le « Swap » J7–J8 (~1 479 € TTC, <strong>−311 € → 7 168 €</strong>) n'est pas à qualité équivalente : on perd la piscine privée chauffée, on inverse l'ordre pédagogique (Satara avant le lodge privé) et on ajoute ~100 km (2h–2h30) de route.</p>
       </section>
       <section id="reserver">
         <h2>Réserver sans risque</h2>
         <ol class="plan">
-          <li><strong>Maintenant : Booking, en tarif annulable.</strong> On ne paie souvent rien avant la date limite indiquée sur chaque logement. À vérifier sur la page de réservation.</li>
-          <li><strong>En parallèle : SANParks pour Satara et Lower Sabie.</strong> Les réservations sont ouvertes pour juillet 2027 et les bungalows face à la rivière partent vite. Le barème publié ne retient rien à 31 jours ou plus, à reconfirmer avant de payer.</li>
-          <li><strong>Une fois les dates arrêtées : <a href="vols.html">les vols</a>.</strong> Ce sont eux qui nous engagent : ces billets ne sont pas annulables gratuitement, sauf tarif flexible.</li>
+          <li><strong>Urgence immédiate (relevé du ${RELEVE}) : SANParks, Ndzhaka et St Lucia.</strong> Il ne reste plus qu'1 bungalow BD2EC continu à Satara, 2 BD2U vue rivière à Lower Sabie le 3 août, 1 seule suite Premium à Ndzhaka (conditions d'annulation à confirmer par écrit avant paiement) et 1 seule chambre Double Standard à African Ambience (Booking, annulable gratuitement jusqu'au 7 juillet).</li>
+          <li><strong>Dans la foulée : Booking &amp; Reilly's Rock (Eswatini, 4 chambres restantes),</strong> en tarif annulable.</li>
+          <li><strong>Une fois les dates et le Kruger calés : <a href="vols.html">les vols</a>.</strong> Ce sont eux qui nous engagent : ces billets ne sont pas annulables gratuitement, sauf tarif flexible.</li>
           <li><strong>Au printemps 2027 : <a href="location-voiture.html">le SUV</a>,</strong> puis une dernière vérification de chaque logement avant ${prems ? dateFr(prems.d) : "la première échéance"}.</li>
         </ol>
         ${aConfirmer.length ? `<p class="alerte">À confirmer avant de payer : ${aConfirmer.map(l => l.o.nom).join(", ")}.</p>` : ""}
       </section>
       <footer class="credits"><h2>Sources et photos</h2>
-        <p>Prix et dates d'annulation relevés sur Booking le 31 octobre 2026, pour 2 adultes, avec des remises Genius possibles. Lodges en réserve privée et Eswatini relevés en direct le ${RELEVE}. Tarifs SANParks 2026/2027. Les prix des lodges en réserve privée peuvent varier avec les taxes de conservation, estimées ici. Les photos montrent les lieux, pas les logements : le bouton de chaque fiche ouvre leurs vraies photos.</p>
+        <p>Prix et disponibilités relevés en direct le ${RELEVE} (Booking, NightsBridge, ResRequest, SANParks, Google Flights, Rentalcars), pour 2 adultes, avec remises membres/Genius sur Booking quand affichées. Conversion des montants en rands à 19,27 ZAR/€. Les prix des lodges en réserve privée peuvent varier avec le change et les taxes de conservation. Les photos montrent les lieux, pas les logements : le bouton de chaque fiche ouvre leurs vraies photos.</p>
         <p>Photos libres via Wikimedia Commons : ${Object.values(PHOTOS).map(p => `<a href="${p.u}" target="_blank" rel="noopener">${p.cap}</a> (${p.a}, ${p.l})`).join(" · ")}.</p>
       </footer>
     </div>`;
@@ -454,10 +454,10 @@ function rendreVols() {
       <section class="savoir">
         <h2>Ce qu'on en a tiré</h2>
         <ul>
-          <li><strong>On rentre le lundi 9 août avec Ethiopian.</strong> Le billet retour passe de 548 € à 454 € par personne. La nuit, la voiture et les repas du jour en plus coûtent environ 219 € à deux : au total, une journée de plus pour 43 € de moins que l'ancien plan.</li>
-          <li><strong>Partir un autre jour ne rapporte rien.</strong> RwandAir est à 527 € le dimanche 25 et le lundi 26 juillet, à 577 € les autres jours, et absent le vendredi et le mercredi.</li>
-          <li><strong>Le billet le moins cher reste l'aller-retour RwandAir par Johannesburg,</strong> à 663 € par personne. En échange, le dernier jour compte deux escales au lieu d'une, et une correspondance à Johannesburg que personne ne garantit.</li>
-          <li><strong>Emirates reste à 585 €</strong> du 8 au 11 août, quel que soit le jour.</li>
+          <li><strong>On rentre le lundi 9 août avec Ethiopian.</strong> Au relevé du ${VOLS_RELEVE}, le billet retour passe de 550 € (dimanche 8) à 455 € (lundi 9) par personne, soit −190 € à deux pour une journée de plus sur place.</li>
+          <li><strong>Partir un autre jour ne rapporte rien.</strong> RwandAir est à 530 € le dimanche 25 juillet (527 € le lundi 26 au 14/11), 577 € les autres jours, et absent le vendredi et le mercredi.</li>
+          <li><strong>Le billet le moins cher reste l'aller-retour RwandAir par Johannesburg,</strong> à 663 € par personne (relevé du 14/11). En échange, le dernier jour compte deux escales au lieu d'une, et une correspondance à Johannesburg que personne ne garantit.</li>
+          <li><strong>Emirates est à 588 €</strong> les 8 et 9 août (585 € les 10 et 11 au 14/11).</li>
         </ul>
       </section>`}
       <section class="savoir">
